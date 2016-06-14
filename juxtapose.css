@@ -1,0 +1,59 @@
+button {
+    font-size: 1.5em;
+}
+
+#jux-spine-video {
+    margin-right: 3px;
+}
+
+#jux-aux-video {
+    margin-left: 3px;
+}
+
+.jux-container {
+    width: 600px;
+}
+
+.vid-container {
+    display: flex;
+}
+
+.jux-play {
+    margin-bottom: 5px;
+}
+
+.jux-track {
+    border: 1px dotted black;
+    width: 600px;
+    height: 100px;
+}
+
+.jux-playhead {
+    position: absolute;
+    background-color: black;
+    cursor: col-resize;
+    margin: 0;
+    height: 205px;
+    width: 2px;
+}
+
+.jux-playhead .cutpoint-top {
+    left: -9px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid black;
+    position: relative;
+}
+
+.jux-playhead .cutpoint-bottom {
+    left: -9px;
+    top: 185px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid black;
+    position: relative;
+}

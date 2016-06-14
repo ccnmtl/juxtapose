@@ -1,0 +1,19 @@
+{
+  "name": "juxtapose",
+  "version": "0.1.0",
+  "description": "Video Juxtaposition Tool",
+  "main": "src/juxtapose.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "/home/nnyby/src/juxtapose/"
+  },
+  "author": "Nik Nyby",
+  "license": "GPL-3.0+",
+  "dependencies": {
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  }
+}
