@@ -1,6 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+function pad2(number) {
+    return (number < 10 ? '0' : '') + number;
+}
+
+function formatDuration(seconds) {
+    var minutes = pad2(Math.floor(seconds / 60));
+    var seconds = pad2(Math.round(seconds - minutes * 60));
+    return minutes + ':' + seconds;
+}
+
 class SpineVideo extends React.Component {
     constructor() {
         super();
@@ -50,7 +60,7 @@ class AuxMedia extends React.Component {
     }
     componentDidMount() {
         var vid = document.getElementById(this.id);
-        vid.currentTime = 3;
+        vid.currentTime = 5.333;
     }
     play() {
         var vid = document.getElementById(this.id);
@@ -97,10 +107,11 @@ class AuxTrack extends React.Component {
 class Playhead extends React.Component {
     constructor() {
         super();
-        this.state = {time: 0};
+        this.state = {time: 0, duration: null};
     }
     render() {
-        var style = {left: this.state.time + '%'};
+        var percentDone = (this.state.time / this.state.duration) * 100;
+        var style = {left: percentDone + '%'};
         return <div style={style}
                    className="jux-playhead"
                    onMouseDown={this.onMouseDown}>
@@ -114,6 +125,10 @@ class Playhead extends React.Component {
 }
 
 class JuxtaposeApplication extends React.Component {
+    constructor() {
+        super();
+        this.state = {time: null, duration: null};
+    }
     render() {
         return <div className="jux-container">
             <div className="vid-container">
@@ -124,6 +139,9 @@ class JuxtaposeApplication extends React.Component {
                 <AuxMedia ref={(c) => this._auxVid = c} />
             </div>
             <PlayButton callbackParent={this.onPlayChanged.bind(this)} />
+            <div className="jux-time">
+                {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
+            </div>
             <div className="jux-timeline">
                 <Playhead ref={(c) => this._playhead = c} />
                 <SpineTrack />
@@ -141,7 +159,14 @@ class JuxtaposeApplication extends React.Component {
         }
     }
     onTimeUpdate (time) {
-        this._playhead.setState({time: time});
+        this._playhead.setState({
+            time: time,
+            duration: this._spineVid.state.duration
+        });
+        this.setState({
+            time: time,
+            duration: this._spineVid.state.duration
+        });
     }
 }
 

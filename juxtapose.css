@@ -29,7 +29,8 @@ button {
 }
 
 .jux-playhead {
-    position: absolute;
+    position: relative;
+    float: left;
     background-color: black;
     cursor: col-resize;
     margin: 0;
