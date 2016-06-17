@@ -23,7 +23,8 @@ class SpineVideo extends React.Component {
                    width="297"
                    onTimeUpdate={this.handleTimeUpdate.bind(this)}>
                 <source src="wildspot.mp4" type="video/mp4" />
-                <source src="wildspot.ogv" type='video/ogg; codecs="theora, vorbis"' />
+                <source src="wildspot.ogv"
+                        type='video/ogg; codecs="theora, vorbis"' />
             </video>
         </div>;
     }
@@ -54,7 +55,8 @@ class AuxMedia extends React.Component {
         return <div>
             <video id={this.id} width="297">
                 <source src="wildspot.mp4" type="video/mp4" />
-                <source src="wildspot.ogv" type='video/ogg; codecs="theora, vorbis"' />
+                <source src="wildspot.ogv"
+                        type='video/ogg; codecs="theora, vorbis"' />
             </video>
         </div>;
     }
@@ -84,7 +86,7 @@ class PlayButton extends React.Component {
     }
     render() {
         return <button className="jux-play"
-        onClick={this.handleClick.bind(this)}>
+                       onClick={this.handleClick.bind(this)}>
             {this.state.play ?
              String.fromCharCode(9208) :
              String.fromCharCode(9654) }
@@ -109,18 +111,18 @@ class Playhead extends React.Component {
         super();
         this.state = {time: 0, duration: null};
     }
-    render() {
-        var percentDone = (this.state.time / this.state.duration) * 100;
-        var style = {left: percentDone + '%'};
-        return <div style={style}
-                   className="jux-playhead"
-                   onMouseDown={this.onMouseDown}>
-            <div className="cutpoint-top"></div>
-            <div className="cutpoint-bottom"></div>
-        </div>;
+    handleChange(event) {
+        var percentDone = this.state.duration * (event.target.value / 100);
+        this.setState({time: percentDone, duration: this.state.duration});
     }
-    onMouseDown() {
-        console.log('mousedown!');
+    render() {
+        var percentDone = 0;
+        if (this.state.duration !== 0) {
+            percentDone = (this.state.time / this.state.duration) * 100;
+        }
+        return <input type="range" min="0" max="1000"
+                      onChange={this.handleChange.bind(this)}
+                      value={percentDone} />;
     }
 }
 

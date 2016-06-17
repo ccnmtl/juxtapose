@@ -29,13 +29,12 @@ button {
 }
 
 .jux-playhead {
-    position: relative;
-    float: left;
-    background-color: black;
-    cursor: col-resize;
-    margin: 0;
-    height: 205px;
-    width: 2px;
+    /*position: relative;*/
+    /*float: left;*/
+    /*background-color: black;*/
+    /*margin: 0;*/
+    /*height: 205px;*/
+    /*width: 2px;*/
 }
 
 .jux-playhead .cutpoint-top {
