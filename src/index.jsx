@@ -21,20 +21,28 @@ class SpineVideo extends React.Component {
         return <div>
             <video id={this.id}
                    width="297"
-                   onTimeUpdate={this.handleTimeUpdate.bind(this)}>
+                   onTimeUpdate={this.handleTimeUpdate.bind(this)}
+                   onLoadedMetadata={this.handleLoadedMetadata.bind(this)}
+            >
                 <source src="wildspot.mp4" type="video/mp4" />
                 <source src="wildspot.ogv"
                         type='video/ogg; codecs="theora, vorbis"' />
             </video>
         </div>;
     }
-    handleTimeUpdate(v) {
-        var vid = v.target
-        var time = vid.currentTime;
-        this.setState({time: time, duration: this.state.duration});
-        this.props.callbackParent(time);
+    handleLoadedMetadata(e) {
+        var vid = e.target;
+        this.setState({time: vid.currentTime, duration: vid.duration});
+        this.props.callbackParent(vid.currentTime, vid.duration);
+    }
+    handleTimeUpdate(e) {
+        var vid = e.target;
+        this.setState({time: vid.currentTime, duration: this.state.duration});
+        this.props.callbackParent(vid.currentTime, this.state.duration);
     }
     play() {
+        // TODO: this is probably the wrong way to get the DOM element
+        // in react. It works but I'll need to fix this at some point.
         var vid = document.getElementById(this.id);
         this.setState({time: vid.currentTime, duration: vid.duration});
         vid.play();
@@ -112,13 +120,13 @@ class Playhead extends React.Component {
         this.state = {time: 0, duration: null};
     }
     handleChange(event) {
-        var percentDone = this.state.duration * (event.target.value / 100);
+        var percentDone = this.state.duration * (event.target.value / 1000);
         this.setState({time: percentDone, duration: this.state.duration});
     }
     render() {
         var percentDone = 0;
         if (this.state.duration !== 0) {
-            percentDone = (this.state.time / this.state.duration) * 100;
+            percentDone = (this.state.time / this.state.duration) * 1000;
         }
         return <input type="range" min="0" max="1000"
                       onChange={this.handleChange.bind(this)}
@@ -160,15 +168,15 @@ class JuxtaposeApplication extends React.Component {
             this._auxVid.pause();
         }
     }
-    onTimeUpdate (time) {
-        this._playhead.setState({
+    onTimeUpdate(time, duration) {
+        // TODO: this works for now, but I have a feeling this isn't the
+        // right way to share state. Even if it is... the code is messy.
+        var state = {
             time: time,
-            duration: this._spineVid.state.duration
-        });
-        this.setState({
-            time: time,
-            duration: this._spineVid.state.duration
-        });
+            duration: duration
+        };
+        this._playhead.setState(state);
+        this.setState(state);
     }
 }
 
