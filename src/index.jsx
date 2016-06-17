@@ -104,13 +104,13 @@ class PlayButton extends React.Component {
 
 class SpineTrack extends React.Component {
     render() {
-        return <div className="jux-track"></div>;
+        return <div className="jux-track">Spine Track</div>;
     }
 }
 
 class AuxTrack extends React.Component {
     render() {
-        return <div className="jux-track"></div>;
+        return <div className="jux-track">Aux Track</div>;
     }
 }
 
@@ -122,6 +122,7 @@ class Playhead extends React.Component {
     handleChange(event) {
         var percentDone = this.state.duration * (event.target.value / 1000);
         this.setState({time: percentDone, duration: this.state.duration});
+        this.props.callbackParent(percentDone, this.state.duration);
     }
     render() {
         var percentDone = 0;
@@ -153,7 +154,8 @@ class JuxtaposeApplication extends React.Component {
                 {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
             </div>
             <div className="jux-timeline">
-                <Playhead ref={(c) => this._playhead = c} />
+                <Playhead ref={(c) => this._playhead = c}
+                          callbackParent={this.onPlayheadUpdate.bind(this)} />
                 <SpineTrack />
                 <AuxTrack />
             </div>
@@ -176,6 +178,14 @@ class JuxtaposeApplication extends React.Component {
             duration: duration
         };
         this._playhead.setState(state);
+        this.setState(state);
+    }
+    onPlayheadUpdate(time, duration) {
+        var state = {
+            time: time,
+            duration: duration
+        };
+        this._spineVid.setState(state);
         this.setState(state);
     }
 }
