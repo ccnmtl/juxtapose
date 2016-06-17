@@ -2,9 +2,11 @@
   "name": "juxtapose",
   "version": "0.1.0",
   "description": "Video Juxtaposition Tool",
-  "main": "src/juxtapose.js",
+  "private": true,
+  "main": "src/index.jsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack -d"
   },
   "repository": {
     "type": "git",
@@ -13,7 +15,12 @@
   "author": "Nik Nyby",
   "license": "GPL-3.0+",
   "dependencies": {
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2016": "^6.0.11",
+    "babel-preset-react": "^6.5.0",
     "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react-dnd": "^2.1.4",
+    "react-dom": "^15.1.0",
+    "webpack": "^1.13.1"
   }
 }

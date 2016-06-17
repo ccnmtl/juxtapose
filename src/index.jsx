@@ -1,6 +1,6 @@
-//import { DragSource } from 'react-dnd';
-
 import React from 'react';
+import { render } from 'react-dom';
+import { DragSource } from 'react-dnd';
 
 class SpineVideo extends React.Component {
     constructor() {
@@ -12,7 +12,7 @@ class SpineVideo extends React.Component {
         return <div><video id={this.id} width="297">
             <source src="wildspot.mp4" type="video/mp4" />
             <source src="wildspot.ogv" type='video/ogg; codecs="theora, vorbis"' />
-            </video></div>;
+        </video></div>;
     }
     play() {
         var vid = document.getElementById(this.id);
@@ -34,7 +34,7 @@ class AuxMedia extends React.Component {
         return <div><video id={this.id} width="297">
             <source src="wildspot.mp4" type="video/mp4" />
             <source src="wildspot.ogv" type='video/ogg; codecs="theora, vorbis"' />
-            </video></div>;
+        </video></div>;
     }
     componentDidMount() {
         var vid = document.getElementById(this.id);
@@ -90,7 +90,7 @@ class Playhead extends React.Component {
         return <div className="jux-playhead" onMouseDown={this.onMouseDown}>
             <div className="cutpoint-top"></div>
             <div className="cutpoint-bottom"></div>
-            </div>;
+        </div>;
     }
     onMouseDown() {
         console.log('mousedown!');
@@ -103,7 +103,7 @@ class Timeline extends React.Component {
             <Playhead />
             <SpineTrack />
             <AuxTrack />
-            </div>;
+        </div>;
     }
 }
 
@@ -111,12 +111,12 @@ class ExampleApplication extends React.Component {
     render() {
         return <div className="jux-container">
             <div className="vid-container">
-            <SpineVideo ref={(c) => this._spineVid = c} />
-            <AuxMedia ref={(c) => this._auxVid = c} />
+                <SpineVideo ref={(c) => this._spineVid = c} />
+                <AuxMedia ref={(c) => this._auxVid = c} />
             </div>
             <PlayButton callbackParent={this.onPlayChanged.bind(this)} />
             <Timeline />
-            </div>;
+        </div>;
     }
     onPlayChanged (newState) {
         if (newState) {
@@ -129,7 +129,7 @@ class ExampleApplication extends React.Component {
     }
 }
 
-ReactDOM.render(
+render(
     <ExampleApplication />,
     document.getElementById('container')
 );
