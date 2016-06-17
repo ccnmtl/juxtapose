@@ -1,21 +1,31 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { DragSource } from 'react-dnd';
+import ReactDOM from 'react-dom';
 
 class SpineVideo extends React.Component {
     constructor() {
         super();
         this.id = 'jux-spine-video';
-        this.state = {duration: null};
+        this.state = {duration: null, time: null};
     }
     render() {
-        return <div><video id={this.id} width="297">
-            <source src="wildspot.mp4" type="video/mp4" />
-            <source src="wildspot.ogv" type='video/ogg; codecs="theora, vorbis"' />
-        </video></div>;
+        return <div>
+            <video id={this.id}
+                   width="297"
+                   onTimeUpdate={this.handleTimeUpdate.bind(this)}>
+                <source src="wildspot.mp4" type="video/mp4" />
+                <source src="wildspot.ogv" type='video/ogg; codecs="theora, vorbis"' />
+            </video>
+        </div>;
+    }
+    handleTimeUpdate(v) {
+        var vid = v.target
+        var time = vid.currentTime;
+        this.setState({time: time, duration: this.state.duration});
+        this.props.callbackParent(time);
     }
     play() {
         var vid = document.getElementById(this.id);
+        this.setState({time: vid.currentTime, duration: vid.duration});
         vid.play();
     }
     pause() {
@@ -31,10 +41,12 @@ class AuxMedia extends React.Component {
         this.state = {};
     }
     render() {
-        return <div><video id={this.id} width="297">
-            <source src="wildspot.mp4" type="video/mp4" />
-            <source src="wildspot.ogv" type='video/ogg; codecs="theora, vorbis"' />
-        </video></div>;
+        return <div>
+            <video id={this.id} width="297">
+                <source src="wildspot.mp4" type="video/mp4" />
+                <source src="wildspot.ogv" type='video/ogg; codecs="theora, vorbis"' />
+            </video>
+        </div>;
     }
     componentDidMount() {
         var vid = document.getElementById(this.id);
@@ -57,9 +69,8 @@ class PlayButton extends React.Component {
     }
     handleClick(event) {
         var newState = !this.state.play;
-        this.setState({play: newState})
+        this.setState({play: newState});
         this.props.callbackParent(newState);
-        this.__html = 'abc';
     }
     render() {
         return <button className="jux-play"
@@ -75,8 +86,6 @@ class SpineTrack extends React.Component {
     render() {
         return <div className="jux-track"></div>;
     }
-    componentDidMount() {
-    }
 }
 
 class AuxTrack extends React.Component {
@@ -86,8 +95,15 @@ class AuxTrack extends React.Component {
 }
 
 class Playhead extends React.Component {
+    constructor() {
+        super();
+        this.state = {time: 0};
+    }
     render() {
-        return <div className="jux-playhead" onMouseDown={this.onMouseDown}>
+        var style = {left: this.state.time + '%'};
+        return <div style={style}
+                   className="jux-playhead"
+                   onMouseDown={this.onMouseDown}>
             <div className="cutpoint-top"></div>
             <div className="cutpoint-bottom"></div>
         </div>;
@@ -97,29 +113,26 @@ class Playhead extends React.Component {
     }
 }
 
-class Timeline extends React.Component {
-    render() {
-        return <div className="jux-sequencer">
-            <Playhead />
-            <SpineTrack />
-            <AuxTrack />
-        </div>;
-    }
-}
-
-class ExampleApplication extends React.Component {
+class JuxtaposeApplication extends React.Component {
     render() {
         return <div className="jux-container">
             <div className="vid-container">
-                <SpineVideo ref={(c) => this._spineVid = c} />
+                <SpineVideo
+                    ref={(c) => this._spineVid = c}
+                    callbackParent={this.onTimeUpdate.bind(this)}
+                />
                 <AuxMedia ref={(c) => this._auxVid = c} />
             </div>
             <PlayButton callbackParent={this.onPlayChanged.bind(this)} />
-            <Timeline />
+            <div className="jux-timeline">
+                <Playhead ref={(c) => this._playhead = c} />
+                <SpineTrack />
+                <AuxTrack />
+            </div>
         </div>;
     }
-    onPlayChanged (newState) {
-        if (newState) {
+    onPlayChanged(play) {
+        if (play) {
             this._spineVid.play();
             this._auxVid.play();
         } else {
@@ -127,9 +140,12 @@ class ExampleApplication extends React.Component {
             this._auxVid.pause();
         }
     }
+    onTimeUpdate (time) {
+        this._playhead.setState({time: time});
+    }
 }
 
-render(
-    <ExampleApplication />,
+ReactDOM.render(
+    <JuxtaposeApplication />,
     document.getElementById('container')
 );
