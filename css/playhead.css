@@ -1,11 +1,11 @@
 input[type=range] {
     -webkit-appearance: none;
     width: 100%;
-    margin: 99.5px 0;
-
     cursor: col-resize;
     position: relative;
     float: left;
+    top: 100px;
+    margin: 0;
 }
 input[type=range]:focus {
     outline: none;
