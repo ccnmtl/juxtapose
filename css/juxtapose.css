@@ -57,3 +57,16 @@ button {
     border-bottom: 10px solid black;
     position: relative;
 }
+
+.jux-popup {
+    visibility: hidden;
+    border: 1px dashed black;
+    width: 250px;
+    height: 200px;
+    position: absolute;
+    background-color: white;
+}
+
+.jux-popup .jux-close {
+    float: right;
+}

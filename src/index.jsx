@@ -109,9 +109,27 @@ class SpineTrack extends React.Component {
 class AuxTrack extends React.Component {
     render() {
         return <div className="jux-track"
-                    ref={(ref) => this.el = ref}>
+                    ref={(ref) => this.el = ref}
+                    onClick={this.openPopup.bind(this)}>
+            <div className="jux-popup"
+                 ref={(ref) => this.popupEl = ref}>
+                Mediathread Collection
+                <button className="jux-close"
+                        onClick={this.closePopup.bind(this)}>
+                    X
+                </button>
+            </div>
             Aux Track
         </div>;
+    }
+    openPopup(event) {
+        var x = event.clientX - this.el.offsetLeft;
+        this.popupEl.style.left = x + 'px';
+        this.popupEl.style.visibility = 'visible';
+    }
+    closePopup(event) {
+        event.stopPropagation();
+        this.popupEl.style.visibility = 'hidden';
     }
 }
 
