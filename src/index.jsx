@@ -142,18 +142,33 @@ class Playhead extends React.Component {
         this.state = {time: 0, duration: null};
     }
     handleChange(event) {
-        var percentDone = this.state.duration * (event.target.value / 1000);
-        this.setState({time: percentDone, duration: this.state.duration});
-        this.props.callbackParent(percentDone, this.state.duration);
+        var percentDone = event.target.value / 1000;
+        var newTime = this.state.duration * percentDone;
+        this.setState({
+            time: newTime,
+            duration: this.state.duration
+        });
+        this.props.callbackParent(newTime, this.state.duration);
+
+        // Convert percentDone to the scale of the input width
+        // (probably 600px).
+        var x = this.el.clientWidth * percentDone + this.el.offsetLeft;
+        this._line.style.left = x + 'px';
     }
     render() {
         var percentDone = 0;
         if (this.state.duration !== 0) {
             percentDone = (this.state.time / this.state.duration) * 1000;
         }
-        return <input type="range" min="0" max="1000"
-                      onChange={this.handleChange.bind(this)}
-                      value={percentDone} />;
+        return <div>
+            <div
+                ref={(ref) => this._line = ref}
+                className="jux-playhead-line"></div>
+            <input type="range" min="0" max="1000"
+                   ref={(ref) => this.el = ref}
+                   onChange={this.handleChange.bind(this)}
+                   value={percentDone} />
+        </div>;
     }
 }
 
