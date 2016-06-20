@@ -31,6 +31,9 @@ class SpineVideo extends React.Component {
             </video>
         </div>;
     }
+    updateVidPosition(time) {
+        this.el.currentTime = time;
+    }
     handleLoadedMetadata(e) {
         var vid = e.target;
         this.setState({time: vid.currentTime, duration: vid.duration});
@@ -205,6 +208,7 @@ class JuxtaposeApplication extends React.Component {
             duration: duration
         };
         this._spineVid.setState(state);
+        this._spineVid.updateVidPosition(time);
         this.setState(state);
     }
 }
