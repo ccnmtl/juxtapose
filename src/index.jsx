@@ -110,30 +110,44 @@ class SpineTrack extends React.Component {
     }
 }
 
+class MediaPopup extends React.Component {
+    render() {
+        return <div className="jux-popup"
+                    ref={(ref) => this.el = ref}
+                    onClick={this.handlePopupClick.bind(this)}>
+            Mediathread Collection
+            <button className="jux-close"
+                    onClick={this.closePopup.bind(this)}>
+                X
+            </button>
+        </div>;
+    }
+    handlePopupClick(event) {
+        event.stopPropagation();
+    }
+    openPopup(event) {
+        var x = event.clientX - this.el.offsetLeft;
+        this.el.style.left = x + 'px';
+        this.el.style.visibility = 'visible';
+    }
+    closePopup(event) {
+        event.stopPropagation();
+        this.el.style.visibility = 'hidden';
+    }
+}
+
 class AuxTrack extends React.Component {
     render() {
         return <div className="jux-track"
                     ref={(ref) => this.el = ref}
-                    onClick={this.openPopup.bind(this)}>
-            <div className="jux-popup"
-                 ref={(ref) => this.popupEl = ref}>
-                Mediathread Collection
-                <button className="jux-close"
-                        onClick={this.closePopup.bind(this)}>
-                    X
-                </button>
-            </div>
+                    onClick={this.handleClick.bind(this)}>
+            <MediaPopup
+                ref={(ref) => this._popupEl = ref} />
             Aux Track
         </div>;
     }
-    openPopup(event) {
-        var x = event.clientX - this.el.offsetLeft;
-        this.popupEl.style.left = x + 'px';
-        this.popupEl.style.visibility = 'visible';
-    }
-    closePopup(event) {
-        event.stopPropagation();
-        this.popupEl.style.visibility = 'hidden';
+    handleClick(event) {
+        this._popupEl.openPopup(event);
     }
 }
 
