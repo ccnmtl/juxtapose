@@ -163,7 +163,10 @@ class Playhead extends React.Component {
         return <div>
             <div
                 ref={(ref) => this._line = ref}
-                className="jux-playhead-line"></div>
+                className="jux-playhead-line">
+                <div className="jux-playhead-top-cutpoint"></div>
+                <div className="jux-playhead-bottom-cutpoint"></div>
+            </div>
             <input type="range" min="0" max="1000"
                    ref={(ref) => this.el = ref}
                    onChange={this.handleChange.bind(this)}

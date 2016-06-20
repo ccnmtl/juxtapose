@@ -5,6 +5,27 @@
     position: absolute;
 }
 
+.jux-playhead-line .jux-playhead-top-cutpoint,
+.jux-playhead-line .jux-playhead-bottom-cutpoint {
+    position: relative;
+    width: 1px;
+    cursor: col-resize;
+    margin-left: -20px;
+}
+
+.jux-playhead-line .jux-playhead-top-cutpoint {
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid black;
+}
+
+.jux-playhead-line .jux-playhead-bottom-cutpoint {
+    top: 164px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid black;
+}
+
 input[type=range] {
     -webkit-appearance: none;
     width: 100%;
@@ -28,14 +49,11 @@ input[type=range]::-webkit-slider-runnable-track {
     border: 0px solid rgba(255, 255, 37, 0);
 }
 input[type=range]::-webkit-slider-thumb {
-    height: 124px;
-    width: 1px;
+    height: 204px;
+    width: 20px;
     cursor: col-resize;
     -webkit-appearance: none;
-
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid black;
+    margin-top: -100px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
     background: #000000;
@@ -50,14 +68,11 @@ input[type=range]::-moz-range-track {
     border: 0px solid rgba(255, 255, 37, 0);
 }
 input[type=range]::-moz-range-thumb {
-    height: 124px;
-    width: 1px;
+    height: 204px;
+    width: 20px;
     cursor: col-resize;
-    -moz-appearance: none;
-
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid black;
+    -webkit-appearance: none;
+    margin-top: -100px;
 }
 input[type=range]::-ms-track {
     width: 100%;
@@ -80,14 +95,11 @@ input[type=range]::-ms-fill-upper {
     box-shadow: 1.1px 1.1px 1px rgba(0, 0, 0, 0), 0px 0px 1.1px rgba(13, 13, 13, 0);
 }
 input[type=range]::-ms-thumb {
-    height: 124px;
-    width: 1px;
+    height: 204px;
+    width: 20px;
     cursor: col-resize;
-    -ms-appearance: none;
-
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid black;
+    -webkit-appearance: none;
+    margin-top: -100px;
 }
 input[type=range]:focus::-ms-fill-lower {
     background: #000000;
