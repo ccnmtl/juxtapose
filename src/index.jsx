@@ -149,7 +149,6 @@ class Playhead extends React.Component {
             time: newTime,
             duration: this.state.duration
         });
-        console.log(newTime);
         this.props.callbackParent(newTime, this.state.duration);
     }
     render() {
