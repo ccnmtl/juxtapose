@@ -117,9 +117,7 @@ class MediaPopup extends React.Component {
                     onClick={this.handlePopupClick.bind(this)}>
             Mediathread Collection
             <button className="jux-close"
-                    onClick={this.closePopup.bind(this)}>
-                X
-            </button>
+                    onClick={this.closePopup.bind(this)}>X</button>
         </div>;
     }
     handlePopupClick(event) {
