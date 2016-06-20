@@ -9,7 +9,6 @@
 .jux-playhead-line .jux-playhead-bottom-cutpoint {
     position: relative;
     width: 1px;
-    cursor: col-resize;
     margin-left: -20px;
 }
 

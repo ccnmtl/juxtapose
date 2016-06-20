@@ -11,6 +11,30 @@ function formatDuration(seconds) {
     return minutes + ':' + seconds;
 }
 
+var auxTrackData = [
+    {
+        key: 1,
+        startTime: 1,
+        endTime: 37,
+        type: 'vid',
+        source: 'vidfile.mp4'
+    },
+    {
+        key: 2,
+        startTime: 38,
+        endTime: 40,
+        type: 'img',
+        source: 'image.jpg'
+    },
+    {
+        key: 3,
+        startTime: 60,
+        endTime: 70,
+        type: 'txt',
+        source: 'Some text!'
+    }
+];
+
 class SpineVideo extends React.Component {
     constructor() {
         super();
@@ -134,14 +158,63 @@ class MediaPopup extends React.Component {
     }
 }
 
-class AuxTrack extends React.Component {
+class AuxItem extends React.Component {
     render() {
+        var content = null;
+        switch(this.props.data.type) {
+            case 'vid':
+                content = this.props.data.source;
+                break;
+            case 'img':
+                content = this.props.data.source;
+                break;
+            case 'txt':
+                content = this.props.data.source;
+                break;
+        }
+        var style = {};
+        if (this.props.duration) {
+            var ratio = this.props.data.startTime / this.props.duration;
+            var pos = ratio * 600;
+            var wRatio = (this.props.data.endTime -
+                          this.props.data.startTime) / this.props.duration;
+            var width = wRatio * 600;
+            style = {
+                left: pos + 'px',
+                width: width + 'px'
+            };
+        }
+        return <span className="jux-aux-item"
+                    style={style}
+                    onClick={this.handleClick.bind(this)}>
+            {content}
+        </span>
+    }
+    handleClick(event) {
+        event.stopPropagation();
+    }
+}
+
+class AuxTrack extends React.Component {
+    constructor() {
+        super();
+        this.state = {data: auxTrackData};
+    }
+    render() {
+        var duration = this.props.duration;
+        var mediaItems = this.state.data.map(function(item) {
+            return (
+                <AuxItem key={item.key}
+                         data={item}
+                         duration={duration} />
+            )
+        });
         return <div className="jux-track"
                     ref={(ref) => this.el = ref}
                     onClick={this.handleClick.bind(this)}>
             <MediaPopup
                 ref={(ref) => this._popupEl = ref} />
-            Aux Track
+            {mediaItems}
         </div>;
     }
     handleClick(event) {
@@ -212,7 +285,7 @@ class JuxtaposeApplication extends React.Component {
                 <Playhead ref={(c) => this._playhead = c}
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
                 <SpineTrack />
-                <AuxTrack />
+                <AuxTrack duration={this.state.duration} />
             </div>
         </div>;
     }
