@@ -6,7 +6,8 @@
   "main": "src/index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack -d"
+    "build": "webpack",
+    "dev": "webpack -d --watch"
   },
   "repository": {
     "type": "git",

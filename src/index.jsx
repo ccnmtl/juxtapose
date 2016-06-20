@@ -20,6 +20,7 @@ class SpineVideo extends React.Component {
     render() {
         return <div>
             <video id={this.id}
+                   ref={(ref) => this.el = ref}
                    width="297"
                    onTimeUpdate={this.handleTimeUpdate.bind(this)}
                    onLoadedMetadata={this.handleLoadedMetadata.bind(this)}
@@ -41,15 +42,12 @@ class SpineVideo extends React.Component {
         this.props.callbackParent(vid.currentTime, this.state.duration);
     }
     play() {
-        // TODO: this is probably the wrong way to get the DOM element
-        // in react. It works but I'll need to fix this at some point.
-        var vid = document.getElementById(this.id);
+        var vid = this.el;
         this.setState({time: vid.currentTime, duration: vid.duration});
         vid.play();
     }
     pause() {
-        var vid = document.getElementById(this.id);
-        vid.pause();
+        this.el.pause();
     }
 }
 
@@ -61,7 +59,9 @@ class AuxMedia extends React.Component {
     }
     render() {
         return <div>
-            <video id={this.id} width="297">
+            <video id={this.id}
+                   ref={(ref) => this.el = ref}
+                   width="297">
                 <source src="wildspot.mp4" type="video/mp4" />
                 <source src="wildspot.ogv"
                         type='video/ogg; codecs="theora, vorbis"' />
@@ -69,16 +69,14 @@ class AuxMedia extends React.Component {
         </div>;
     }
     componentDidMount() {
-        var vid = document.getElementById(this.id);
+        var vid = this.el;
         vid.currentTime = 5.333;
     }
     play() {
-        var vid = document.getElementById(this.id);
-        vid.play();
+        this.el.play();
     }
     pause() {
-        var vid = document.getElementById(this.id);
-        vid.pause();
+        this.el.pause();
     }
 }
 
@@ -110,7 +108,10 @@ class SpineTrack extends React.Component {
 
 class AuxTrack extends React.Component {
     render() {
-        return <div className="jux-track">Aux Track</div>;
+        return <div className="jux-track"
+                    ref={(ref) => this.el = ref}>
+            Aux Track
+        </div>;
     }
 }
 
