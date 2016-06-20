@@ -44,6 +44,7 @@ class SpineVideo extends React.Component {
         this.setState({time: vid.currentTime, duration: this.state.duration});
         this.props.callbackParent(vid.currentTime, this.state.duration);
     }
+    // TODO: handle playback finish event
     play() {
         var vid = this.el;
         this.setState({time: vid.currentTime, duration: vid.duration});
@@ -148,29 +149,32 @@ class Playhead extends React.Component {
             time: newTime,
             duration: this.state.duration
         });
+        console.log(newTime);
         this.props.callbackParent(newTime, this.state.duration);
-
-        // Convert percentDone to the scale of the input width
-        // (probably 600px).
-        var x = this.el.clientWidth * percentDone + this.el.offsetLeft;
-        this._line.style.left = x + 'px';
     }
     render() {
-        var percentDone = 0;
+        var currentPos = 0;
         if (this.state.duration !== 0) {
-            percentDone = (this.state.time / this.state.duration) * 1000;
+            currentPos = (this.state.time / this.state.duration);
         }
+
+        var clientWidth = this.el ? this.el.clientWidth : 0;
+        var offsetLeft = this.el ? this.el.offsetLeft : 0;
+        var x = clientWidth * currentPos + offsetLeft;
+        var lineStyle = {left: x + 'px'};
+
         return <div>
             <div
                 ref={(ref) => this._line = ref}
-                className="jux-playhead-line">
+                className="jux-playhead-line"
+                style={lineStyle}>
                 <div className="jux-playhead-top-cutpoint"></div>
                 <div className="jux-playhead-bottom-cutpoint"></div>
             </div>
             <input type="range" min="0" max="1000"
                    ref={(ref) => this.el = ref}
                    onChange={this.handleChange.bind(this)}
-                   value={percentDone} />
+                   value={currentPos * 1000} />
         </div>;
     }
 }
