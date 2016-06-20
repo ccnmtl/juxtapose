@@ -78,4 +78,5 @@ button {
     height: 100px;
     cursor: move;
     border: 1px dashed blue;
+    background-color: rgba(173, 216, 230, 0.4);
 }

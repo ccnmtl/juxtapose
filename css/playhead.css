@@ -3,6 +3,7 @@
     width: 2px;
     background-color: #000;
     position: absolute;
+    z-index: 50;
 }
 
 .jux-playhead-line .jux-playhead-top-cutpoint,
@@ -26,6 +27,7 @@
 }
 
 input[type=range] {
+    z-index: 50;
     -webkit-appearance: none;
     width: 100%;
     cursor: col-resize;
