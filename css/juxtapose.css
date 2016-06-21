@@ -22,36 +22,6 @@ button {
     margin-bottom: 5px;
 }
 
-.jux-playhead {
-    /*position: relative;*/
-    /*float: left;*/
-    /*background-color: black;*/
-    /*margin: 0;*/
-    /*height: 205px;*/
-    /*width: 2px;*/
-}
-
-.jux-playhead .cutpoint-top {
-    left: -9px;
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid black;
-    position: relative;
-}
-
-.jux-playhead .cutpoint-bottom {
-    left: -9px;
-    top: 185px;
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid black;
-    position: relative;
-}
-
 .jux-popup {
     visibility: hidden;
     border: 1px dashed black;
