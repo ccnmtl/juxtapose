@@ -22,12 +22,6 @@ button {
     margin-bottom: 5px;
 }
 
-.jux-track {
-    border: 1px dotted black;
-    width: 600px;
-    height: 100px;
-}
-
 .jux-playhead {
     /*position: relative;*/
     /*float: left;*/
@@ -72,12 +66,29 @@ button {
     float: right;
 }
 
+.jux-track {
+    border: 1px dotted black;
+    width: 600px;
+    height: 100px;
+}
+
 .jux-aux-item {
-    display: inline-block;
     position: absolute;
+    display: flex;
     height: 100px;
     cursor: move;
     border: 1px dashed blue;
     background-color: rgba(173, 216, 230, 0.4);
     text-align: center;
+}
+
+.jux-aux-item .jux-aux-item-left,
+.jux-aux-item .jux-aux-item-right {
+    height: 100px;
+    width: 5px;
+    cursor: col-resize;
+}
+.jux-aux-item .jux-aux-item-left:hover,
+.jux-aux-item .jux-aux-item-right:hover {
+    background-color: orange;
 }

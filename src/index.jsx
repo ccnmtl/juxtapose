@@ -184,14 +184,17 @@ class AuxItem extends React.Component {
                 width: width + 'px'
             };
         }
-        return <span className="jux-aux-item"
+        return <div className="jux-aux-item"
                     style={style}
                      onClick={this.handleClick.bind(this)}>
+            <div className="jux-aux-item-left"></div>
             <p>{content}</p>
-        </span>
+            <div className="jux-aux-item-right"></div>
+        </div>
     }
     handleClick(event) {
         event.stopPropagation();
+        event.preventDefault();
     }
 }
 
