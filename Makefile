@@ -1,8 +1,14 @@
-build: node_modules/webpack/bin/webpack
+build: node_modules/.bin/webpack
 	npm run build
 
-dev: node_modules/webpack/bin/webpack
+dev: node_modules/.bin/webpack
 	npm run dev
 
-node_modules/webpack/bin/webpack:
+eslint: node_modules/.bin/eslint
+	npm run eslint
+
+node_modules/.bin/webpack:
+	npm install
+
+node_modules/.bin/eslint:
 	npm install
