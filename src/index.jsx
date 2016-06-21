@@ -185,13 +185,15 @@ class AuxItem extends React.Component {
                 width: width + 'px'
             };
         }
-        return <Draggable axis="x" bounds="parent">
+        return <Draggable axis="x"
+                          bounds="parent"
+                          cancel=".jux-stretch-handle">
             <div className="jux-aux-item"
                  style={style}
                  onClick={this.handleClick.bind(this)}>
-                <div className="jux-aux-item-left"></div>
+                <div className="jux-stretch-handle jux-aux-item-left"></div>
                 <p>{content}</p>
-                <div className="jux-aux-item-right"></div>
+                <div className="jux-stretch-handle jux-aux-item-right"></div>
             </div>
         </Draggable>
     }

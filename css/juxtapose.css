@@ -44,23 +44,20 @@ button {
 }
 
 .jux-aux-item {
+    cursor: move;
     position: absolute;
     display: flex;
     height: 100px;
-    cursor: col-resize;
     border: 1px dashed blue;
     background-color: rgba(173, 216, 230, 0.4);
     text-align: center;
-    touch-action: none;
 }
 
-.jux-aux-item .jux-aux-item-left,
-.jux-aux-item .jux-aux-item-right {
+.jux-aux-item .jux-stretch-handle {
     height: 100px;
     width: 5px;
     cursor: col-resize;
 }
-.jux-aux-item .jux-aux-item-left:hover,
-.jux-aux-item .jux-aux-item-right:hover {
+.jux-aux-item .jux-stretch-handle:hover {
     background-color: orange;
 }
