@@ -53,6 +53,10 @@ button {
     text-align: center;
 }
 
+.jux-aux-item p {
+    flex-grow: 1;
+}
+
 .jux-aux-item .jux-stretch-handle {
     height: 100px;
     width: 5px;
