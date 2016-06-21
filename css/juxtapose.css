@@ -79,4 +79,5 @@ button {
     cursor: move;
     border: 1px dashed blue;
     background-color: rgba(173, 216, 230, 0.4);
+    text-align: center;
 }

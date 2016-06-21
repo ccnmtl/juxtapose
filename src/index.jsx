@@ -186,8 +186,8 @@ class AuxItem extends React.Component {
         }
         return <span className="jux-aux-item"
                     style={style}
-                    onClick={this.handleClick.bind(this)}>
-            {content}
+                     onClick={this.handleClick.bind(this)}>
+            <p>{content}</p>
         </span>
     }
     handleClick(event) {
