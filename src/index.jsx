@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Draggable from 'react-draggable';
 
 function pad2(number) {
     return (number < 10 ? '0' : '') + number;
@@ -184,13 +185,15 @@ class AuxItem extends React.Component {
                 width: width + 'px'
             };
         }
-        return <div className="jux-aux-item"
-                    style={style}
-                     onClick={this.handleClick.bind(this)}>
-            <div className="jux-aux-item-left"></div>
-            <p>{content}</p>
-            <div className="jux-aux-item-right"></div>
-        </div>
+        return <Draggable axis="x">
+            <div className="jux-aux-item"
+                 style={style}
+                 onClick={this.handleClick.bind(this)}>
+                <div className="jux-aux-item-left"></div>
+                <p>{content}</p>
+                <div className="jux-aux-item-right"></div>
+            </div>
+        </Draggable>
     }
     handleClick(event) {
         event.stopPropagation();

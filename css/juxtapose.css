@@ -50,6 +50,7 @@ button {
     border: 1px dashed blue;
     background-color: rgba(173, 216, 230, 0.4);
     text-align: center;
+    touch-action: none;
 }
 
 .jux-aux-item .jux-aux-item-left,
