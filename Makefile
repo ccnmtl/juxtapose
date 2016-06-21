@@ -1,4 +1,4 @@
-build: node_modules/.bin/webpack
+build: node_modules/.bin/webpack build/bundle.js
 	npm run build
 
 dev: node_modules/.bin/webpack
