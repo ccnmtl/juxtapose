@@ -37,7 +37,7 @@ button {
 }
 
 .jux-track {
-    border: 1px dotted black;
+    border: 1px dashed black;
     width: 600px;
     height: 100px;
     cursor: pointer;
@@ -47,7 +47,7 @@ button {
     cursor: move;
     position: absolute;
     display: flex;
-    height: 100px;
+    height: 98px;
     border: 1px dashed blue;
     background-color: rgba(173, 216, 230, 0.4);
     text-align: center;
@@ -59,7 +59,7 @@ button {
 
 .jux-aux-item .jux-stretch-handle {
     height: 100px;
-    width: 5px;
+    width: 10px;
     cursor: col-resize;
 }
 .jux-aux-item .jux-stretch-handle:hover {
