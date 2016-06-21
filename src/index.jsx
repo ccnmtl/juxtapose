@@ -185,7 +185,7 @@ class AuxItem extends React.Component {
                 width: width + 'px'
             };
         }
-        return <Draggable axis="x">
+        return <Draggable axis="x" bounds="parent">
             <div className="jux-aux-item"
                  style={style}
                  onClick={this.handleClick.bind(this)}>

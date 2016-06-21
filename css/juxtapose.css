@@ -40,13 +40,14 @@ button {
     border: 1px dotted black;
     width: 600px;
     height: 100px;
+    cursor: pointer;
 }
 
 .jux-aux-item {
     position: absolute;
     display: flex;
     height: 100px;
-    cursor: move;
+    cursor: col-resize;
     border: 1px dashed blue;
     background-color: rgba(173, 216, 230, 0.4);
     text-align: center;
