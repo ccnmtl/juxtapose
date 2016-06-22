@@ -65,3 +65,12 @@ button {
 .jux-aux-item .jux-stretch-handle:hover {
     background-color: orange;
 }
+
+.jux-aux-item img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.jux-aux-item .aux-vid {
+    width: 100%;
+}

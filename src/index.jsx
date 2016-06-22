@@ -18,14 +18,14 @@ var auxTrackData = [
         startTime: 1,
         endTime: 37,
         type: 'vid',
-        source: 'vidfile.mp4'
+        source: 'wildspot.mp4'
     },
     {
         key: 2,
         startTime: 38,
         endTime: 40,
         type: 'img',
-        source: 'image.jpg'
+        source: 'img/image.jpg'
     },
     {
         key: 3,
@@ -161,18 +161,6 @@ class MediaPopup extends React.Component {
 
 class AuxItem extends React.Component {
     render() {
-        var content = null;
-        switch(this.props.data.type) {
-            case 'vid':
-                content = this.props.data.source;
-                break;
-            case 'img':
-                content = this.props.data.source;
-                break;
-            case 'txt':
-                content = this.props.data.source;
-                break;
-        }
         var style = {};
         if (this.props.duration) {
             var ratio = this.props.data.startTime / this.props.duration;
@@ -192,7 +180,11 @@ class AuxItem extends React.Component {
                  style={style}
                  onClick={this.handleClick.bind(this)}>
                 <div className="jux-stretch-handle jux-aux-item-left"></div>
-                <p>{content}</p>
+        {this.props.data.type === 'vid' ? <video className="aux-vid">
+            <source src={this.props.data.source} type="video/mp4" />
+        </video> : null}
+        {this.props.data.type === 'img' ? <img src={this.props.data.source} /> : null}
+        {this.props.data.type === 'txt' ? <p>{this.props.data.source}</p> : null}
                 <div className="jux-stretch-handle jux-aux-item-right"></div>
             </div>
         </Draggable>
