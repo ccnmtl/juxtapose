@@ -180,11 +180,11 @@ class AuxItem extends React.Component {
                  style={style}
                  onClick={this.handleClick.bind(this)}>
                 <div className="jux-stretch-handle jux-aux-item-left"></div>
-        {this.props.data.type === 'vid' ? <video className="aux-vid">
+        {this.props.data.type === 'vid' ? <video className="aux-item-middle">
             <source src={this.props.data.source} type="video/mp4" />
         </video> : null}
-        {this.props.data.type === 'img' ? <img src={this.props.data.source} /> : null}
-        {this.props.data.type === 'txt' ? <p>{this.props.data.source}</p> : null}
+        {this.props.data.type === 'img' ? <img className="aux-item-middle" src={this.props.data.source} /> : null}
+        {this.props.data.type === 'txt' ? <p className="aux-item-middle">{this.props.data.source}</p> : null}
                 <div className="jux-stretch-handle jux-aux-item-right"></div>
             </div>
         </Draggable>
