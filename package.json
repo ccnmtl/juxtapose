@@ -17,9 +17,9 @@
   "author": "Nik Nyby",
   "license": "GPL-3.0+",
   "dependencies": {
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2016": "^6.0.11",
-    "babel-preset-react": "^6.5.0",
+    "babel-loader": "~6.2.4",
+    "babel-preset-es2016": "~6.0.11",
+    "babel-preset-react": "~6.5.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-draggable": "^2.1.2",
