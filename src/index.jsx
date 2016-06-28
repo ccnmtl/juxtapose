@@ -194,26 +194,33 @@ class AuxTrack extends React.Component {
     onResize(event) {
         console.log('resize');
     }
+    generateItems() {
+        var items = [];
+        this.state.data.map(function(data, i) {
+            var item = <AuxItem
+                           key={i}
+                           data={data}
+                           _grid={{
+                               x: data.startTime * 10,
+                               y: 0,
+                               w: 1,
+                               h: 10
+                           }}
+                           duration={data.duration} />;
+            items.push(item);
+        });
+        return items;
+    }
     render() {
         var duration = this.props.duration;
         return <ReactGridLayout
+                   {...this.props}
                    width={600}
                    className="layout jux-track"
                    cols={1000}
                    rowHeight={1}
                    onResizeStart={this.onResize.bind(this)}>
-                {this.state.data.map(function(data, i) {
-                     //return <div key={i}></div>;
-                     return <AuxItem key={i}
-                                     data={data}
-                                     _grid={{
-                                         x: data.startTime * 10,
-                                         y: 0,
-                                         w: 1,
-                                         h: 10
-                                     }}
-                                     duration={data.duration} />;
-                })}
+                {this.generateItems()}
             </ReactGridLayout>;
     }
 }
