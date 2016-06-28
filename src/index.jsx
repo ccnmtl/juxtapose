@@ -215,8 +215,8 @@ class AuxTrack extends React.Component {
         var duration = this.props.duration;
         return <ReactGridLayout
                    {...this.props}
-                   width={600}
-                   className="layout jux-track"
+                   width={1000}
+                   className="layout jux-track react-grid-layout"
                    cols={1000}
                    rowHeight={1}
                    onResizeStart={this.onResize.bind(this)}>
