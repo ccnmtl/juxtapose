@@ -196,26 +196,25 @@ class AuxTrack extends React.Component {
     }
     render() {
         var duration = this.props.duration;
-        return <div className="jux-track"
-                    {...this.props}
-                    ref={(ref) => this.el = ref}
-                    onClick={this.handleClick.bind(this)}>
-            <MediaPopup
-                ref={(ref) => this._popupEl = ref} />
-            <ReactGridLayout width={600} className="layout" cols={12} rowHeight={30}
-                             onResizeStart={this.onResize.bind(this)}>
+        return <ReactGridLayout
+                   width={600}
+                   className="layout jux-track"
+                   cols={1000}
+                   rowHeight={1}
+                   onResizeStart={this.onResize.bind(this)}>
                 {this.state.data.map(function(data, i) {
                      //return <div key={i}></div>;
                      return <AuxItem key={i}
                                      data={data}
-                                     _grid={{x: data.startTime, y: 0, w: 1, h: 2}}
+                                     _grid={{
+                                         x: data.startTime * 10,
+                                         y: 0,
+                                         w: 1,
+                                         h: 10
+                                     }}
                                      duration={data.duration} />;
                 })}
-            </ReactGridLayout>
-        </div>;
-    }
-    handleClick(event) {
-        //this._popupEl.openPopup(event);
+            </ReactGridLayout>;
     }
 }
 
