@@ -43,7 +43,7 @@ button {
     cursor: pointer;
 }
 
-.jux-aux-item {
+.react-grid-item {
     cursor: move;
     position: absolute;
     display: flex;
@@ -53,24 +53,24 @@ button {
     text-align: center;
 }
 
-.jux-aux-item .jux-stretch-handle {
+.react-grid-item .jux-stretch-handle {
     height: 100px;
     width: 10px;
     cursor: col-resize;
 }
-.jux-aux-item .jux-stretch-handle:hover {
+.react-grid-item .jux-stretch-handle:hover {
     background-color: orange;
 }
 
-.jux-aux-item .aux-item-middle {
+.react-grid-item .aux-item-middle {
     flex-grow: 1;
 }
 
-.jux-aux-item img.aux-item-middle {
+.react-grid-item img.aux-item-middle {
     max-width: 100%;
     max-height: 100%;
 }
 
-.jux-aux-item video.aux-item-middle {
+.react-grid-item video.aux-item-middle {
     width: 80%;
 }

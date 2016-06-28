@@ -173,7 +173,7 @@ class AuxItem extends React.Component {
                 width: width + 'px'
             };
         }
-        return <div {...this.props} className="jux-aux-item">
+        return <div {...this.props}>
                 <div className="jux-stretch-handle jux-aux-item-left"></div>
         {this.props.data.type === 'vid' ? <video className="aux-item-middle">
             <source src={this.props.data.source} type="video/mp4" />
