@@ -22,7 +22,7 @@
     "babel-preset-react": "~6.5.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "react-draggable": "^2.1.2",
+    "react-grid-layout": "^0.12.6",
     "webpack": "^1.13.1"
   },
   "devDependencies": {

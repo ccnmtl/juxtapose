@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Draggable from 'react-draggable';
+import ReactGridLayout from 'react-grid-layout';
 
 function pad2(number) {
     return (number < 10 ? '0' : '') + number;
@@ -173,25 +173,16 @@ class AuxItem extends React.Component {
                 width: width + 'px'
             };
         }
-        return <Draggable axis="x"
-                          bounds="parent"
-                          cancel=".jux-stretch-handle">
-            <div className="jux-aux-item"
-                 style={style}
-                 onClick={this.handleClick.bind(this)}>
+        return <div {...this.props} className="jux-aux-item">
                 <div className="jux-stretch-handle jux-aux-item-left"></div>
         {this.props.data.type === 'vid' ? <video className="aux-item-middle">
             <source src={this.props.data.source} type="video/mp4" />
         </video> : null}
         {this.props.data.type === 'img' ? <img className="aux-item-middle" src={this.props.data.source} /> : null}
         {this.props.data.type === 'txt' ? <p className="aux-item-middle">{this.props.data.source}</p> : null}
+                <span className="react-resizable-handle"></span>
                 <div className="jux-stretch-handle jux-aux-item-right"></div>
-            </div>
-        </Draggable>
-    }
-    handleClick(event) {
-        event.stopPropagation();
-        event.preventDefault();
+            </div>;
     }
 }
 
@@ -200,25 +191,31 @@ class AuxTrack extends React.Component {
         super();
         this.state = {data: auxTrackData};
     }
+    onResize(event) {
+        console.log('resize');
+    }
     render() {
         var duration = this.props.duration;
-        var mediaItems = this.state.data.map(function(item) {
-            return (
-                <AuxItem key={item.key}
-                         data={item}
-                         duration={duration} />
-            )
-        });
         return <div className="jux-track"
+                    {...this.props}
                     ref={(ref) => this.el = ref}
                     onClick={this.handleClick.bind(this)}>
             <MediaPopup
                 ref={(ref) => this._popupEl = ref} />
-            {mediaItems}
+            <ReactGridLayout width={600} className="layout" cols={12} rowHeight={30}
+                             onResizeStart={this.onResize.bind(this)}>
+                {this.state.data.map(function(data, i) {
+                     //return <div key={i}></div>;
+                     return <AuxItem key={i}
+                                     data={data}
+                                     _grid={{x: data.startTime, y: 0, w: 1, h: 2}}
+                                     duration={data.duration} />;
+                })}
+            </ReactGridLayout>
         </div>;
     }
     handleClick(event) {
-        this._popupEl.openPopup(event);
+        //this._popupEl.openPopup(event);
     }
 }
 
