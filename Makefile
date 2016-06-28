@@ -12,3 +12,8 @@ node_modules/.bin/webpack:
 
 node_modules/.bin/eslint:
 	npm install
+
+clean:
+	rm -rf node_modules
+
+.PHONY: clean
