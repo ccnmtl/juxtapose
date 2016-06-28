@@ -174,15 +174,17 @@ class AuxItem extends React.Component {
             };
         }
         return <div {...this.props}>
-                <div className="jux-stretch-handle jux-aux-item-left"></div>
-        {this.props.data.type === 'vid' ? <video className="aux-item-middle">
-            <source src={this.props.data.source} type="video/mp4" />
-        </video> : null}
-        {this.props.data.type === 'img' ? <img className="aux-item-middle" src={this.props.data.source} /> : null}
-        {this.props.data.type === 'txt' ? <p className="aux-item-middle">{this.props.data.source}</p> : null}
-                <span className="react-resizable-handle"></span>
-                <div className="jux-stretch-handle jux-aux-item-right"></div>
-            </div>;
+            <div className="jux-stretch-handle jux-aux-item-left"></div>
+            {this.props.data.type === 'vid' ? <video className="aux-item-middle">
+                <source src={this.props.data.source} type="video/mp4" />
+            </video> : null}
+            {this.props.data.type === 'img' ? <img className="aux-item-middle"
+                                                   src={this.props.data.source} /> : null}
+            {this.props.data.type === 'txt' ? <p className="aux-item-middle">
+                {this.props.data.source}</p> : null}
+            <span className="react-resizable-handle"></span>
+            <div className="jux-stretch-handle jux-aux-item-right"></div>
+        </div>;
     }
 }
 
@@ -218,8 +220,8 @@ class AuxTrack extends React.Component {
                    width={1000}
                    className="layout jux-track react-grid-layout"
                    cols={1000}
-                   rowHeight={1}
-                   onResizeStart={this.onResize.bind(this)}>
+                   draggableCancel=".jux-stretch-handle"
+                   rowHeight={1}>
                 {this.generateItems()}
             </ReactGridLayout>;
     }
