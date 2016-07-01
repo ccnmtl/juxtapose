@@ -113,6 +113,12 @@ class AuxMedia extends React.Component {
     }
 }
 
+class TextDisplay extends React.Component {
+    render() {
+        return <p>Text Area</p>;
+    }
+}
+
 class PlayButton extends React.Component {
     constructor(props) {
         super(props);
@@ -293,6 +299,7 @@ class JuxtaposeApplication extends React.Component {
                 />
                 <AuxMedia ref={(c) => this._auxVid = c} />
             </div>
+            <TextDisplay />
             <PlayButton callbackParent={this.onPlayChanged.bind(this)} />
             <div className="jux-time">
                 {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
@@ -302,7 +309,7 @@ class JuxtaposeApplication extends React.Component {
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
                 <SpineTrack />
                 <AuxTrack duration={this.state.duration} />
-                <TextTrack />
+                <TextTrack duration={this.state.duration} />
             </div>
         </div>;
     }
