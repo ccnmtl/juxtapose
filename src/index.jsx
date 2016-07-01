@@ -27,8 +27,12 @@ var auxTrackData = [
         type: 'img',
         source: 'img/image.jpg'
     },
+
+];
+
+var textTrackData = [
     {
-        key: 3,
+        key: 1,
         startTime: 60,
         endTime: 70,
         type: 'txt',
@@ -227,6 +231,13 @@ class AuxTrack extends React.Component {
     }
 }
 
+class TextTrack extends AuxTrack {
+    constructor() {
+        super();
+        this.state = {data: textTrackData};
+    }
+}
+
 class Playhead extends React.Component {
     constructor() {
         super();
@@ -291,6 +302,7 @@ class JuxtaposeApplication extends React.Component {
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
                 <SpineTrack />
                 <AuxTrack duration={this.state.duration} />
+                <TextTrack />
             </div>
         </div>;
     }
