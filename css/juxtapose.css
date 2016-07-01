@@ -36,6 +36,12 @@ button {
     float: right;
 }
 
+.jux-spine-track {
+    border: 1px dashed black;
+    width: 600px;
+    height: 20px;
+}
+
 .jux-track {
     border: 1px dashed black;
     width: 600px;
