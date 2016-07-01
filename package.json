@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "dev": "webpack -d --watch",
-    "eslint": "eslint src/index.jsx"
+    "eslint": "eslint src/*"
   },
   "repository": {
     "type": "git",

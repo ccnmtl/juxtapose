@@ -1,16 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactGridLayout from 'react-grid-layout';
-
-function pad2(number) {
-    return (number < 10 ? '0' : '') + number;
-}
-
-function formatDuration(seconds) {
-    var minutes = pad2(Math.floor(seconds / 60));
-    var seconds = pad2(Math.round(seconds - minutes * 60));
-    return minutes + ':' + seconds;
-}
+import {pad2, formatDuration} from './utils.js';
 
 var auxTrackData = [
     {
