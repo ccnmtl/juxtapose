@@ -146,7 +146,13 @@ class AuxItem extends React.Component {
                 width: width + 'px'
             };
         }
-        return <div {...this.props}>
+        return <div data={this.props.data}
+                    className={this.props.className}
+                    style={this.props.style}
+                    onMouseDown={this.props.onMouseDown}
+                    onMouseUp={this.props.onMouseUp}
+                    onTouchEnd={this.props.onTouchEnd}
+                    onTouchStart={this.props.onTouchStart}>
             <div className="jux-stretch-handle jux-aux-item-left"></div>
             {this.props.data.type === 'vid' ? <video className="aux-item-middle">
                 <source src={this.props.data.source} type="video/mp4" />
