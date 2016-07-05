@@ -2,34 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactGridLayout from 'react-grid-layout';
 import {pad2, formatDuration} from './utils.js';
-
-var auxTrackData = [
-    {
-        key: 1,
-        startTime: 1,
-        endTime: 37,
-        type: 'vid',
-        source: 'wildspot.mp4'
-    },
-    {
-        key: 2,
-        startTime: 38,
-        endTime: 40,
-        type: 'img',
-        source: 'img/image.jpg'
-    },
-
-];
-
-var textTrackData = [
-    {
-        key: 1,
-        startTime: 60,
-        endTime: 70,
-        type: 'txt',
-        source: 'Some text!'
-    }
-];
+import {auxTrackData, textTrackData} from './data.js';
 
 class SpineVideo extends React.Component {
     constructor() {
@@ -43,8 +16,7 @@ class SpineVideo extends React.Component {
                    ref={(ref) => this.el = ref}
                    width="297"
                    onTimeUpdate={this.handleTimeUpdate.bind(this)}
-                   onLoadedMetadata={this.handleLoadedMetadata.bind(this)}
-            >
+                   onLoadedMetadata={this.handleLoadedMetadata.bind(this)}>
                 <source src="wildspot.mp4" type="video/mp4" />
                 <source src="wildspot.ogv"
                         type='video/ogg; codecs="theora, vorbis"' />
@@ -106,7 +78,7 @@ class AuxMedia extends React.Component {
 
 class TextDisplay extends React.Component {
     render() {
-        return <p>Text Area</p>;
+        return <p>Text Area {this.props.time}</p>;
     }
 }
 
@@ -290,7 +262,7 @@ class JuxtaposeApplication extends React.Component {
                 />
                 <AuxMedia ref={(c) => this._auxVid = c} />
             </div>
-            <TextDisplay />
+            <TextDisplay time={this.state.time} />
             <PlayButton callbackParent={this.onPlayChanged.bind(this)} />
             <div className="jux-time">
                 {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
