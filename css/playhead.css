@@ -1,5 +1,5 @@
 .jux-playhead-line {
-    height: 204px;
+    height: 266px;
     width: 2px;
     background-color: #000;
     position: absolute;
@@ -20,7 +20,7 @@
 }
 
 .jux-playhead-line .jux-playhead-bottom-cutpoint {
-    top: 164px;
+    top: 226px;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 20px solid black;
