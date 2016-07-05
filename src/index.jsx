@@ -155,7 +155,8 @@ class JuxtaposeApplication extends React.Component {
                 />
                 <AuxMedia ref={(c) => this._auxVid = c} />
             </div>
-            <TextDisplay time={this.state.time} />
+            <TextDisplay time={this.state.time}
+                         duration={this.state.duration} />
             <PlayButton callbackParent={this.onPlayChanged.bind(this)} />
             <div className="jux-time">
                 {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}

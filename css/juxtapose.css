@@ -49,6 +49,12 @@ button {
     cursor: pointer;
 }
 
+.jux-text-display {
+    height: 24px;
+    background-color: #cecece;
+    text-align: center;
+}
+
 .react-grid-item {
     cursor: move;
     position: absolute;
