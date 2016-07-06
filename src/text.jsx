@@ -1,5 +1,5 @@
 import React from 'react';
-import {Track} from './track.jsx';
+import Track from './Track.jsx';
 import {textTrackData} from './data.js';
 
 export class TextTrack extends Track {
