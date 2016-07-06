@@ -8,6 +8,7 @@ describe('formatDuration', () => {
         expect(formatDuration(55)).toBe('00:55');
         expect(formatDuration(60)).toBe('01:00');
         expect(formatDuration(81)).toBe('01:21');
+        expect(formatDuration(9999)).toBe('166:39');
     });
 });
 

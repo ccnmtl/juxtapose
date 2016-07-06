@@ -5,6 +5,7 @@ import {pad2, formatDuration} from './utils.js';
 import {auxTrackData, textTrackData} from './data.js';
 import {AuxTrack, AuxMedia} from './aux.jsx';
 import {TextTrack, TextDisplay} from './text.jsx';
+import PlayButton from './PlayButton.jsx';
 
 class SpineVideo extends React.Component {
     constructor() {
@@ -49,27 +50,6 @@ class SpineVideo extends React.Component {
     }
 }
 
-
-
-class PlayButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {play: false};
-    }
-    handleClick(event) {
-        var newState = !this.state.play;
-        this.setState({play: newState});
-        this.props.callbackParent(newState);
-    }
-    render() {
-        return <button className="jux-play"
-                       onClick={this.handleClick.bind(this)}>
-            {this.state.play ?
-             String.fromCharCode(9208) :
-             String.fromCharCode(9654) }
-        </button>;
-    }
-}
 
 class SpineTrack extends React.Component {
     render() {
@@ -157,8 +137,7 @@ class JuxtaposeApplication extends React.Component {
             <div className="vid-container">
                 <SpineVideo
                     ref={(c) => this._spineVid = c}
-                    callbackParent={this.onTimeUpdate.bind(this)}
-                />
+                    callbackParent={this.onTimeUpdate.bind(this)} />
                 <AuxMedia ref={(c) => this._auxVid = c} />
             </div>
             <TextDisplay time={this.state.time}
