@@ -7,10 +7,16 @@ dev: node_modules/.bin/webpack
 eslint: node_modules/.bin/eslint
 	npm run eslint
 
+test: node_modules/.bin/jest
+	npm run test
+
 node_modules/.bin/webpack:
 	npm install
 
 node_modules/.bin/eslint:
+	npm install
+
+node_modules/.bin/jest:
 	npm install
 
 clean:
