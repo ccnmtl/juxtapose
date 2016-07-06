@@ -1,12 +1,7 @@
 import React from 'react';
 import {Track} from './track.jsx';
-import {auxTrackData} from './data.js';
 
 export class AuxTrack extends Track {
-    constructor() {
-        super();
-        this.state = {data: auxTrackData};
-    }
 }
 
 export class AuxMedia extends React.Component {

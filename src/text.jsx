@@ -3,10 +3,6 @@ import {Track} from './track.jsx';
 import {textTrackData} from './data.js';
 
 export class TextTrack extends Track {
-    constructor() {
-        super();
-        this.state = {data: textTrackData};
-    }
 }
 
 export class TextDisplay extends React.Component {

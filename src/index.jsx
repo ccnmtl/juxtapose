@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactGridLayout from 'react-grid-layout';
 import {pad2, formatDuration} from './utils.js';
+import {auxTrackData, textTrackData} from './data.js';
 import {AuxTrack, AuxMedia} from './aux.jsx';
 import {TextTrack, TextDisplay} from './text.jsx';
 
@@ -165,8 +166,10 @@ class JuxtaposeApplication extends React.Component {
                 <Playhead ref={(c) => this._playhead = c}
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
                 <SpineTrack />
-                <AuxTrack duration={this.state.duration} />
-                <TextTrack duration={this.state.duration} />
+                <AuxTrack duration={this.state.duration}
+                          data={auxTrackData} />
+                <TextTrack duration={this.state.duration}
+                           data={textTrackData} />
             </div>
         </div>;
     }
