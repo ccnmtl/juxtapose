@@ -145,7 +145,12 @@ class Playhead extends React.Component {
 class JuxtaposeApplication extends React.Component {
     constructor() {
         super();
-        this.state = {time: null, duration: null};
+        this.state = {
+            time: null,
+            duration: null,
+            auxTrack: auxTrackData,
+            textTrack: textTrackData
+        };
     }
     render() {
         return <div className="jux-container">
@@ -167,9 +172,9 @@ class JuxtaposeApplication extends React.Component {
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
                 <SpineTrack />
                 <AuxTrack duration={this.state.duration}
-                          data={auxTrackData} />
+                          data={this.state.auxTrack} />
                 <TextTrack duration={this.state.duration}
-                           data={textTrackData} />
+                           data={this.state.textTrack} />
             </div>
         </div>;
     }
