@@ -8,7 +8,7 @@ export default class PlayButton extends React.Component {
     handleClick(event) {
         var newState = !this.state.play;
         // FIXME -- this probably isn't right. Setting state on
-        // this element and its parent?
+        // this component and its parent?
         this.setState({play: newState});
         if (this.props.callbackParent) {
             this.props.callbackParent(newState);

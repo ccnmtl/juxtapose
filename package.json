@@ -8,7 +8,7 @@
     "test": "jest",
     "build": "webpack",
     "dev": "webpack -d --watch",
-    "eslint": "eslint src/*"
+    "eslint": "eslint src/* __tests__/*"
   },
   "repository": {
     "type": "git",
