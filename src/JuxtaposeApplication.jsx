@@ -70,9 +70,18 @@ export default class JuxtaposeApplication extends React.Component {
                 <AuxTrack duration={this.state.duration}
                           data={this.state.auxTrack} />
                 <TextTrack duration={this.state.duration}
+                           onDragStop={this.onTextDragStop.bind(this)}
                            data={this.state.textTrack} />
             </div>
         </div>;
+    }
+    onTextDragStop(items, event, item) {
+        var track = this.state.textTrack[0];
+        var percent = (item.x / 1000);
+        var len = track.endTime - track.startTime;
+        track.startTime = percent * this.state.duration;
+        track.endTime = track.startTime + len;
+        this.setState({textTrack: [track]});
     }
     onPlayChanged(play) {
         if (play) {
