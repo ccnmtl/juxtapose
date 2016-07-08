@@ -42,6 +42,7 @@ export default class Track extends React.Component {
         return <ReactGridLayout
                    {...this.props}
                    width={600}
+                   margin={[0,10]}
                    className="layout jux-track react-grid-layout"
                    cols={1000}
                    draggableCancel=".jux-stretch-handle"
