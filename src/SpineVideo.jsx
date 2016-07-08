@@ -29,7 +29,7 @@ export default class SpineVideo extends React.Component {
     }
     handleTimeUpdate(e) {
         var vid = e.target;
-        this.setState({time: vid.currentTime, duration: this.state.duration});
+        this.setState({time: vid.currentTime});
         this.props.callbackParent(vid.currentTime, this.state.duration);
     }
     // TODO: handle playback finish event

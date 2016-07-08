@@ -3,10 +3,6 @@ import ReactGridLayout from 'react-grid-layout';
 import TrackItem from './TrackItem.jsx';
 
 export default class Track extends React.Component {
-    constructor() {
-        super();
-        this.state = {};
-    }
     onResize(event) {
         console.log('resize');
     }
@@ -49,6 +45,7 @@ export default class Track extends React.Component {
                    className="layout jux-track react-grid-layout"
                    cols={1000}
                    draggableCancel=".jux-stretch-handle"
+                   onDragStop={this.props.onDragStop}
                    rowHeight={1}>
                 {this.generateItems()}
             </ReactGridLayout>;
