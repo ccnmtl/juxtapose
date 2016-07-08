@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
+import _ from 'lodash';
 import {pad2, formatDuration} from './utils.js';
 import {auxTrackData, textTrackData} from './data.js';
 import {AuxTrack, AuxMedia} from './aux.jsx';
@@ -76,12 +77,21 @@ export default class JuxtaposeApplication extends React.Component {
         </div>;
     }
     onTextDragStop(items, event, item) {
-        var track = this.state.textTrack[0];
+        var textTrack = this.state.textTrack;
+
+        var track = _.find(textTrack, ['key', parseInt(item['i'], 10)]);
         var percent = (item.x / 1000);
         var len = track.endTime - track.startTime;
         track.startTime = percent * this.state.duration;
         track.endTime = track.startTime + len;
-        this.setState({textTrack: [track]});
+
+        var newTrack = _.reject(textTrack, ['key', track.key]);
+        newTrack.push(track);
+        newTrack = _.sortBy(newTrack, 'key');
+
+        this.setState({
+            textTrack: newTrack
+        });
     }
     onPlayChanged(play) {
         if (play) {
