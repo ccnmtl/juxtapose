@@ -7,8 +7,8 @@ export default class Playhead extends React.Component {
         this.state = {time: 0, duration: null};
     }
     handleChange(event) {
-        var percentDone = event.target.value / 1000;
-        var newTime = this.state.duration * percentDone;
+        const percentDone = event.target.value / 1000;
+        const newTime = this.state.duration * percentDone;
         this.setState({
             time: newTime,
             duration: this.state.duration
@@ -16,15 +16,15 @@ export default class Playhead extends React.Component {
         this.props.callbackParent(newTime, this.state.duration);
     }
     render() {
-        var currentPos = 0;
+        let currentPos = 0;
         if (this.state.duration !== 0) {
             currentPos = (this.state.time / this.state.duration);
         }
 
-        var clientWidth = this.el ? this.el.clientWidth : 0;
-        var offsetLeft = this.el ? this.el.offsetLeft : 0;
-        var x = clientWidth * currentPos + offsetLeft;
-        var lineStyle = {left: x + 'px'};
+        const clientWidth = this.el ? this.el.clientWidth : 0;
+        const offsetLeft = this.el ? this.el.offsetLeft : 0;
+        const x = clientWidth * currentPos + offsetLeft;
+        const lineStyle = {left: x + 'px'};
 
         return <div>
             <div ref={(ref) => this._line = ref}

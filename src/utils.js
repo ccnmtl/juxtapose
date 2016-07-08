@@ -1,7 +1,7 @@
 export function formatDuration(seconds) {
-    var minutes = pad2(Math.floor(seconds / 60));
-    var seconds = pad2(Math.round(seconds - minutes * 60));
-    return minutes + ':' + seconds;
+    const minutes = pad2(Math.floor(seconds / 60));
+    const newSeconds = pad2(Math.round(seconds - minutes * 60));
+    return minutes + ':' + newSeconds;
 }
 
 export function pad2(number) {

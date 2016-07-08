@@ -2,13 +2,13 @@ import React from 'react';
 
 export default class TrackItem extends React.Component {
     render() {
-        var style = {};
+        let style = {};
         if (this.props.duration) {
-            var ratio = this.props.data.startTime / this.props.duration;
-            var pos = ratio * 600;
-            var wRatio = (this.props.data.endTime -
-                          this.props.data.startTime) / this.props.duration;
-            var width = wRatio * 600;
+            const ratio = this.props.data.startTime / this.props.duration;
+            const pos = ratio * 600;
+            const wRatio = (this.props.data.endTime -
+                            this.props.data.startTime) / this.props.duration;
+            const width = wRatio * 600;
             style = {
                 left: pos + 'px',
                 width: width + 'px'

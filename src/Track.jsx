@@ -13,16 +13,16 @@ export default class Track extends React.Component {
         return n * 10;
     }
     generateItems() {
-        var items = [];
-        var me = this;
+        let items = [];
+        const me = this;
         this.props.data.map(function(data, i) {
             if (me.props.duration) {
-                var width = me.percentToTrackCoords(
+                const width = me.percentToTrackCoords(
                     ((data.endTime - data.startTime) / me.props.duration)
                     * 100);
-                var percent = (data.startTime / me.props.duration) * 100;
-                var xPos = me.percentToTrackCoords(percent);
-                var item = <TrackItem
+                const percent = (data.startTime / me.props.duration) * 100;
+                const xPos = me.percentToTrackCoords(percent);
+                const item = <TrackItem
                                key={i}
                                data={data}
                                _grid={{
@@ -38,7 +38,7 @@ export default class Track extends React.Component {
         return items;
     }
     render() {
-        var duration = this.props.duration;
+        const duration = this.props.duration;
         return <ReactGridLayout
                    {...this.props}
                    width={600}

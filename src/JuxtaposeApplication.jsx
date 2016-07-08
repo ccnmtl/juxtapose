@@ -30,7 +30,7 @@ class MediaPopup extends React.Component {
         event.stopPropagation();
     }
     openPopup(event) {
-        var x = event.clientX - this.el.offsetLeft;
+        const x = event.clientX - this.el.offsetLeft;
         this.el.style.left = x + 'px';
         this.el.style.visibility = 'visible';
     }
@@ -77,11 +77,11 @@ export default class JuxtaposeApplication extends React.Component {
         </div>;
     }
     onTextDragStop(items, event, item) {
-        var textTrack = this.state.textTrack;
+        const textTrack = this.state.textTrack;
 
-        var track = _.find(textTrack, ['key', parseInt(item['i'], 10)]);
-        var percent = (item.x / 1000);
-        var len = track.endTime - track.startTime;
+        const track = _.find(textTrack, ['key', parseInt(item['i'], 10)]);
+        const percent = (item.x / 1000);
+        const len = track.endTime - track.startTime;
         track.startTime = percent * this.state.duration;
         track.endTime = track.startTime + len;
 
@@ -105,7 +105,7 @@ export default class JuxtaposeApplication extends React.Component {
     onTimeUpdate(time, duration) {
         // TODO: this works for now, but I have a feeling this isn't the
         // right way to share state. Even if it is... the code is messy.
-        var state = {
+        const state = {
             time: time,
             duration: duration
         };
@@ -113,7 +113,7 @@ export default class JuxtaposeApplication extends React.Component {
         this.setState(state);
     }
     onPlayheadUpdate(time, duration) {
-        var state = {
+        const state = {
             time: time,
             duration: duration
         };

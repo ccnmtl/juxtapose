@@ -23,18 +23,18 @@ export default class SpineVideo extends React.Component {
         this.el.currentTime = time;
     }
     handleLoadedMetadata(e) {
-        var vid = e.target;
+        const vid = e.target;
         this.setState({time: vid.currentTime, duration: vid.duration});
         this.props.callbackParent(vid.currentTime, vid.duration);
     }
     handleTimeUpdate(e) {
-        var vid = e.target;
+        const vid = e.target;
         this.setState({time: vid.currentTime});
         this.props.callbackParent(vid.currentTime, this.state.duration);
     }
     // TODO: handle playback finish event
     play() {
-        var vid = this.el;
+        const vid = this.el;
         this.setState({time: vid.currentTime, duration: vid.duration});
         vid.play();
     }
