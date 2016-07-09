@@ -22,7 +22,7 @@ export class AuxMedia extends React.Component {
         </div>;
     }
     componentDidMount() {
-        var vid = this.el;
+        const vid = this.el;
         vid.currentTime = 5.333;
     }
     play() {

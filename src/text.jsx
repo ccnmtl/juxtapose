@@ -16,7 +16,7 @@ export class TextDisplay extends React.Component {
         return '';
     }
     render() {
-        var txt = this.shouldDisplay(textTrackData, this.props.time);
+        const txt = this.shouldDisplay(textTrackData, this.props.time);
         return <div className="jux-text-display">{txt}</div>;
     }
 }

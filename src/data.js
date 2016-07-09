@@ -1,4 +1,4 @@
-export var auxTrackData = [
+export const auxTrackData = [
     {
         key: 0,
         startTime: 1,
@@ -16,7 +16,7 @@ export var auxTrackData = [
 
 ];
 
-export var textTrackData = [
+export const textTrackData = [
     {
         key: 0,
         startTime: 5,
