@@ -3,7 +3,7 @@ import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {pad2, formatDuration} from './utils.js';
 import {auxTrackData, textTrackData} from './data.js';
-import {AuxTrack, AuxMedia} from './aux.jsx';
+import {AuxTrack, AuxDisplay} from './aux.jsx';
 import {TextTrack, TextDisplay} from './text.jsx';
 import PlayButton from './PlayButton.jsx';
 import Playhead from './Playhead.jsx';
@@ -56,7 +56,8 @@ export default class JuxtaposeApplication extends React.Component {
                 <SpineVideo
                     ref={(c) => this._spineVid = c}
                     callbackParent={this.onTimeUpdate.bind(this)} />
-                <AuxMedia ref={(c) => this._auxVid = c} />
+                <AuxDisplay time={this.state.time}
+                            ref={(c) => this._auxVid = c} />
             </div>
             <TextDisplay time={this.state.time}
                          duration={this.state.duration} />
