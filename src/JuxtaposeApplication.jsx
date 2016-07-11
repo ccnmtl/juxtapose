@@ -70,6 +70,7 @@ export default class JuxtaposeApplication extends React.Component {
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
                 <SpineTrack />
                 <AuxTrack duration={this.state.duration}
+                          onDragStop={this.onAuxDragStop.bind(this)}
                           data={this.state.auxTrack} />
                 <TextTrack duration={this.state.duration}
                            onDragStop={this.onTextDragStop.bind(this)}
@@ -77,19 +78,33 @@ export default class JuxtaposeApplication extends React.Component {
             </div>
         </div>;
     }
-    onTextDragStop(items, event, item) {
-        const textTrack = this.state.textTrack;
-
-        const track = _.find(textTrack, ['key', parseInt(item['i'], 10)]);
+    /**
+     * This function handles the drag stop event for track items.
+     *
+     * It returns the new state of the track, which the caller can save
+     * with setState.
+     */
+    trackItemDragHandler(origTrack, item) {
+        const track = _.find(origTrack, ['key', parseInt(item['i'], 10)]);
         const percent = (item.x / 1000);
         const len = track.endTime - track.startTime;
         track.startTime = percent * this.state.duration;
         track.endTime = track.startTime + len;
 
-        var newTrack = _.reject(textTrack, ['key', track.key]);
+        // TODO: can this be simplified?
+        let newTrack = _.reject(origTrack, ['key', track.key]);
         newTrack.push(track);
         newTrack = _.sortBy(newTrack, 'key');
-
+        return newTrack;
+    }
+    onAuxDragStop(items, event, item) {
+        const newTrack = this.trackItemDragHandler(this.state.auxTrack, item);
+        this.setState({
+            auxTrack: newTrack
+        });
+    }
+    onTextDragStop(items, event, item) {
+        const newTrack = this.trackItemDragHandler(this.state.textTrack, item);
         this.setState({
             textTrack: newTrack
         });
