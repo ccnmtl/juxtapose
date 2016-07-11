@@ -49,6 +49,13 @@ button {
     cursor: pointer;
 }
 
+.jux-aux-display,
+.jux-aux-display video,
+.jux-aux-display img {
+    max-height: 222px;
+    max-width: 300px;
+}
+
 .jux-text-display {
     height: 24px;
     background-color: #cecece;
