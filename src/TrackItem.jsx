@@ -13,10 +13,35 @@ export default class TrackItem extends React.Component {
             width: width + 'px'
         };
     }
+    renderVidThumb(data) {
+        return <video className="aux-item-middle">
+            <source src={data.source} type="video/mp4" />
+        </video>;
+    }
+    renderImgThumb(data) {
+        const style = {
+            'backgroundImage': 'url(' + data.source + ')',
+            'backgroundSize': 'contain',
+            'backgroundPosition': 'center',
+            'backgroundRepeat': 'no-repeat'
+        };
+        return <div className="aux-item-middle" style={style}></div>;
+    }
+    renderTxtThumb(data) {
+        return <p className="aux-item-middle">{data.source}</p>;
+    }
     render() {
         let style = {};
         if (this.props.duration) {
             style = this.calcStyle();
+        }
+        let c = '';
+        if (this.props.data.type === 'vid') {
+            c = this.renderVidThumb(this.props.data);
+        } else if (this.props.data.type === 'img') {
+            c = this.renderImgThumb(this.props.data);
+        } else if (this.props.data.type === 'txt') {
+            c = this.renderTxtThumb(this.props.data);
         }
         return <div data={this.props.data}
                     className={this.props.className}
@@ -26,13 +51,7 @@ export default class TrackItem extends React.Component {
                     onTouchEnd={this.props.onTouchEnd}
                     onTouchStart={this.props.onTouchStart}>
             <div className="jux-stretch-handle jux-aux-item-left"></div>
-            {this.props.data.type === 'vid' ? <video className="aux-item-middle">
-                <source src={this.props.data.source} type="video/mp4" />
-            </video> : null}
-            {this.props.data.type === 'img' ? <img className="aux-item-middle"
-                                                   src={this.props.data.source} /> : null}
-            {this.props.data.type === 'txt' ? <p className="aux-item-middle">
-                {this.props.data.source}</p> : null}
+            {c}
             <span className="react-resizable-handle"></span>
             <div className="jux-stretch-handle jux-aux-item-right"></div>
         </div>;
