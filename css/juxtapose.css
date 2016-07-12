@@ -50,10 +50,15 @@ button {
     margin-top: -1px;
 }
 
-.jux-aux-display,
+.jux-aux-display {
+    height: 225px;
+    width: 300px;
+    text-align: center;
+}
+
 .jux-aux-display video,
 .jux-aux-display img {
-    max-height: 222px;
+    max-height: 225px;
     max-width: 300px;
 }
 
