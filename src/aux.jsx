@@ -16,8 +16,10 @@ export class AuxDisplay extends React.Component {
                       ref={(ref) => this.el = ref}
                       width="297">
             <source src="wildspot.mp4" type="video/mp4" />
+            <source src="wildspot.webm" type="video/webm" />
             <source src="wildspot.ogv"
                     type='video/ogg; codecs="theora, vorbis"' />
+
         </video>;
     }
     renderImage(data) {

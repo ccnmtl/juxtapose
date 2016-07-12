@@ -14,6 +14,7 @@ export default class SpineVideo extends React.Component {
                    onTimeUpdate={this.handleTimeUpdate.bind(this)}
                    onLoadedMetadata={this.handleLoadedMetadata.bind(this)}>
                 <source src="wildspot.mp4" type="video/mp4" />
+                <source src="wildspot.webm" type="video/webm" />
                 <source src="wildspot.ogv"
                         type='video/ogg; codecs="theora, vorbis"' />
             </video>
