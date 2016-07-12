@@ -39,7 +39,7 @@ button {
 .jux-spine-track {
     border: 1px dashed black;
     width: 600px;
-    height: 20px;
+    height: 22px;
 }
 
 .jux-track {
@@ -47,6 +47,7 @@ button {
     width: 600px;
     height: 100px;
     cursor: pointer;
+    margin-top: -1px;
 }
 
 .jux-aux-display,
@@ -58,8 +59,9 @@ button {
 
 .jux-text-display {
     height: 24px;
-    background-color: #cecece;
+    background-color: #dedede;
     text-align: center;
+    margin-bottom: 4px;
 }
 
 .react-grid-item {

@@ -12,7 +12,7 @@ import SpineVideo from './SpineVideo.jsx';
 
 class SpineTrack extends React.Component {
     render() {
-        return <div className="jux-spine-track">Spine Track</div>;
+        return <div className="jux-spine-track"></div>;
     }
 }
 
