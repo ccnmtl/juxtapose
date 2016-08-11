@@ -25,7 +25,7 @@ export default class Track extends React.Component {
                 const item = <TrackItem
                                key={i}
                                data={data}
-                               _grid={{
+                               data-grid={{
                                    x: xPos,
                                    y: 0,
                                    w: width,
