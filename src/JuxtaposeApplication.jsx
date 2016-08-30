@@ -65,6 +65,7 @@ export default class JuxtaposeApplication extends React.Component {
             <div className="jux-time">
                 {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
             </div>
+            <MediaPopup />
             <div className="jux-timeline">
                 <Playhead ref={(c) => this._playhead = c}
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
