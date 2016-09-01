@@ -1,4 +1,4 @@
-button {
+button.jux-play {
     font-size: 1.5em;
 }
 
@@ -20,20 +20,6 @@ button {
 
 .jux-play {
     margin-bottom: 5px;
-}
-
-.jux-popup {
-    visibility: hidden;
-    border: 1px dashed black;
-    width: 250px;
-    height: 200px;
-    position: absolute;
-    background-color: white;
-    z-index: 100;
-}
-
-.jux-popup .jux-close {
-    float: right;
 }
 
 .jux-spine-track {
@@ -68,6 +54,11 @@ button {
     text-align: center;
     margin-top: 2px;
     margin-bottom: 6px;
+}
+
+.jux-track-item-manager {
+    margin-top: 10px;
+    border: dashed 1px green;
 }
 
 .react-grid-item {

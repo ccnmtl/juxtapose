@@ -5,6 +5,7 @@ import {pad2, formatDuration} from './utils.js';
 import {auxTrackData, textTrackData} from './data.js';
 import {AuxTrack, AuxDisplay} from './aux.jsx';
 import {TextTrack, TextDisplay} from './text.jsx';
+import TrackItemManager from './TrackItemManager.jsx';
 import PlayButton from './PlayButton.jsx';
 import Playhead from './Playhead.jsx';
 import SpineVideo from './SpineVideo.jsx';
@@ -16,30 +17,6 @@ class SpineTrack extends React.Component {
     }
 }
 
-class MediaPopup extends React.Component {
-    render() {
-        return <div className="jux-popup"
-                    ref={(ref) => this.el = ref}
-                    onClick={this.handlePopupClick.bind(this)}>
-            Mediathread Collection
-            <button className="jux-close"
-                    onClick={this.closePopup.bind(this)}>X</button>
-        </div>;
-    }
-    handlePopupClick(event) {
-        event.stopPropagation();
-    }
-    openPopup(event) {
-        const x = event.clientX - this.el.offsetLeft;
-        this.el.style.left = x + 'px';
-        this.el.style.visibility = 'visible';
-    }
-    closePopup(event) {
-        event.stopPropagation();
-        this.el.style.visibility = 'hidden';
-    }
-}
-
 export default class JuxtaposeApplication extends React.Component {
     constructor() {
         super();
@@ -47,7 +24,10 @@ export default class JuxtaposeApplication extends React.Component {
             time: null,
             duration: null,
             auxTrack: auxTrackData,
-            textTrack: textTrackData
+            textTrack: textTrackData,
+
+            // The selected item that's managed in the TrackItemManager.
+            activeItem: null
         };
     }
     render() {
@@ -65,7 +45,6 @@ export default class JuxtaposeApplication extends React.Component {
             <div className="jux-time">
                 {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
             </div>
-            <MediaPopup />
             <div className="jux-timeline">
                 <Playhead ref={(c) => this._playhead = c}
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
@@ -77,6 +56,7 @@ export default class JuxtaposeApplication extends React.Component {
                            onDragStop={this.onTextDragStop.bind(this)}
                            data={this.state.textTrack} />
             </div>
+            <TrackItemManager activeItem={this.state.activeItem} />
         </div>;
     }
     /**
@@ -101,12 +81,14 @@ export default class JuxtaposeApplication extends React.Component {
     onAuxDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.auxTrack, item);
         this.setState({
+            activeItem: this.state.auxTrack[item.i],
             auxTrack: newTrack
         });
     }
     onTextDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.textTrack, item);
         this.setState({
+            activeItem: this.state.textTrack[item.i],
             textTrack: newTrack
         });
     }

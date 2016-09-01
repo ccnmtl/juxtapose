@@ -30,11 +30,6 @@ export default class TrackItem extends React.Component {
     renderTxtThumb(data) {
         return <p className="aux-item-middle">{data.source}</p>;
     }
-    onClick(e) {
-        if (!this.props.dragging) {
-            console.log('click');
-        }
-    }
     render() {
         let style = {};
         if (this.props.duration) {
@@ -52,7 +47,6 @@ export default class TrackItem extends React.Component {
                     data-dragging={this.props.dragging}
                     className={this.props.className}
                     style={this.props.style}
-                    onClick={this.onClick.bind(this)}
                     onMouseDown={this.props.onMouseDown}
                     onTouchEnd={this.props.onTouchEnd}
                     onTouchStart={this.props.onTouchStart}>
