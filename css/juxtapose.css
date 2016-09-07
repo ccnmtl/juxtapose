@@ -1,5 +1,41 @@
+button {
+    cursor: pointer;
+}
+
 button.jux-play {
     font-size: 1.5em;
+}
+
+.react-grid-item {
+    cursor: move;
+    position: absolute;
+    display: flex;
+    height: 98px;
+    border: 1px dashed blue;
+    background-color: rgba(173, 216, 230, 0.4);
+    text-align: center;
+}
+
+.react-grid-item .jux-stretch-handle {
+    height: 100px;
+    width: 10px;
+    cursor: col-resize;
+}
+.react-grid-item .jux-stretch-handle:hover {
+    background-color: orange;
+}
+
+.react-grid-item .aux-item-middle {
+    flex-grow: 1;
+}
+
+.react-grid-item img.aux-item-middle {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.react-grid-item video.aux-item-middle {
+    width: 80%;
 }
 
 #jux-spine-video {
@@ -61,34 +97,9 @@ button.jux-play {
     border: dashed 1px green;
 }
 
-.react-grid-item {
-    cursor: move;
-    position: absolute;
-    display: flex;
-    height: 98px;
-    border: 1px dashed blue;
-    background-color: rgba(173, 216, 230, 0.4);
-    text-align: center;
-}
-
-.react-grid-item .jux-stretch-handle {
-    height: 100px;
-    width: 10px;
-    cursor: col-resize;
-}
-.react-grid-item .jux-stretch-handle:hover {
-    background-color: orange;
-}
-
-.react-grid-item .aux-item-middle {
-    flex-grow: 1;
-}
-
-.react-grid-item img.aux-item-middle {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.react-grid-item video.aux-item-middle {
-    width: 80%;
+.jux-remove-track-item {
+    position: relative;
+    top: 5px;
+    right: 5px;
+    float: right;
 }
