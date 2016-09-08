@@ -6,6 +6,11 @@ button.jux-play {
     font-size: 1.5em;
 }
 
+#container {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
 .react-grid-item {
     cursor: move;
     position: absolute;
