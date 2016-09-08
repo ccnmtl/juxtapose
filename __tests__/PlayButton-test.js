@@ -1,5 +1,3 @@
-jest.unmock('../src/PlayButton.jsx');
-
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import PlayButton from '../src/PlayButton.jsx';
