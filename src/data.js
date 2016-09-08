@@ -22,13 +22,13 @@ export const textTrackData = [
         startTime: 5,
         endTime: 60,
         type: 'txt',
-        source: 'Some text!'
+        source: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     },
     {
         key: 1,
         startTime: 70,
         endTime: 80,
         type: 'txt',
-        source: 'text 2'
+        source: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     }
 ];

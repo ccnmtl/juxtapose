@@ -6,6 +6,11 @@ button.jux-play {
     font-size: 1.5em;
 }
 
+#container {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
 .react-grid-item {
     cursor: move;
     position: absolute;
@@ -14,6 +19,7 @@ button.jux-play {
     border: 1px dashed blue;
     background-color: rgba(173, 216, 230, 0.4);
     text-align: center;
+    overflow: hidden;
 }
 
 .react-grid-item .jux-stretch-handle {
@@ -85,7 +91,8 @@ button.jux-play {
 }
 
 .jux-text-display {
-    height: 24px;
+    min-height: 24px;
+    height: 100%;
     background-color: #dedede;
     text-align: center;
     margin-top: 2px;
@@ -94,12 +101,12 @@ button.jux-play {
 
 .jux-track-item-manager {
     margin-top: 10px;
+    padding: 10px;
     border: dashed 1px green;
+    background-color: lightyellow;
 }
 
 .jux-remove-track-item {
     position: relative;
-    top: 5px;
-    right: 5px;
     float: right;
 }
