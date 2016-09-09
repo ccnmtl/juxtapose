@@ -1,5 +1,3 @@
-jest.unmock('../src/utils.js');
-
 import {formatDuration, pad2} from '../src/utils.js';
 
 describe('formatDuration', () => {
