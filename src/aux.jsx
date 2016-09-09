@@ -1,6 +1,5 @@
 import React from 'react';
 import Track from './Track.jsx';
-import {auxTrackData} from './data.js';
 
 export class AuxTrack extends Track {
 }
@@ -9,7 +8,6 @@ export class AuxDisplay extends React.Component {
     constructor() {
         super()
         this.id = 'jux-aux-video';
-        this.state = {};
     }
     renderVideo(data) {
         return <video id={this.id}
@@ -39,7 +37,7 @@ export class AuxDisplay extends React.Component {
         return '';
     }
     render() {
-        let c = this.nowDisplay(auxTrackData, this.props.time)
+        let c = this.nowDisplay(this.props.data, this.props.time);
         return <div className="jux-aux-display">{c}</div>;
     }
     componentDidMount() {
