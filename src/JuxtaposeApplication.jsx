@@ -31,12 +31,14 @@ export default class JuxtaposeApplication extends React.Component {
         };
     }
     render() {
+        const activeItem = this.getItem(this.state.activeItem);
         return <div className="jux-container">
             <div className="vid-container">
                 <SpineVideo
                     ref={(c) => this._spineVid = c}
                     callbackParent={this.onTimeUpdate.bind(this)} />
                 <AuxDisplay time={this.state.time}
+                            data={this.state.auxTrack}
                             ref={(c) => this._auxVid = c} />
             </div>
             <TextDisplay time={this.state.time}
@@ -56,7 +58,9 @@ export default class JuxtaposeApplication extends React.Component {
                            onDragStop={this.onTextDragStop.bind(this)}
                            data={this.state.textTrack} />
             </div>
-            <TrackItemManager activeItem={this.state.activeItem} />
+            <TrackItemManager
+                activeItem={activeItem}
+                callbackParent={this.onTrackItemRemove.bind(this)} />
         </div>;
     }
     /**
@@ -81,14 +85,14 @@ export default class JuxtaposeApplication extends React.Component {
     onAuxDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.auxTrack, item);
         this.setState({
-            activeItem: this.state.auxTrack[item.i],
+            activeItem: ['aux', item.i],
             auxTrack: newTrack
         });
     }
     onTextDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.textTrack, item);
         this.setState({
-            activeItem: this.state.textTrack[item.i],
+            activeItem: ['txt', item.i],
             textTrack: newTrack
         });
     }
@@ -119,5 +123,47 @@ export default class JuxtaposeApplication extends React.Component {
         this._spineVid.setState(state);
         this._spineVid.updateVidPosition(time);
         this.setState(state);
+    }
+    /**
+     * Remove the active track item.
+     */
+    onTrackItemRemove() {
+        if (!this.state.activeItem) {
+            return;
+        }
+
+        const track = this.state.activeItem[0];
+        const i = this.state.activeItem[1];
+
+        if (track === 'txt') {
+            var newTrack = this.state.textTrack.slice();
+            newTrack.splice(i, 1);
+            this.setState({
+                textTrack: newTrack,
+                activeItem: null
+            });
+        } else {
+            var newTrack = this.state.auxTrack.slice();
+            newTrack.splice(i, 1);
+            this.setState({
+                auxTrack: newTrack,
+                activeItem: null
+            });
+        }
+    }
+    /**
+     * Get the item in textTrack or auxTrack, based on the activeItem
+     * format: [track type, index]
+     */
+    getItem(a) {
+        if (!a) {
+            return null;
+        }
+
+        if (a[0] === 'txt') {
+            return this.state.textTrack[a[1]];
+        } else {
+            return this.state.auxTrack[a[1]];
+        }
     }
 }
