@@ -2,6 +2,9 @@ import React from 'react';
 import Track from './Track.jsx';
 
 export class AuxTrack extends Track {
+    initAddTrackItem() {
+        console.log('TODO: open mediathread collection view');
+    }
 }
 
 export class AuxDisplay extends React.Component {

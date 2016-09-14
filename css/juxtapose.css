@@ -73,9 +73,24 @@ button.jux-play {
 .jux-track {
     border: 1px dashed black;
     width: 600px;
-    height: 100px;
+    height: 120px;
     cursor: pointer;
     margin-top: -1px;
+}
+
+.jux-track>.react-grid-layout {
+    float: left;
+}
+
+.jux-track .jux-snap-column {
+    width: 10px;
+    height: 100%;
+    background-color: transparent;
+    display: inline-block;
+}
+
+.jux-track .jux-snap-column:hover {
+    background-color: yellow;
 }
 
 .jux-aux-display {
@@ -104,6 +119,10 @@ button.jux-play {
     padding: 10px;
     border: dashed 1px green;
     background-color: lightyellow;
+}
+
+.jux-track-item-manager textarea {
+    width: 100%;
 }
 
 .jux-remove-track-item {

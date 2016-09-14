@@ -3,6 +3,9 @@ import Track from './Track.jsx';
 import {textTrackData} from './data.js';
 
 export class TextTrack extends Track {
+    initAddTrackItem() {
+        console.log('add text item');
+    }
 }
 
 export class TextDisplay extends React.Component {
