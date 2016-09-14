@@ -1,11 +1,7 @@
 import React from 'react';
-import Track from './Track.jsx';
 import {textTrackData} from './data.js';
 
-export class TextTrack extends Track {
-}
-
-export class TextDisplay extends React.Component {
+export default class TextDisplay extends React.Component {
     shouldDisplay(data, currentTime) {
         for (let e of data) {
             if (currentTime >= e.startTime &&

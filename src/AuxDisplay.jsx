@@ -1,10 +1,6 @@
 import React from 'react';
-import Track from './Track.jsx';
 
-export class AuxTrack extends Track {
-}
-
-export class AuxDisplay extends React.Component {
+export default class AuxDisplay extends React.Component {
     constructor() {
         super()
         this.id = 'jux-aux-video';
