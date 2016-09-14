@@ -7,7 +7,7 @@ export default class TrackItemManager extends React.Component {
             dom = <div className="jux-track-item-manager">
                 <button className="jux-remove-track-item"
                         title="Delete Item"
-                        onClick={this.onDeleteClick.bind(this)}>✖</button>
+                        onClick={this.onDeleteClick.bind(this)}>Remove</button>
                 <h2>Text Item</h2>
                 <textarea value={this.props.activeItem.source}
                           onChange={this.onChange} />
@@ -16,7 +16,7 @@ export default class TrackItemManager extends React.Component {
             dom = <div className="jux-track-item-manager">
                 <button className="jux-remove-track-item"
                         title="Delete Item"
-                        onClick={this.onDeleteClick.bind(this)}>✖</button>
+                        onClick={this.onDeleteClick.bind(this)}>Remove</button>
                 <h2>Image Item</h2>
                 <textarea value={this.props.activeItem.source}
                           onChange={this.onChange} />
@@ -25,7 +25,7 @@ export default class TrackItemManager extends React.Component {
             dom = <div className="jux-track-item-manager">
                 <button className="jux-remove-track-item"
                         title="Delete Item"
-                        onClick={this.onDeleteClick.bind(this)}>✖</button>
+                        onClick={this.onDeleteClick.bind(this)}>Remove</button>
                 <h2>Video Item</h2>
                 <textarea value={this.props.activeItem.source}
                           onChange={this.onChange} /></div>;

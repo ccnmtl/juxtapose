@@ -2,12 +2,16 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import TrackItem from './TrackItem.jsx';
 import TrackItemAddColumn from './TrackItemAddColumn.jsx';
+import TrackItemAdder from './TrackItemAdder.jsx';
 import GridItem from 'react-grid-layout';
 
 
 export default class Track extends React.Component {
     constructor() {
         super();
+        this.state = {
+            adding: false
+        };
         this.width = 600;
     }
     /**
@@ -48,30 +52,36 @@ export default class Track extends React.Component {
                 <TrackItemAddColumn
                     key={i}
                     idx={i}
-                    callbackParent={this.initAddTrackItem} />
+                    callbackParent={this.initAddTrackItem.bind(this)} />
             );
         }
         return columns;
     }
     initAddTrackItem() {
-        console.error('not implemented');
+        this.setState({adding: true});
+    }
+    onItemAddClose() {
+        this.setState({adding: false});
     }
     render() {
         const duration = this.props.duration;
         return <div className="jux-track">
-            {this.generateSnapColumns()}
-            <ReactGridLayout
-                width={this.width}
-                margin={[0,10]}
-                className="layout react-grid-layout"
-                cols={1000}
-                draggableCancel=".jux-stretch-handle"
-                onDragStop={this.props.onDragStop}
-                onClick={this.onClick}
-                maxRows={1}
-                rowHeight={1}>
-                {this.generateItems()}
-        </ReactGridLayout>
+                    <TrackItemAdder
+                        showing={this.state.adding}
+                        callbackParent={this.onItemAddClose.bind(this)} />
+                    {this.generateSnapColumns()}
+                    <ReactGridLayout
+                        width={this.width}
+                        margin={[0,10]}
+                        className="layout react-grid-layout"
+                        cols={1000}
+                        draggableCancel=".jux-stretch-handle"
+                        onDragStop={this.props.onDragStop}
+                        onClick={this.onClick}
+                        maxRows={1}
+                        rowHeight={1}>
+                        {this.generateItems()}
+                    </ReactGridLayout>
         </div>;
     }
 }
