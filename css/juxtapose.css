@@ -11,6 +11,10 @@ button.jux-play {
     margin: 20px auto;
 }
 
+.flex-horiz {
+    display: flex;
+}
+
 .react-grid-item {
     cursor: move;
     position: absolute;
@@ -62,12 +66,11 @@ button.jux-play {
 
 .jux-play {
     margin-bottom: 5px;
+    margin-right: 5px;
 }
 
-.jux-spine-track {
-    border: 1px dashed black;
-    width: 600px;
-    height: 22px;
+.jux-time {
+    line-height: 38px;
 }
 
 .jux-track {
@@ -128,4 +131,16 @@ button.jux-play {
 .jux-remove-track-item {
     position: relative;
     float: right;
+}
+
+.jux-popup-close {
+    position: relative;
+    float: right;
+}
+
+.jux-add-item-popup {
+    background-color: lightgreen;
+    z-index: 2;
+    position: fixed;
+    padding: 10px;
 }

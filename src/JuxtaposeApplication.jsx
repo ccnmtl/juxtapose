@@ -13,12 +13,6 @@ import Playhead from './Playhead.jsx';
 import SpineVideo from './SpineVideo.jsx';
 
 
-class SpineTrack extends React.Component {
-    render() {
-        return <div className="jux-spine-track"></div>;
-    }
-}
-
 export default class JuxtaposeApplication extends React.Component {
     constructor() {
         super();
@@ -45,25 +39,31 @@ export default class JuxtaposeApplication extends React.Component {
             </div>
             <TextDisplay time={this.state.time}
                          duration={this.state.duration} />
-            <PlayButton callbackParent={this.onPlayChanged.bind(this)} />
-            <div className="jux-time">
-                {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
+            <div className="flex-horiz">
+                <PlayButton callbackParent={this.onPlayChanged.bind(this)} />
+                <div className="jux-time">
+                    {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
+                </div>
             </div>
             <div className="jux-timeline">
                 <Playhead ref={(c) => this._playhead = c}
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
-                <SpineTrack />
                 <AuxTrack duration={this.state.duration}
                           onDragStop={this.onAuxDragStop.bind(this)}
                           data={this.state.auxTrack} />
                 <TextTrack duration={this.state.duration}
                            onDragStop={this.onTextDragStop.bind(this)}
+                           callbackParent={
+                               this.openAddTrackItemPopup.bind(this)}
                            data={this.state.textTrack} />
             </div>
             <TrackItemManager
                 activeItem={activeItem}
                 callbackParent={this.onTrackItemRemove.bind(this)} />
         </div>;
+    }
+    openAddTrackItemPopup() {
+        console.log('abc');
     }
     /**
      * This function handles the drag stop event for track items.
