@@ -3,35 +3,28 @@ import React from 'react';
 export default class TrackItemManager extends React.Component {
     render() {
         var dom = null;
+        let title = '';
         if (this.props.activeItem && this.props.activeItem.type === 'txt') {
-            dom = <div className="jux-track-item-manager">
-                <button className="jux-remove-track-item"
-                        title="Delete Item"
-                        onClick={this.onDeleteClick.bind(this)}>Remove</button>
-                <h2>Text Item</h2>
-                <textarea value={this.props.activeItem.source}
-                          onChange={this.onChange} />
-            </div>;
+            title = '🖹';
         } else if (this.props.activeItem && this.props.activeItem.type === 'img') {
-            dom = <div className="jux-track-item-manager">
+            title = '📷';
+        } else if (this.props.activeItem && this.props.activeItem.type === 'vid') {
+            title = '📹';
+        }
+        let txt = '';
+        if (this.props.activeItem) {
+            txt = this.props.activeItem.source;
+            return <div className="jux-track-item-manager">
                 <button className="jux-remove-track-item"
                         title="Delete Item"
                         onClick={this.onDeleteClick.bind(this)}>Remove</button>
-                <h2>Image Item</h2>
-                <textarea value={this.props.activeItem.source}
+                <h2>{title}</h2>
+                <textarea value={txt}
                           onChange={this.onChange} />
             </div>;
-        } else if (this.props.activeItem && this.props.activeItem.type === 'vid') {
-            dom = <div className="jux-track-item-manager">
-                <button className="jux-remove-track-item"
-                        title="Delete Item"
-                        onClick={this.onDeleteClick.bind(this)}>Remove</button>
-                <h2>Video Item</h2>
-                <textarea value={this.props.activeItem.source}
-                          onChange={this.onChange} /></div>;
-
+        } else {
+            return <div className="jux-track-item-manager"></div>;
         }
-        return <div>{dom}</div>;
     }
     onChange(e) {
         console.log(e);

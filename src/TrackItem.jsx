@@ -50,10 +50,7 @@ export default class TrackItem extends React.Component {
                     onMouseDown={this.props.onMouseDown}
                     onTouchEnd={this.props.onTouchEnd}
                     onTouchStart={this.props.onTouchStart}>
-            <div className="jux-stretch-handle jux-aux-item-left"></div>
             {c}
-            <span className="react-resizable-handle"></span>
-            <div className="jux-stretch-handle jux-aux-item-right"></div>
         </div>;
     }
 }
