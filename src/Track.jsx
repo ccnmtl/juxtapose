@@ -75,7 +75,6 @@ export default class Track extends React.Component {
                         margin={[0,10]}
                         className="layout react-grid-layout"
                         cols={1000}
-                        draggableCancel=".jux-stretch-handle"
                         onDragStop={this.props.onDragStop}
                         onClick={this.onClick}
                         maxRows={1}

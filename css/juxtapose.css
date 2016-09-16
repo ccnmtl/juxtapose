@@ -26,15 +26,6 @@ button.jux-play {
     overflow: hidden;
 }
 
-.react-grid-item .jux-stretch-handle {
-    height: 100px;
-    width: 10px;
-    cursor: col-resize;
-}
-.react-grid-item .jux-stretch-handle:hover {
-    background-color: orange;
-}
-
 .react-grid-item .aux-item-middle {
     flex-grow: 1;
 }
@@ -122,6 +113,10 @@ button.jux-play {
     padding: 10px;
     border: dashed 1px green;
     background-color: lightyellow;
+}
+
+.jux-track-item-manager h2 {
+    font-weight: normal;
 }
 
 .jux-track-item-manager textarea {
