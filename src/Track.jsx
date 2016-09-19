@@ -52,15 +52,19 @@ export default class Track extends React.Component {
                 <TrackItemAddColumn
                     key={i}
                     idx={i}
-                    callbackParent={this.initAddTrackItem.bind(this)} />
+                    callbackParent={this.onAddTrackItemClick.bind(this)} />
             );
         }
         return columns;
     }
-    initAddTrackItem() {
+    onAddTrackItemClick() {
         this.setState({adding: true});
     }
-    onItemAddClose() {
+    handleItemAdderUpdate(e, v) {
+        if (e === 'submit') {
+            // Add the new track item.
+            this.props.callbackParent(v);
+        }
         this.setState({adding: false});
     }
     render() {
@@ -68,7 +72,8 @@ export default class Track extends React.Component {
         return <div className="jux-track">
                     <TrackItemAdder
                         showing={this.state.adding}
-                        callbackParent={this.onItemAddClose.bind(this)} />
+                        callbackParent={
+                            this.handleItemAdderUpdate.bind(this)} />
                     {this.generateSnapColumns()}
                     <ReactGridLayout
                         width={this.width}
