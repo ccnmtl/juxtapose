@@ -30,8 +30,8 @@
   "devDependencies": {
     "babel-jest": "^15.0.0",
     "babel-polyfill": "^6.9.1",
-    "eslint": "^2.13.1",
-    "eslint-plugin-react": "^5.2.2",
+    "eslint": "^3.5.0",
+    "eslint-plugin-react": "^6.3.0",
     "jest-cli": "^15.1.1",
     "react-addons-test-utils": "^15.3.1"
   }
