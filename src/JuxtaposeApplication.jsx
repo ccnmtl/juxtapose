@@ -54,7 +54,7 @@ export default class JuxtaposeApplication extends React.Component {
                 <TextTrack duration={this.state.duration}
                            onDragStop={this.onTextDragStop.bind(this)}
                            callbackParent={
-                               this.openAddTrackItemPopup.bind(this)}
+                               this.handleTrackItemAdd.bind(this)}
                            data={this.state.textTrack} />
             </div>
             <TrackItemManager
@@ -62,8 +62,16 @@ export default class JuxtaposeApplication extends React.Component {
                 callbackParent={this.onTrackItemRemove.bind(this)} />
         </div>;
     }
-    openAddTrackItemPopup() {
-        console.log('abc');
+    handleTrackItemAdd(txt, timestamp) {
+        var newTrack = this.state.textTrack.slice();
+        newTrack.push({
+            key: newTrack.length,
+            startTime: 30,
+            endTime: 50,
+            type: 'txt',
+            source: txt
+        });
+        this.setState({textTrack: newTrack});
     }
     /**
      * This function handles the drag stop event for track items.

@@ -1,12 +1,24 @@
 import React from 'react';
 
 export default class TrackItemAdder extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            value: ''
+        }
+    }
     onCloseClick() {
-        this.props.callbackParent();
+        this.props.callbackParent('close');
     }
     onSubmit(e) {
         e.preventDefault();
-        console.log('TODO');
+        this.props.callbackParent(
+            'submit',
+            this.state.value,
+            this.props.timestamp);
+    }
+    onTextChange(e) {
+        this.setState({value: e.target.value});
     }
     render() {
         let contents = '';
@@ -16,8 +28,9 @@ export default class TrackItemAdder extends React.Component {
                         onClick={this.onCloseClick.bind(this)}
                         title="Close">×</button>
                 <h2>Add item</h2>
-                <form onSubmit={this.onSubmit}>
-                    <textarea></textarea>
+                <form onSubmit={this.onSubmit.bind(this)}>
+                    <textarea onChange={this.onTextChange.bind(this)}
+                              value={this.state.value} />
                     <div>
                         <button
                             type="submit" >Submit</button>
