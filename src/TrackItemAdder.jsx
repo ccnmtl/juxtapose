@@ -7,13 +7,9 @@ export default class TrackItemAdder extends React.Component {
             value: ''
         }
     }
-    onCloseClick() {
-        this.props.callbackParent('close');
-    }
     onSubmit(e) {
         e.preventDefault();
-        this.props.callbackParent(
-            'submit',
+        this.props.onSubmit(
             this.state.value,
             this.props.timestamp);
     }
@@ -25,15 +21,14 @@ export default class TrackItemAdder extends React.Component {
         if (this.props.showing) {
             contents = <div className="jux-add-item-popup">
                 <button className="jux-popup-close"
-                        onClick={this.onCloseClick.bind(this)}
+                        onClick={this.props.onCloseClick}
                         title="Close">×</button>
                 <h2>Add item</h2>
                 <form onSubmit={this.onSubmit.bind(this)}>
                     <textarea onChange={this.onTextChange.bind(this)}
                               value={this.state.value} />
                     <div>
-                        <button
-                            type="submit" >Submit</button>
+                        <button type="submit">Submit</button>
                     </div>
                 </form>
             </div>;
