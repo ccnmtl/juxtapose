@@ -53,8 +53,7 @@ export default class JuxtaposeApplication extends React.Component {
                           data={this.state.auxTrack} />
                 <TextTrack duration={this.state.duration}
                            onDragStop={this.onTextDragStop.bind(this)}
-                           callbackParent={
-                               this.handleTrackItemAdd.bind(this)}
+                           onTrackItemAdd={this.onTrackItemAdd.bind(this)}
                            data={this.state.textTrack} />
             </div>
             <TrackItemManager
@@ -62,7 +61,7 @@ export default class JuxtaposeApplication extends React.Component {
                 callbackParent={this.onTrackItemRemove.bind(this)} />
         </div>;
     }
-    handleTrackItemAdd(txt, timestamp) {
+    onTrackItemAdd(txt, timestamp) {
         var newTrack = this.state.textTrack.slice();
         newTrack.push({
             key: newTrack.length,
