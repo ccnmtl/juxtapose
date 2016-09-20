@@ -139,3 +139,37 @@ button.jux-play {
     position: fixed;
     padding: 10px;
 }
+
+/* TimelineRuler */
+.jux-timeline-ruler {
+    height: 21px;
+    position: relative;
+}
+
+.jux-timeline-hline {
+    height: 1px;
+    top: 19px;
+    position: relative;
+    border-bottom: 1px solid #000;
+}
+
+.jux-timeline-tick,
+.jux-timeline-ticklabel {
+    position: absolute;
+}
+
+.jux-timeline-ticklabel {
+    display: inline;
+    width: 46px;
+    text-align: center;
+    font-size: 12px;
+    margin-left: -23px;
+}
+
+.jux-timeline-tick {
+    display: inline-block;
+    top: 15px;
+    width: 3px;
+    height: 11px;
+    background-color: #000;
+}

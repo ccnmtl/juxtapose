@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
-import {pad2, formatDuration} from './utils.js';
+import {formatDuration} from './utils.js';
 import {auxTrackData, textTrackData} from './data.js';
 import AuxTrack from './AuxTrack.jsx';
 import AuxDisplay from './AuxDisplay.jsx';
 import TextTrack from './TextTrack.jsx';
 import TextDisplay from './TextDisplay.jsx';
+import TimelineRuler from './TimelineRuler.jsx';
 import TrackItemManager from './TrackItemManager.jsx';
 import PlayButton from './PlayButton.jsx';
 import Playhead from './Playhead.jsx';
@@ -46,6 +47,7 @@ export default class JuxtaposeApplication extends React.Component {
                 </div>
             </div>
             <div className="jux-timeline">
+                <TimelineRuler duration={this.state.duration} />
                 <Playhead ref={(c) => this._playhead = c}
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
                 <AuxTrack duration={this.state.duration}
