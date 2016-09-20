@@ -9,9 +9,7 @@ export default class TrackItemAdder extends React.Component {
     }
     onSubmit(e) {
         e.preventDefault();
-        this.props.onSubmit(
-            this.state.value,
-            this.props.timestamp);
+        this.props.onSubmit(this.state.value, this.props.timestamp);
     }
     onTextChange(e) {
         this.setState({value: e.target.value});

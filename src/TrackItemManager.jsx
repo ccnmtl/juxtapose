@@ -1,6 +1,17 @@
 import React from 'react';
 
 export default class TrackItemManager extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            value: ''
+        }
+    }
+    componentWillReceiveProps(newProps) {
+        if (newProps.activeItem) {
+            this.setState({value: newProps.activeItem.source});
+        }
+    }
     render() {
         var dom = null;
         let title = '';
@@ -11,24 +22,30 @@ export default class TrackItemManager extends React.Component {
         } else if (this.props.activeItem && this.props.activeItem.type === 'vid') {
             title = '📹';
         }
-        let txt = '';
         if (this.props.activeItem) {
-            txt = this.props.activeItem.source;
             return <div className="jux-track-item-manager">
                 <button className="jux-remove-track-item"
                         title="Delete Item"
                         onClick={this.onDeleteClick.bind(this)}>Remove</button>
                 <h2>{title}</h2>
-                <textarea value={txt}
-                          onChange={this.onChange} />
+                <form onSubmit={this.onSubmit.bind(this)}>
+                    <textarea value={this.state.value}
+                              onChange={this.onTextChange.bind(this)} />
+                    <div>
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
             </div>;
         } else {
             return <div className="jux-track-item-manager"></div>;
         }
     }
-    onChange(e) {
-        console.log(e);
-        return e.persist();
+    onSubmit(e) {
+        e.preventDefault();
+        this.props.onSubmit(this.state.value, this.props.activeItem);
+    }
+    onTextChange(e) {
+        this.setState({value: e.target.value});
     }
     onDeleteClick(e) {
         this.props.callbackParent();
