@@ -4,7 +4,7 @@ export const auxTrackData = [
         startTime: 1,
         endTime: 30,
         type: 'vid',
-        source: 'wildspot.mp4'
+        source: 'videos/wildspot.mp4'
     },
     {
         key: 1,
@@ -20,14 +20,14 @@ export const textTrackData = [
     {
         key: 0,
         startTime: 5,
-        endTime: 60,
+        endTime: 40,
         type: 'txt',
         source: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     },
     {
         key: 1,
-        startTime: 70,
-        endTime: 80,
+        startTime: 45,
+        endTime: 55,
         type: 'txt',
         source: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     }
