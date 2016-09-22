@@ -13,7 +13,6 @@ export const auxTrackData = [
         type: 'img',
         source: 'img/image.jpg'
     }
-
 ];
 
 export const textTrackData = [
@@ -30,5 +29,24 @@ export const textTrackData = [
         endTime: 55,
         type: 'txt',
         source: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    }
+];
+
+export const collectionData = [
+    {
+        title: 'Item A',
+        thumbnail: 'img/image.jpg'
+    },
+    {
+        title: 'Item B',
+        thumbnail: 'img/image.jpg'
+    },
+    {
+        title: 'Item C',
+        thumbnail: 'img/image.jpg'
+    },
+    {
+        title: 'Item D',
+        thumbnail: 'img/image.jpg'
     }
 ];
