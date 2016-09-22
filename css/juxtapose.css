@@ -39,6 +39,13 @@ button.jux-play {
     width: 80%;
 }
 
+#jux-spine-video,
+#jux-aux-video {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 #jux-spine-video {
     margin-right: 3px;
 }
