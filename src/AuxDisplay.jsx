@@ -9,9 +9,9 @@ export default class AuxDisplay extends React.Component {
         return <video id={this.id}
                       ref={(ref) => this.el = ref}
                       width="297">
-            <source src="wildspot.mp4" type="video/mp4" />
-            <source src="wildspot.webm" type="video/webm" />
-            <source src="wildspot.ogv"
+            <source src="videos/wildspot.mp4" type="video/mp4" />
+            <source src="videos/wildspot.webm" type="video/webm" />
+            <source src="videos/wildspot.ogv"
                     type='video/ogg; codecs="theora, vorbis"' />
 
         </video>;

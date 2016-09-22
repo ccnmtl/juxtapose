@@ -12,7 +12,7 @@ describe('JuxtaposeApplication.getItem', () => {
         expect(app.getItem(['txt', 0])).toEqual({
             'key': 0,
             'startTime': 5,
-            'endTime': 60,
+            'endTime': 40,
             'type': 'txt',
             'source': 'Lorem ipsum dolor sit amet, consectetur adipiscing ' +
                 'elit, sed do eiusmod tempor incididunt ut labore et ' +
@@ -22,8 +22,8 @@ describe('JuxtaposeApplication.getItem', () => {
         });
         expect(app.getItem(['txt', 1])).toEqual({
             'key': 1,
-            'startTime': 70,
-            'endTime': 80,
+            'startTime': 45,
+            'endTime': 55,
             'type': 'txt',
             'source': 'Duis aute irure dolor in reprehenderit in voluptate ' +
                 'velit esse cillum dolore eu fugiat nulla pariatur. ' +
