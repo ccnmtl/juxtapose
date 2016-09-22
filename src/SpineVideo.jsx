@@ -7,7 +7,7 @@ export default class SpineVideo extends React.Component {
         this.state = {duration: null, time: null};
     }
     render() {
-        return <div>
+        return <div className="jux-aux-display">
             <video id={this.id}
                    ref={(ref) => this.el = ref}
                    width="297"
