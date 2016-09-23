@@ -4,20 +4,13 @@ import PlayButton from '../src/PlayButton.jsx';
 
 describe('PlayButton', () => {
     it('changes state after click', () => {
+        let onClick = function() {};
+
         const playButton = TestUtils.renderIntoDocument(
-            <PlayButton />
+                <PlayButton isPlaying={false} onClick={onClick} />
         );
-        expect(playButton.state.play).toBe(false);
+        expect(playButton.props.isPlaying).toBe(false);
 
-        // Simulate a click and verify that it is now true
-        TestUtils.Simulate.click(
-            TestUtils.findRenderedDOMComponentWithTag(playButton, 'button')
-        );
-        expect(playButton.state.play).toBe(true);
-
-        TestUtils.Simulate.click(
-            TestUtils.findRenderedDOMComponentWithTag(playButton, 'button')
-        );
-        expect(playButton.state.play).toBe(false);
+        // TODO: assert that onClick was called
     });
 });

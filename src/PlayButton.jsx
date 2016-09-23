@@ -1,23 +1,13 @@
 import React from 'react';
 
 export default class PlayButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {play: false};
-    }
-    handleClick(event) {
-        const newState = !this.state.play;
-        // FIXME -- this probably isn't right. Setting state on
-        // this component and its parent?
-        this.setState({play: newState});
-        if (this.props.callbackParent) {
-            this.props.callbackParent(newState);
-        }
+    onClick(event) {
+        this.props.onClick(event);
     }
     render() {
         return <button className="jux-play"
-                       onClick={this.handleClick.bind(this)}>
-            {this.state.play ?
+                       onClick={this.onClick.bind(this)}>
+            {this.props.isPlaying ?
              String.fromCharCode(9208) :
              String.fromCharCode(9654) }
         </button>;
