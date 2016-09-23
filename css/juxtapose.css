@@ -147,6 +147,28 @@ button.jux-play {
     padding: 10px;
 }
 
+.jux-collection-popup {
+    width: 240px;
+    height: 300px;
+}
+
+.jux-collection-scroll-area {
+    height: 200px;
+    overflow-y: scroll;
+}
+
+.jux-collection-item {
+    background-color: #fff;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 4px;
+    margin-right: 5px;
+}
+
+.jux-collection-item img {
+    max-height: 80px;
+}
+
 /* TimelineRuler */
 .jux-timeline-ruler {
     height: 21px;

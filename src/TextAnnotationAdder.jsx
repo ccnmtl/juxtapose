@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class TrackItemAdder extends React.Component {
+export default class TextAnnotationAdder extends React.Component {
     constructor() {
         super();
         this.state = {

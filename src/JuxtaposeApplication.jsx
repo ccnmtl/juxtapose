@@ -2,7 +2,7 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {formatDuration} from './utils.js';
-import {auxTrackData, textTrackData} from './data.js';
+import {auxTrackData, textTrackData, collectionData} from './data.js';
 import AuxTrack from './AuxTrack.jsx';
 import AuxDisplay from './AuxDisplay.jsx';
 import TextTrack from './TextTrack.jsx';
@@ -18,10 +18,12 @@ export default class JuxtaposeApplication extends React.Component {
     constructor() {
         super();
         this.state = {
-            time: null,
-            duration: null,
             auxTrack: auxTrackData,
             textTrack: textTrackData,
+            collectionData: collectionData,
+
+            time: null,
+            duration: null,
 
             // The selected item that's managed in the TrackItemManager.
             activeItem: null
@@ -52,6 +54,8 @@ export default class JuxtaposeApplication extends React.Component {
                           callbackParent={this.onPlayheadUpdate.bind(this)} />
                 <AuxTrack duration={this.state.duration}
                           onDragStop={this.onAuxDragStop.bind(this)}
+                          onTrackItemAdd={this.onTrackItemAdd.bind(this)}
+                          collectionData={this.state.collectionData}
                           data={this.state.auxTrack} />
                 <TextTrack duration={this.state.duration}
                            onDragStop={this.onTextDragStop.bind(this)}

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import TrackItem from './TrackItem.jsx';
 import TrackItemAddColumn from './TrackItemAddColumn.jsx';
-import TrackItemAdder from './TrackItemAdder.jsx';
 import GridItem from 'react-grid-layout';
 
 
@@ -67,13 +66,13 @@ export default class Track extends React.Component {
     closeItemAdder() {
         this.setState({adding: false});
     }
+    renderItemAdder() {
+        return null;
+    }
     render() {
         const duration = this.props.duration;
         return <div className="jux-track">
-                    <TrackItemAdder
-                        showing={this.state.adding}
-                        onCloseClick={this.closeItemAdder.bind(this)}
-                        onSubmit={this.onTrackItemAdd.bind(this)} />
+                    {this.renderItemAdder()}
                     {this.generateSnapColumns()}
                     <ReactGridLayout
                         width={this.width}
