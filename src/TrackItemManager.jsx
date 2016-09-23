@@ -37,7 +37,7 @@ export default class TrackItemManager extends React.Component {
                 </form>
             </div>;
         } else {
-            return <div className="jux-track-item-manager"></div>;
+            return <div></div>;
         }
     }
     onSubmit(e) {

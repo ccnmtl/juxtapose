@@ -3,6 +3,10 @@ import Track from './Track.jsx';
 import CollectionAdder from './CollectionAdder.jsx';
 
 export default class AuxTrack extends Track {
+    constructor() {
+        super();
+        this.type = 'aux';
+    }
     renderItemAdder() {
         return <CollectionAdder
                    showing={this.state.adding}

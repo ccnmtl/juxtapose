@@ -185,6 +185,10 @@ button.jux-play {
     max-height: 80px;
 }
 
+.jux-item-active {
+    background-color: yellow;
+}
+
 /* TimelineRuler */
 .jux-timeline-ruler {
     height: 21px;

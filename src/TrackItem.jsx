@@ -43,9 +43,13 @@ export default class TrackItem extends React.Component {
         } else if (this.props.data.type === 'txt') {
             c = this.renderTxtThumb(this.props.data);
         }
+        let cls = this.props.className;
+        if (this.props.isActive) {
+            cls += ' jux-item-active';
+        }
         return <div data={this.props.data}
                     data-dragging={this.props.dragging}
-                    className={this.props.className}
+                    className={cls}
                     style={this.props.style}
                     onMouseDown={this.props.onMouseDown}
                     onTouchEnd={this.props.onTouchEnd}
