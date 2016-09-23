@@ -7,7 +7,7 @@ export default class SpineVideo extends React.Component {
         this.state = {duration: null, time: null};
     }
     render() {
-        return <div className="jux-aux-display">
+        return <div className="jux-spine-display">
             <video id={this.id}
                    ref={(ref) => this.el = ref}
                    width="297"
@@ -18,6 +18,7 @@ export default class SpineVideo extends React.Component {
                 <source src="videos/triangle.ogv"
                         type='video/ogg; codecs="theora, vorbis"' />
             </video>
+            <button>&#9998;</button>
         </div>;
     }
     updateVidPosition(time) {

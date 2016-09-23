@@ -94,12 +94,24 @@ button.jux-play {
     background-color: yellow;
 }
 
+.jux-spine-display button {
+    display: none;
+    position: absolute;
+}
+
+.jux-spine-display:hover button {
+    display: block;
+}
+
+.jux-spine-display,
 .jux-aux-display {
     height: 225px;
     width: 300px;
     text-align: center;
 }
 
+.jux-spine-display video,
+.jux-spine-display img,
 .jux-aux-display video,
 .jux-aux-display img {
     max-height: 225px;
