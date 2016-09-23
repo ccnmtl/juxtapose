@@ -19,6 +19,17 @@ export default class Track extends React.Component {
     percentToTrackCoords(n) {
         return n * 10;
     }
+    /**
+     * Returns true if the item at the given track type and index is active.
+     */
+    isActive(activeItem, type, i) {
+        if (activeItem &&
+            activeItem[0] === type &&
+            parseInt(activeItem[1], 10) === i) {
+            return true;
+        }
+        return false;
+    }
     generateItems() {
         let items = [];
         const me = this;
@@ -29,7 +40,10 @@ export default class Track extends React.Component {
                     * 100);
                 const percent = (data.startTime / me.props.duration) * 100;
                 const xPos = me.percentToTrackCoords(percent);
+                const isActive = me.isActive(me.props.activeItem, me.type, i);
+
                 const item = <TrackItem
+                                 isActive={isActive}
                                  key={i}
                                  data={data}
                                  data-grid={{

@@ -56,10 +56,12 @@ export default class JuxtaposeApplication extends React.Component {
                           onDragStop={this.onAuxDragStop.bind(this)}
                           onTrackItemAdd={this.onTrackItemAdd.bind(this)}
                           collectionData={this.state.collectionData}
+                          activeItem={this.state.activeItem}
                           data={this.state.auxTrack} />
                 <TextTrack duration={this.state.duration}
                            onDragStop={this.onTextDragStop.bind(this)}
                            onTrackItemAdd={this.onTrackItemAdd.bind(this)}
+                           activeItem={this.state.activeItem}
                            data={this.state.textTrack} />
             </div>
             <TrackItemManager
