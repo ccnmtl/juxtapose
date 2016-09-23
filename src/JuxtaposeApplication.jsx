@@ -22,6 +22,8 @@ export default class JuxtaposeApplication extends React.Component {
             textTrack: textTrackData,
             collectionData: collectionData,
 
+            globalAnnotation: 'Triangle animation + Belbury Poly video',
+
             time: null,
             duration: null,
 
@@ -32,7 +34,10 @@ export default class JuxtaposeApplication extends React.Component {
     render() {
         const activeItem = this.getItem(this.state.activeItem);
         return <div className="jux-container">
-            <div className="vid-container">
+           <textarea className="jux-global-annotation">
+               {this.state.globalAnnotation}
+           </textarea>
+           <div className="vid-container">
                 <SpineVideo
                     ref={(c) => this._spineVid = c}
                     callbackParent={this.onTimeUpdate.bind(this)} />
