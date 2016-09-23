@@ -1,7 +1,7 @@
 export const auxTrackData = [
     {
         key: 0,
-        startTime: 1,
+        startTime: 0,
         endTime: 30,
         type: 'vid',
         source: 'videos/wildspot.mp4'
