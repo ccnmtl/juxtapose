@@ -24,6 +24,7 @@ export default class JuxtaposeApplication extends React.Component {
 
             globalAnnotation: 'Triangle animation + Belbury Poly video',
 
+            isPlaying: false,
             time: null,
             duration: null,
 
@@ -34,9 +35,8 @@ export default class JuxtaposeApplication extends React.Component {
     render() {
         const activeItem = this.getItem(this.state.activeItem);
         return <div className="jux-container">
-           <textarea className="jux-global-annotation">
-               {this.state.globalAnnotation}
-           </textarea>
+           <textarea className="jux-global-annotation"
+                     defaultValue={this.state.globalAnnotation} />
            <div className="vid-container">
                 <SpineVideo
                     ref={(c) => this._spineVid = c}
@@ -48,15 +48,17 @@ export default class JuxtaposeApplication extends React.Component {
             <TextDisplay time={this.state.time}
                          duration={this.state.duration} />
             <div className="jux-flex-horiz">
-                <PlayButton callbackParent={this.onPlayChanged.bind(this)} />
+                <PlayButton isPlaying={this.state.isPlaying}
+                            onClick={this.onPlayClick.bind(this)} />
                 <div className="jux-time">
                     {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
                 </div>
             </div>
             <div className="jux-timeline">
                 <TimelineRuler duration={this.state.duration} />
-                <Playhead ref={(c) => this._playhead = c}
-                          callbackParent={this.onPlayheadUpdate.bind(this)} />
+                <Playhead currentTime={this.state.time}
+                          duration={this.state.duration}
+                          onChange={this.onPlayheadTimeChange.bind(this)} />
                 <AuxTrack duration={this.state.duration}
                           onDragStop={this.onAuxDragStop.bind(this)}
                           onTrackItemAdd={this.onTrackItemAdd.bind(this)}
@@ -134,8 +136,13 @@ export default class JuxtaposeApplication extends React.Component {
             textTrack: newTrack
         });
     }
-    onPlayChanged(play) {
-        if (play) {
+    onPlayClick(e) {
+        const newState = !this.state.isPlaying;
+        this.setState({isPlaying: newState})
+
+        // TODO: this should be more declarative, handled by the
+        // video components.
+        if (newState) {
             this._spineVid.play();
             this._auxVid.play();
         } else {
@@ -144,23 +151,10 @@ export default class JuxtaposeApplication extends React.Component {
         }
     }
     onTimeUpdate(time, duration) {
-        // TODO: this works for now, but I have a feeling this isn't the
-        // right way to share state. Even if it is... the code is messy.
-        const state = {
+        this.setState({
             time: time,
             duration: duration
-        };
-        this._playhead.setState(state);
-        this.setState(state);
-    }
-    onPlayheadUpdate(time, duration) {
-        const state = {
-            time: time,
-            duration: duration
-        };
-        this._spineVid.setState(state);
-        this._spineVid.updateVidPosition(time);
-        this.setState(state);
+        });
     }
     /**
      * Remove the active track item.
@@ -188,6 +182,18 @@ export default class JuxtaposeApplication extends React.Component {
                 activeItem: null
             });
         }
+    }
+    onPlayheadTimeChange(e) {
+        const percentDone = e.target.value / 1000;
+        const newTime = this.state.duration * percentDone;
+        const state = {
+            time: newTime,
+            duration: this.state.duration
+        }
+        this.setState(state);
+        // TODO: does the spine vid need its own state?
+        this._spineVid.setState(state);
+        this._spineVid.updateVidPosition(newTime);
     }
     /**
      * Get the item in textTrack or auxTrack, based on the activeItem
