@@ -74,18 +74,20 @@ export default class JuxtaposeApplication extends React.Component {
             <TrackItemManager
                 activeItem={activeItem}
                 onSubmit={this.onTrackItemUpdate.bind(this)}
-                callbackParent={this.onTrackItemRemove.bind(this)} />
+                onDeleteClick={this.onTrackItemRemove.bind(this)} />
         </div>;
     }
     /**
      * Update a track item's source value, for TrackItemManager.
      */
-    onTrackItemUpdate(newSource, activeItem) {
+    onTrackItemUpdate(activeItem, newData) {
         // TODO: enable aux track
         let track = this.state.textTrack;
         const item = _.find(track, ['key', activeItem.key, 10]);
 
-        item.source = newSource;
+        item.source = newData.value;
+        item.endTime = item.startTime + newData.duration;
+
         let newTrack = _.reject(track, ['key', item.key]);
         newTrack.push(item);
         newTrack = _.sortBy(newTrack, 'key');

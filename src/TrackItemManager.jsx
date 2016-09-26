@@ -4,31 +4,46 @@ export default class TrackItemManager extends React.Component {
     constructor() {
         super();
         this.state = {
-            value: ''
+            value: '',
+            duration: null
         }
     }
     componentWillReceiveProps(newProps) {
         if (newProps.activeItem) {
-            this.setState({value: newProps.activeItem.source});
+            const duration = newProps.activeItem.endTime -
+                           newProps.activeItem.startTime;
+            this.setState({
+                value: newProps.activeItem.source,
+                duration: duration
+            });
         }
     }
     render() {
-        var dom = null;
+        const activeItem = this.props.activeItem;
+
         let title = '';
-        if (this.props.activeItem && this.props.activeItem.type === 'txt') {
+        if (activeItem && activeItem.type === 'txt') {
             title = '🖹';
-        } else if (this.props.activeItem && this.props.activeItem.type === 'img') {
+        } else if (activeItem && activeItem.type === 'img') {
             title = '📷';
-        } else if (this.props.activeItem && this.props.activeItem.type === 'vid') {
+        } else if (activeItem && activeItem.type === 'vid') {
             title = '📹';
         }
-        if (this.props.activeItem) {
+
+        if (activeItem) {
             return <div className="jux-track-item-manager">
                 <button className="jux-remove-track-item"
                         title="Delete Item"
                         onClick={this.onDeleteClick.bind(this)}>Remove</button>
                 <h2>{title}</h2>
                 <form onSubmit={this.onSubmit.bind(this)}>
+                    <div className="form-group">
+                        Duration: <strong>{this.state.duration}</strong>s
+                        <span className="jux-duration-controls">
+                            <button onClick={this.onDurationDecrease.bind(this)}>-</button>
+                            <button onClick={this.onDurationIncrease.bind(this)}>+</button>
+                        </span>
+                    </div>
                     <textarea value={this.state.value}
                               onChange={this.onTextChange.bind(this)} />
                     <div>
@@ -42,12 +57,25 @@ export default class TrackItemManager extends React.Component {
     }
     onSubmit(e) {
         e.preventDefault();
-        this.props.onSubmit(this.state.value, this.props.activeItem);
+        this.props.onSubmit(this.props.activeItem, {
+            value: this.state.value,
+            duration: this.state.duration
+        });
     }
     onTextChange(e) {
         this.setState({value: e.target.value});
     }
     onDeleteClick(e) {
-        this.props.callbackParent();
+        this.props.onDeleteClick();
+    }
+    onDurationIncrease(e) {
+        e.preventDefault();
+        this.setState({duration: this.state.duration + 1});
+
+    }
+    onDurationDecrease(e) {
+        e.preventDefault();
+        this.setState({duration: Math.max(this.state.duration - 1, 0)});
+
     }
 }
