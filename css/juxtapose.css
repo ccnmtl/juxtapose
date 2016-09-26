@@ -8,6 +8,10 @@ button.jux-play {
     margin-right: 5px;
 }
 
+.form-group {
+    margin-bottom: 15px;
+}
+
 #container {
     max-width: 600px;
     margin: 20px auto;
@@ -218,4 +222,8 @@ button.jux-play {
     width: 3px;
     height: 11px;
     background-color: #000;
+}
+
+.jux-duration-controls {
+    margin-left: 5px;
 }
