@@ -33,6 +33,7 @@ export default class SpineVideo extends React.Component {
         this.props.callbackParent(vid.currentTime, vid.duration);
     }
     onEnded(e) {
+        this.props.onVideoEnd();
     }
     // TODO: handle playback finish event
     play() {

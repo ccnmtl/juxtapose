@@ -40,7 +40,8 @@ export default class JuxtaposeApplication extends React.Component {
            <div className="vid-container">
                 <SpineVideo
                     ref={(c) => this._spineVid = c}
-                    callbackParent={this.onTimeUpdate.bind(this)} />
+                    callbackParent={this.onTimeUpdate.bind(this)}
+                    onVideoEnd={this.onSpineVideoEnd.bind(this)} />
                 <AuxDisplay time={this.state.time}
                             data={this.state.auxTrack}
                             ref={(c) => this._auxVid = c} />
@@ -207,6 +208,9 @@ export default class JuxtaposeApplication extends React.Component {
         }
         this.setState(state);
         this._spineVid.updateVidPosition(newTime);
+    }
+    onSpineVideoEnd() {
+        this.setState({isPlaying: false});
     }
     /**
      * Get the item in textTrack or auxTrack, based on the activeItem
