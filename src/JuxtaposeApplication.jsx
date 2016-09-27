@@ -206,8 +206,6 @@ export default class JuxtaposeApplication extends React.Component {
             duration: this.state.duration
         }
         this.setState(state);
-        // TODO: does the spine vid need its own state?
-        this._spineVid.setState(state);
         this._spineVid.updateVidPosition(newTime);
     }
     /**
