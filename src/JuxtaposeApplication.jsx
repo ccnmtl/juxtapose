@@ -81,8 +81,17 @@ export default class JuxtaposeApplication extends React.Component {
      * Update a track item's source value, for TrackItemManager.
      */
     onTrackItemUpdate(activeItem, newData) {
-        // TODO: enable aux track
-        let track = this.state.textTrack;
+        if (!activeItem) {
+            return;
+        }
+
+        let track = null;
+        if (activeItem.type === 'txt') {
+            track = this.state.textTrack;
+        } else {
+            track = this.state.auxTrack;
+        }
+
         const item = _.find(track, ['key', activeItem.key, 10]);
 
         item.source = newData.value;
@@ -92,7 +101,11 @@ export default class JuxtaposeApplication extends React.Component {
         newTrack.push(item);
         newTrack = _.sortBy(newTrack, 'key');
 
-        this.setState({textTrack: newTrack});
+        if (activeItem.type === 'txt') {
+            this.setState({textTrack: newTrack});
+        } else {
+            this.setState({auxTrack: newTrack});
+        }
     }
     onTrackItemAdd(txt, timestamp) {
         var newTrack = this.state.textTrack.slice();
