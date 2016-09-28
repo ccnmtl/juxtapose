@@ -50,7 +50,7 @@ button.jux-play {
 }
 
 #jux-spine-video,
-#jux-aux-video {
+.jux-aux-video {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
@@ -60,7 +60,7 @@ button.jux-play {
     margin-right: 3px;
 }
 
-#jux-aux-video {
+.jux-aux-video {
     margin-left: 3px;
 }
 

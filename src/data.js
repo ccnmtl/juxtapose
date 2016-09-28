@@ -14,12 +14,20 @@ export const auxTrackData = [
     {
         key: 0,
         startTime: 1,
-        endTime: 30,
+        endTime: 15,
         type: 'vid',
         source: 'videos/wildspot.mp4'
     },
     {
         key: 1,
+        startTime: 15,
+        endTime: 30,
+        type: 'vid',
+        host: 'vimeo',
+        source: '35694950'
+    },
+    {
+        key: 2,
         startTime: 32,
         endTime: 37.5,
         type: 'vid',
@@ -27,7 +35,7 @@ export const auxTrackData = [
         source: 'suUJxQoIA9k'
     },
     {
-        key: 2,
+        key: 3,
         startTime: 38,
         endTime: 55,
         type: 'img',

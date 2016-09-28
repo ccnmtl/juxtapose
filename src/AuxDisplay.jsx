@@ -1,11 +1,17 @@
 import React from 'react';
 import YouTube from 'react-youtube';
+import Vimeo from 'react-vimeo';
 
 
 export default class AuxDisplay extends React.Component {
     constructor() {
         super()
-        this.id = 'jux-aux-video';
+        this.className = 'jux-aux-video';
+    }
+    renderVimeoVideo(data) {
+        return <Vimeo videoId={data.source}
+                      className={'vimeo ' + this.className}
+                      autoplay={true} />;
     }
     renderYoutubeVideo(data) {
         const opts = {
@@ -20,7 +26,7 @@ export default class AuxDisplay extends React.Component {
                         ref={(ref) => this.yel = ref} />;
     }
     renderVideo(data) {
-        return <video id={this.id}
+        return <video className={this.className}
                       ref={(ref) => this.el = ref}
                       width="297">
             <source src="videos/wildspot.mp4" type="video/mp4" />
@@ -43,6 +49,8 @@ export default class AuxDisplay extends React.Component {
                     }
                     if (e.host === 'youtube') {
                         return this.renderYoutubeVideo(e);
+                    } else if (e.host === 'vimeo') {
+                        return this.renderVimeoVideo(e);
                     }
                     return this.renderVideo(e);
                 } else {
