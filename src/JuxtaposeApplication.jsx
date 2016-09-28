@@ -44,6 +44,7 @@ export default class JuxtaposeApplication extends React.Component {
                     onVideoEnd={this.onSpineVideoEnd.bind(this)} />
                 <AuxDisplay time={this.state.time}
                             data={this.state.auxTrack}
+                            isPlaying={this.state.isPlaying}
                             ref={(c) => this._auxVid = c} />
             </div>
             <TextDisplay time={this.state.time}
