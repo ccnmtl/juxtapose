@@ -35,7 +35,7 @@ export default class TrackItem extends React.Component {
     }
     renderVidThumb(data) {
         if (data.host === 'youtube') {
-            return <img src={'http://img.youtube.com/vi/' +
+            return <img src={'https://img.youtube.com/vi/' +
                              data.source + '/default.jpg'} />
         } else if (data.host === 'vimeo') {
             if (!this.state.vimeoThumbnailUrl) {
