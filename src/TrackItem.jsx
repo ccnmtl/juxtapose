@@ -14,6 +14,10 @@ export default class TrackItem extends React.Component {
         };
     }
     renderVidThumb(data) {
+        if (data.host === 'youtube') {
+            return <img src={'http://img.youtube.com/vi/' +
+                             data.source + '/default.jpg'} />
+        }
         return <video className="aux-item-middle">
             <source src={data.source} type="video/mp4" />
         </video>;

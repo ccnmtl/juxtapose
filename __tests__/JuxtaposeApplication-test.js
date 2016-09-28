@@ -30,8 +30,8 @@ describe('JuxtaposeApplication.getItem', () => {
                 'Excepteur sint occaecat cupidatat non proident, sunt ' +
                 'in culpa qui officia deserunt mollit anim id est laborum.'
         });
-        expect(app.getItem(['aux', 1])).toEqual({
-            'key': 1,
+        expect(app.getItem(['aux', 2])).toEqual({
+            'key': 2,
             'startTime': 38,
             'endTime': 55,
             'type': 'img',

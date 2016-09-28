@@ -1,9 +1,22 @@
 import React from 'react';
+import YouTube from 'react-youtube';
+
 
 export default class AuxDisplay extends React.Component {
     constructor() {
         super()
         this.id = 'jux-aux-video';
+    }
+    renderYoutubeVideo(data) {
+        const opts = {
+            height: 225,
+            width: 300,
+            playerVars: {
+                autoplay: 1
+            }
+        };
+        return <YouTube videoId={data.source}
+                        opts={opts} />;
     }
     renderVideo(data) {
         return <video id={this.id}
@@ -24,6 +37,9 @@ export default class AuxDisplay extends React.Component {
             if (currentTime >= e.startTime &&
                 currentTime <= e.endTime) {
                 if (e.type === 'vid') {
+                    if (e.host === 'youtube') {
+                        return this.renderYoutubeVideo(e);
+                    }
                     return this.renderVideo(e);
                 } else {
                     return this.renderImage(e);

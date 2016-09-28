@@ -1,3 +1,15 @@
+/**
+ * Media JSON format:
+ *
+ * {
+ *   key: <number> - unique index
+ *   startTime: <number>
+ *   endTime: <number>
+ *   type: vid|img
+ *   host: youtube|vimeo (optional)
+ *   source: <string> - identification data, i.e. URL or video ID.
+ * }
+ */
 export const auxTrackData = [
     {
         key: 0,
@@ -8,6 +20,14 @@ export const auxTrackData = [
     },
     {
         key: 1,
+        startTime: 32,
+        endTime: 37.5,
+        type: 'vid',
+        host: 'youtube',
+        source: 'suUJxQoIA9k'
+    },
+    {
+        key: 2,
         startTime: 38,
         endTime: 55,
         type: 'img',
