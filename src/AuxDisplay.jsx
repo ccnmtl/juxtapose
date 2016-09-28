@@ -16,7 +16,8 @@ export default class AuxDisplay extends React.Component {
             }
         };
         return <YouTube videoId={data.source}
-                        opts={opts} />;
+                        opts={opts}
+                        ref={(ref) => this.yel = ref} />;
     }
     renderVideo(data) {
         return <video id={this.id}
@@ -65,10 +66,16 @@ export default class AuxDisplay extends React.Component {
         if (this.el && this.el.paused) {
             this.el.play();
         }
+        if (this.yel && this.yel.internalPlayer) {
+            this.yel.internalPlayer.playVideo();
+        }
     }
     pause() {
         if (this.el && !this.el.paused) {
             this.el.pause();
+        }
+        if (this.yel && this.yel.internalPlayer) {
+            this.yel.internalPlayer.pauseVideo();
         }
     }
 }
