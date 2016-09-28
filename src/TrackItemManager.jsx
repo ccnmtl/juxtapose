@@ -1,4 +1,5 @@
 import React from 'react';
+import {formatDuration} from './utils.js';
 
 export default class TrackItemManager extends React.Component {
     constructor() {
@@ -38,7 +39,7 @@ export default class TrackItemManager extends React.Component {
                 <h2>{title}</h2>
                 <form onSubmit={this.onSubmit.bind(this)}>
                     <div className="form-group">
-                        Duration: <strong>{this.state.duration}</strong>s
+                        Duration: <strong>{formatDuration(this.state.duration)}</strong>
                         <span className="jux-duration-controls">
                             <button onClick={this.onDurationDecrease.bind(this)}>-</button>
                             <button onClick={this.onDurationIncrease.bind(this)}>+</button>
@@ -71,11 +72,9 @@ export default class TrackItemManager extends React.Component {
     onDurationIncrease(e) {
         e.preventDefault();
         this.setState({duration: this.state.duration + 1});
-
     }
     onDurationDecrease(e) {
         e.preventDefault();
         this.setState({duration: Math.max(this.state.duration - 1, 0)});
-
     }
 }

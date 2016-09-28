@@ -40,7 +40,8 @@ export default class JuxtaposeApplication extends React.Component {
            <div className="vid-container">
                 <SpineVideo
                     ref={(c) => this._spineVid = c}
-                    callbackParent={this.onTimeUpdate.bind(this)} />
+                    callbackParent={this.onTimeUpdate.bind(this)}
+                    onVideoEnd={this.onSpineVideoEnd.bind(this)} />
                 <AuxDisplay time={this.state.time}
                             data={this.state.auxTrack}
                             ref={(c) => this._auxVid = c} />
@@ -81,8 +82,17 @@ export default class JuxtaposeApplication extends React.Component {
      * Update a track item's source value, for TrackItemManager.
      */
     onTrackItemUpdate(activeItem, newData) {
-        // TODO: enable aux track
-        let track = this.state.textTrack;
+        if (!activeItem) {
+            return;
+        }
+
+        let track = null;
+        if (activeItem.type === 'txt') {
+            track = this.state.textTrack;
+        } else {
+            track = this.state.auxTrack;
+        }
+
         const item = _.find(track, ['key', activeItem.key, 10]);
 
         item.source = newData.value;
@@ -92,7 +102,11 @@ export default class JuxtaposeApplication extends React.Component {
         newTrack.push(item);
         newTrack = _.sortBy(newTrack, 'key');
 
-        this.setState({textTrack: newTrack});
+        if (activeItem.type === 'txt') {
+            this.setState({textTrack: newTrack});
+        } else {
+            this.setState({auxTrack: newTrack});
+        }
     }
     onTrackItemAdd(txt, timestamp) {
         var newTrack = this.state.textTrack.slice();
@@ -193,9 +207,10 @@ export default class JuxtaposeApplication extends React.Component {
             duration: this.state.duration
         }
         this.setState(state);
-        // TODO: does the spine vid need its own state?
-        this._spineVid.setState(state);
         this._spineVid.updateVidPosition(newTime);
+    }
+    onSpineVideoEnd() {
+        this.setState({isPlaying: false});
     }
     /**
      * Get the item in textTrack or auxTrack, based on the activeItem

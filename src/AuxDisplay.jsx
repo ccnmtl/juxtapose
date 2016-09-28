@@ -43,9 +43,13 @@ export default class AuxDisplay extends React.Component {
         }
     }
     play() {
-        this.el.play();
+        if (this.el) {
+            this.el.play();
+        }
     }
     pause() {
-        this.el.pause();
+        if (this.el) {
+            this.el.pause();
+        }
     }
 }
