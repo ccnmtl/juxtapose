@@ -37,6 +37,9 @@ export default class AuxDisplay extends React.Component {
             if (currentTime >= e.startTime &&
                 currentTime <= e.endTime) {
                 if (e.type === 'vid') {
+                    if (this.props.isPlaying) {
+                        this.play();
+                    }
                     if (e.host === 'youtube') {
                         return this.renderYoutubeVideo(e);
                     }
@@ -59,12 +62,12 @@ export default class AuxDisplay extends React.Component {
         }
     }
     play() {
-        if (this.el) {
+        if (this.el && this.el.paused) {
             this.el.play();
         }
     }
     pause() {
-        if (this.el) {
+        if (this.el && !this.el.paused) {
             this.el.pause();
         }
     }
