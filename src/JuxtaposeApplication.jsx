@@ -209,6 +209,7 @@ export default class JuxtaposeApplication extends React.Component {
         }
         this.setState(state);
         this._spineVid.updateVidPosition(newTime);
+        this._auxVid.updateVidPosition(newTime);
     }
     onSpineVideoEnd() {
         this.setState({isPlaying: false});
