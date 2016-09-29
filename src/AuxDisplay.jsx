@@ -2,6 +2,19 @@ import React from 'react';
 import YouTube from 'react-youtube';
 import Vimeo from 'react-vimeo';
 
+/**
+ * Derive the currently playing item given the current time
+ * and the track state.
+ */
+export function getCurrentItem(data, currentTime) {
+    for (let e of data) {
+        if (currentTime >= e.startTime && currentTime <= e.endTime) {
+            return e;
+        }
+    }
+    return null;
+}
+
 
 export default class AuxDisplay extends React.Component {
     constructor() {
@@ -40,23 +53,19 @@ export default class AuxDisplay extends React.Component {
         return <img src={data.source} />;
     }
     nowDisplay(data, currentTime) {
-        for (let e of data) {
-            if (currentTime >= e.startTime &&
-                currentTime <= e.endTime) {
-                if (e.type === 'vid') {
-                    if (this.props.isPlaying) {
-                        this.play();
-                    }
-                    if (e.host === 'youtube') {
-                        return this.renderYoutubeVideo(e);
-                    } else if (e.host === 'vimeo') {
-                        return this.renderVimeoVideo(e);
-                    }
-                    return this.renderVideo(e);
-                } else {
-                    return this.renderImage(e);
-                }
+        const e = getCurrentItem(data, currentTime);
+        if (e && e.type === 'vid') {
+            if (this.props.isPlaying) {
+                this.play();
             }
+            if (e.host === 'youtube') {
+                return this.renderYoutubeVideo(e);
+            } else if (e.host === 'vimeo') {
+                return this.renderVimeoVideo(e);
+            }
+            return this.renderVideo(e);
+        } else if (e && e.type === 'img') {
+            return this.renderImage(e);
         }
         return '';
     }
@@ -84,6 +93,12 @@ export default class AuxDisplay extends React.Component {
         }
         if (this.yel && this.yel.internalPlayer) {
             this.yel.internalPlayer.pauseVideo();
+        }
+    }
+    updateVidPosition(time) {
+        const e = getCurrentItem(this.props.data, time);
+        if (this.el && e && e.type === 'vid') {
+            this.el.currentTime = time - e.startTime;
         }
     }
 }

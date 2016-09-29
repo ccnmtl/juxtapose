@@ -11,7 +11,7 @@ describe('TrackItem', () => {
                 endTime: 60,
                 type: 'txt',
                 source: 'Some text!'
-                }}
+            }}
             duration={100} />
         );
         let style = trackItem.calcStyle();
