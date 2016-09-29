@@ -21,11 +21,12 @@ button.jux-play {
     cursor: move;
     position: absolute;
     display: flex;
-    height: 98px;
     border: 1px dashed blue;
     background-color: rgba(173, 216, 230, 0.4);
     text-align: center;
     overflow: hidden;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .react-grid-item .aux-item-middle {
@@ -226,4 +227,11 @@ button.jux-play {
 
 .jux-duration-controls {
     margin-left: 5px;
+}
+
+.jux-vid-item-thumb {
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
 }

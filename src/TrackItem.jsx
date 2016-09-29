@@ -1,4 +1,5 @@
 import React from 'react';
+import VidItemThumb from './VidItemThumb.jsx';
 
 export default class TrackItem extends React.Component {
     constructor() {
@@ -35,13 +36,17 @@ export default class TrackItem extends React.Component {
     }
     renderVidThumb(data) {
         if (data.host === 'youtube') {
-            return <img src={'https://img.youtube.com/vi/' +
-                             data.source + '/default.jpg'} />
+            const thumbUrl = 'https://img.youtube.com/vi/' + data.source +
+                             '/default.jpg';
+            return <VidItemThumb url={thumbUrl} />;
         } else if (data.host === 'vimeo') {
             if (!this.state.vimeoThumbnailUrl) {
                 this.getVimeoThumbnailUrl(data);
             }
-            return <img src={this.state.vimeoThumbnailUrl} />;
+            if (!this.state.vimeoThumbnailUrl) {
+                return '';
+            }
+            return <VidItemThumb url={this.state.vimeoThumbnailUrl} />;
         }
         return <video className="aux-item-middle">
             <source src={data.source} type="video/mp4" />
