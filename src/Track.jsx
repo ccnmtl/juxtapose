@@ -4,6 +4,26 @@ import TrackItem from './TrackItem.jsx';
 import TrackItemAddColumn from './TrackItemAddColumn.jsx';
 import GridItem from 'react-grid-layout';
 
+/**
+ * Scale percentage to track x co-ordinate (0 to 1000).
+ */
+function percentToTrackCoords(n) {
+    return n * 10;
+}
+
+/**
+ * Returns true if the item at the given track type and index is active.
+ */
+function isActive(activeItem, type, i) {
+    if (activeItem &&
+        activeItem[0] === type &&
+        parseInt(activeItem[1], 10) === i
+    ) {
+        return true;
+    }
+    return false;
+}
+
 
 export default class Track extends React.Component {
     constructor() {
@@ -13,37 +33,20 @@ export default class Track extends React.Component {
         };
         this.width = 600;
     }
-    /**
-     * Scale percentage to track x co-ordinate (0 to 1000).
-     */
-    percentToTrackCoords(n) {
-        return n * 10;
-    }
-    /**
-     * Returns true if the item at the given track type and index is active.
-     */
-    isActive(activeItem, type, i) {
-        if (activeItem &&
-            activeItem[0] === type &&
-            parseInt(activeItem[1], 10) === i) {
-            return true;
-        }
-        return false;
-    }
     generateItems() {
         let items = [];
         const me = this;
         this.props.data.map(function(data, i) {
             if (me.props.duration) {
-                const width = me.percentToTrackCoords(
+                const width = percentToTrackCoords(
                     ((data.endTime - data.startTime) / me.props.duration)
                     * 100);
                 const percent = (data.startTime / me.props.duration) * 100;
-                const xPos = me.percentToTrackCoords(percent);
-                const isActive = me.isActive(me.props.activeItem, me.type, i);
+                const xPos = percentToTrackCoords(percent);
+                const active = isActive(me.props.activeItem, me.type, i);
 
                 const item = <TrackItem
-                                 isActive={isActive}
+                                 isActive={active}
                                  key={i}
                                  data={data}
                                  data-grid={{
