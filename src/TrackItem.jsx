@@ -8,18 +8,6 @@ export default class TrackItem extends React.Component {
             vimeoThumbnailUrl: null
         }
     }
-    calcStyle() {
-        const trackWidth = 600;
-        const ratio = this.props.data.startTime / this.props.duration;
-        const pos = ratio * trackWidth;
-        const wRatio = (this.props.data.endTime -
-                        this.props.data.startTime) / this.props.duration;
-        const width = wRatio * trackWidth;
-        return {
-            left: pos + 'px',
-            width: width + 'px'
-        };
-    }
     vimeoThumbnailListener(e) {
         const json = e.target.responseText;
         const data = JSON.parse(json);
@@ -65,10 +53,6 @@ export default class TrackItem extends React.Component {
         return <p className="aux-item-middle">{data.source}</p>;
     }
     render() {
-        let style = {};
-        if (this.props.duration) {
-            style = this.calcStyle();
-        }
         let c = '';
         if (this.props.data.type === 'vid') {
             c = this.renderVidThumb(this.props.data);
