@@ -5,5 +5,5 @@ import JuxtaposeApplication from './JuxtaposeApplication.jsx';
 
 ReactDOM.render(
     <JuxtaposeApplication />,
-    document.getElementById('container')
+    document.getElementById('jux-container')
 );
