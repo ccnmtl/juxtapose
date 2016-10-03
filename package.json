@@ -6,7 +6,7 @@
   "main": "src/index.jsx",
   "scripts": {
     "test": "jest",
-    "build": "webpack",
+    "build": "webpack -p",
     "dev": "webpack -d --watch",
     "eslint": "eslint src/* __tests__/*"
   },
