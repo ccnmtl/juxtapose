@@ -13,12 +13,11 @@ export default class Playhead extends React.Component {
         const x = clientWidth * currentPos + offsetLeft;
         const lineStyle = {left: x + 'px'};
 
-        return <div>
+        return <div className="jux-playhead-container">
             <div ref={(ref) => this._line = ref}
                  className="jux-playhead-line"
                  style={lineStyle}>
                 <div className="jux-playhead-top-cutpoint"></div>
-
                 <div className="jux-playhead-bottom-cutpoint"></div>
             </div>
             <input type="range" min="0" max="1000"
