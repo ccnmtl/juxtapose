@@ -36,7 +36,8 @@ export default class JuxtaposeApplication extends React.Component {
         const activeItem = this.getItem(this.state.activeItem);
         return <div className="jux-container">
            <textarea className="jux-global-annotation"
-                     defaultValue={this.state.globalAnnotation} />
+                     value={this.state.globalAnnotation}
+                     onChange={this.onGlobalAnnotationChange.bind(this)} />
            <div className="vid-container">
                 <SpineVideo
                     ref={(c) => this._spineVid = c}
@@ -77,6 +78,7 @@ export default class JuxtaposeApplication extends React.Component {
                 activeItem={activeItem}
                 onSubmit={this.onTrackItemUpdate.bind(this)}
                 onDeleteClick={this.onTrackItemRemove.bind(this)} />
+            <button className="jux-save-button">Save</button>
         </div>;
     }
     /**
@@ -213,6 +215,9 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onSpineVideoEnd() {
         this.setState({isPlaying: false});
+    }
+    onGlobalAnnotationChange(e) {
+        this.setState({globalAnnotation: e.target.value});
     }
     /**
      * Get the item in textTrack or auxTrack, based on the activeItem

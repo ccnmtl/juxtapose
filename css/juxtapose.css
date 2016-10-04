@@ -235,3 +235,7 @@ button.jux-play {
     height: 100%;
     width: 100%;
 }
+
+.jux-save-button {
+    margin-top: 5px;
+}
