@@ -6,6 +6,12 @@ export default class SpineVideo extends React.Component {
         this.id = 'jux-spine-video';
     }
     render() {
+        if (!this.props.spineVideo) {
+            return <div className="jux-spine-display">
+              Add a spine video.
+              <button>&#9998;</button>
+            </div>;
+        }
         return <div className="jux-spine-display">
             <video id={this.id}
                    ref={(ref) => this.el = ref}
@@ -13,9 +19,11 @@ export default class SpineVideo extends React.Component {
                    onTimeUpdate={this.onTimeUpdate.bind(this)}
                    onLoadedMetadata={this.onLoadedMetadata.bind(this)}
                    onEnded={this.onEnded.bind(this)}>
-                <source src="videos/triangle.mp4" type="video/mp4" />
-                <source src="videos/triangle.webm" type="video/webm" />
-                <source src="videos/triangle.ogv"
+                <source src={this.props.spineVideo.url + '.mp4'}
+                        type="video/mp4" />
+                <source src={this.props.spineVideo.url + '.webm'}
+                        type="video/webm" />
+                <source src={this.props.spineVideo.url + '.ogv'}
                         type='video/ogg; codecs="theora, vorbis"' />
             </video>
             <button>&#9998;</button>
