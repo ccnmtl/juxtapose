@@ -18,11 +18,14 @@ export default class JuxtaposeApplication extends React.Component {
     constructor() {
         super();
         this.state = {
+            spineVideo: {
+                url: 'videos/triangle'
+            },
             auxTrack: auxTrackData,
             textTrack: textTrackData,
             collectionData: collectionData,
 
-            globalAnnotation: 'Triangle animation + Belbury Poly video',
+            globalAnnotation: '',
 
             isPlaying: false,
             time: null,
@@ -40,6 +43,7 @@ export default class JuxtaposeApplication extends React.Component {
                      onChange={this.onGlobalAnnotationChange.bind(this)} />
            <div className="vid-container">
                 <SpineVideo
+                    spineVideo={this.state.spineVideo}
                     ref={(c) => this._spineVid = c}
                     callbackParent={this.onTimeUpdate.bind(this)}
                     onVideoEnd={this.onSpineVideoEnd.bind(this)} />
