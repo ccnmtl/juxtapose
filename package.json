@@ -31,11 +31,11 @@
     "webpack": "~1.13.1"
   },
   "devDependencies": {
-    "babel-jest": "~15.0.0",
+    "babel-jest": "~16.0.0",
     "babel-polyfill": "~6.16.0",
     "eslint": "~3.6.1",
     "eslint-plugin-react": "~6.3.0",
-    "jest-cli": "~15.1.1",
+    "jest-cli": "~16.0.1",
     "react-addons-test-utils": "~15.3.1"
   }
 }
