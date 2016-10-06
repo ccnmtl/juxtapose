@@ -1,17 +1,13 @@
 import React from 'react';
 import Track from './Track.jsx';
-import CollectionAdder from './CollectionAdder.jsx';
+import {createCollectionList} from './collectionList.js';
 
 export default class AuxTrack extends Track {
     constructor() {
         super();
         this.type = 'aux';
     }
-    renderItemAdder() {
-        return <CollectionAdder
-                   showing={this.state.adding}
-                   onCloseClick={this.closeItemAdder.bind(this)}
-                   collectionData={this.props.collectionData}
-                   onSubmit={this.onTrackItemAdd.bind(this)} />;
+    onAddTrackItemClick() {
+        createCollectionList();
     }
 }
