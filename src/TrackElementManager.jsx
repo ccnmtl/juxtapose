@@ -1,7 +1,7 @@
 import React from 'react';
 import {formatDuration} from './utils.js';
 
-export default class TrackItemManager extends React.Component {
+export default class TrackElementManager extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -32,8 +32,8 @@ export default class TrackItemManager extends React.Component {
         }
 
         if (activeItem) {
-            return <div className="jux-track-item-manager">
-                <button className="jux-remove-track-item"
+            return <div className="jux-track-element-manager">
+                <button className="jux-remove-track-element"
                         title="Delete Item"
                         onClick={this.onDeleteClick.bind(this)}>Remove</button>
                 <h2>{title}</h2>

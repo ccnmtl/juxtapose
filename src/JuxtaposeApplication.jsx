@@ -8,7 +8,7 @@ import AuxDisplay from './AuxDisplay.jsx';
 import TextTrack from './TextTrack.jsx';
 import TextDisplay from './TextDisplay.jsx';
 import TimelineRuler from './TimelineRuler.jsx';
-import TrackItemManager from './TrackItemManager.jsx';
+import TrackElementManager from './TrackElementManager.jsx';
 import PlayButton from './PlayButton.jsx';
 import Playhead from './Playhead.jsx';
 import SpineVideo from './SpineVideo.jsx';
@@ -31,7 +31,7 @@ export default class JuxtaposeApplication extends React.Component {
             time: null,
             duration: null,
 
-            // The selected item that's managed in the TrackItemManager.
+            // The selected item that's managed in the TrackElementManager.
             activeItem: null
         };
     }
@@ -68,27 +68,27 @@ export default class JuxtaposeApplication extends React.Component {
                           onChange={this.onPlayheadTimeChange.bind(this)} />
                 <AuxTrack duration={this.state.duration}
                           onDragStop={this.onAuxDragStop.bind(this)}
-                          onTrackItemAdd={this.onTrackItemAdd.bind(this)}
+                          onTrackElementAdd={this.onTrackElementAdd.bind(this)}
                           collectionData={this.state.collectionData}
                           activeItem={this.state.activeItem}
                           data={this.state.auxTrack} />
                 <TextTrack duration={this.state.duration}
                            onDragStop={this.onTextDragStop.bind(this)}
-                           onTrackItemAdd={this.onTrackItemAdd.bind(this)}
+                           onTrackElementAdd={this.onTrackElementAdd.bind(this)}
                            activeItem={this.state.activeItem}
                            data={this.state.textTrack} />
             </div>
-            <TrackItemManager
+            <TrackElementManager
                 activeItem={activeItem}
-                onSubmit={this.onTrackItemUpdate.bind(this)}
-                onDeleteClick={this.onTrackItemRemove.bind(this)} />
+                onSubmit={this.onTrackElementUpdate.bind(this)}
+                onDeleteClick={this.onTrackElementRemove.bind(this)} />
             <button className="jux-save-button">Save</button>
         </div>;
     }
     /**
-     * Update a track item's source value, for TrackItemManager.
+     * Update a track item's source value, for TrackElementManager.
      */
-    onTrackItemUpdate(activeItem, newData) {
+    onTrackElementUpdate(activeItem, newData) {
         if (!activeItem) {
             return;
         }
@@ -115,7 +115,7 @@ export default class JuxtaposeApplication extends React.Component {
             this.setState({auxTrack: newTrack});
         }
     }
-    onTrackItemAdd(txt, timestamp) {
+    onTrackElementAdd(txt, timestamp) {
         var newTrack = this.state.textTrack.slice();
         newTrack.push({
             key: newTrack.length,
@@ -182,7 +182,7 @@ export default class JuxtaposeApplication extends React.Component {
     /**
      * Remove the active track item.
      */
-    onTrackItemRemove() {
+    onTrackElementRemove() {
         if (!this.state.activeItem) {
             return;
         }

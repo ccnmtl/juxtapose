@@ -11,6 +11,6 @@ export default class TextTrack extends Track {
         return <TextAnnotationAdder
                    showing={this.state.adding}
                    onCloseClick={this.closeItemAdder.bind(this)}
-                   onSubmit={this.onTrackItemAdd.bind(this)} />;
+                   onSubmit={this.onTrackElementAdd.bind(this)} />;
     }
 }

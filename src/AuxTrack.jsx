@@ -7,7 +7,7 @@ export default class AuxTrack extends Track {
         super();
         this.type = 'aux';
     }
-    onAddTrackItemClick() {
+    onAddTrackElementClick() {
         createCollectionList();
     }
 }
