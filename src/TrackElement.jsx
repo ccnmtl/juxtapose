@@ -1,7 +1,7 @@
 import React from 'react';
 import VidItemThumb from './VidItemThumb.jsx';
 
-export default class TrackItem extends React.Component {
+export default class TrackElement extends React.Component {
     constructor() {
         super();
         this.state = {

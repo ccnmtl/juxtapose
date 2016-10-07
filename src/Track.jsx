@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
-import TrackItem from './TrackItem.jsx';
-import TrackItemAddColumn from './TrackItemAddColumn.jsx';
+import TrackElement from './TrackElement.jsx';
+import TrackElementAddColumn from './TrackElementAddColumn.jsx';
 import GridItem from 'react-grid-layout';
 
 /**
@@ -45,7 +45,7 @@ export default class Track extends React.Component {
                 const xPos = percentToTrackCoords(percent);
                 const active = isActive(me.props.activeItem, me.type, i);
 
-                const item = <TrackItem
+                const item = <TrackElement
                                  isActive={active}
                                  key={i}
                                  data={data}
@@ -64,20 +64,20 @@ export default class Track extends React.Component {
         let columns = [];
         for (let i = 0; i < (this.width / 10); i++) {
             columns.push(
-                <TrackItemAddColumn
+                <TrackElementAddColumn
                     key={i}
                     idx={i}
-                    callbackParent={this.onAddTrackItemClick.bind(this)} />
+                    callbackParent={this.onAddTrackElementClick.bind(this)} />
             );
         }
         return columns;
     }
-    onAddTrackItemClick() {
+    onAddTrackElementClick() {
         this.setState({adding: true});
     }
-    onTrackItemAdd(value, timestamp) {
+    onTrackElementAdd(value, timestamp) {
         this.closeItemAdder();
-        this.props.onTrackItemAdd(value, timestamp);
+        this.props.onTrackElementAdd(value, timestamp);
     }
     closeItemAdder() {
         this.setState({adding: false});

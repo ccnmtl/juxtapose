@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class TrackItemAddColumn extends React.Component {
+export default class TrackElementAddColumn extends React.Component {
     onClick(e) {
         this.props.callbackParent(e);
     }
