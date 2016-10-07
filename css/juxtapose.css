@@ -161,7 +161,7 @@ button.jux-play {
 .jux-add-item-popup {
     background-color: lightgreen;
     z-index: 70;
-    position: fixed;
+    position: absolute;
     padding: 10px;
 }
 
