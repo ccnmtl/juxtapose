@@ -1,4 +1,5 @@
 import React from 'react';
+import {createCollectionList} from './collectionList.js';
 
 export default class SpineVideo extends React.Component {
     constructor() {
@@ -9,7 +10,7 @@ export default class SpineVideo extends React.Component {
         if (!this.props.spineVideo) {
             return <div className="jux-spine-display">
               Add a spine video.
-              <button>&#9998;</button>
+              <button onClick={this.onClick}>&#9998;</button>
             </div>;
         }
         return <div className="jux-spine-display">
@@ -26,7 +27,7 @@ export default class SpineVideo extends React.Component {
                 <source src={this.props.spineVideo.url + '.ogv'}
                         type='video/ogg; codecs="theora, vorbis"' />
             </video>
-            <button>&#9998;</button>
+            <button onClick={this.onClick}>&#9998;</button>
         </div>;
     }
     updateVidPosition(time) {
@@ -50,5 +51,8 @@ export default class SpineVideo extends React.Component {
     }
     pause() {
         this.el.pause();
+    }
+    onClick() {
+        createCollectionList();
     }
 }
