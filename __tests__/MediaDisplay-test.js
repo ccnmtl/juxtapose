@@ -1,6 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import {getCurrentItem} from '../src/AuxDisplay.jsx';
+import {getCurrentItem} from '../src/MediaDisplay.jsx';
 
 describe('getCurrentItem', () => {
     it('handles empty data appropriately', () => {
