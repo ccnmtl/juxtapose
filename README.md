@@ -19,7 +19,7 @@ how I'm doing that:
 
 * `cd mediathread`
 * `rm media/juxtapose/bundle.js`
-* `ln -s ~/public_html/juxtapose/dist/bundle.js media/juxtapose/bundle.js`
+* `ln -s ~/public_html/juxtapose/build/bundle.js media/juxtapose/bundle.js`
 * `make runserver`
 
 Then, in a new terminal:
