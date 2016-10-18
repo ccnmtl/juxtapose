@@ -36,7 +36,7 @@ export default class TrackElement extends React.Component {
             }
             return <VidItemThumb url={this.state.vimeoThumbnailUrl} />;
         }
-        return <video className="aux-item-middle">
+        return <video className="jux-media-item-middle">
             <source src={data.source} type="video/mp4" />
         </video>;
     }
@@ -47,10 +47,10 @@ export default class TrackElement extends React.Component {
             'backgroundPosition': 'center',
             'backgroundRepeat': 'no-repeat'
         };
-        return <div className="aux-item-middle" style={style}></div>;
+        return <div className="jux-media-item-middle" style={style}></div>;
     }
     renderTxtThumb(data) {
-        return <p className="aux-item-middle">{data.source}</p>;
+        return <p className="jux-media-item-middle">{data.source}</p>;
     }
     render() {
         let c = '';

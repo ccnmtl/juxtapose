@@ -16,10 +16,10 @@ export function getCurrentItem(data, currentTime) {
 }
 
 
-export default class AuxDisplay extends React.Component {
+export default class MediaDisplay extends React.Component {
     constructor() {
         super()
-        this.className = 'jux-aux-video';
+        this.className = 'jux-media-video';
     }
     renderVimeoVideo(data) {
         return <Vimeo videoId={data.source}
@@ -71,7 +71,7 @@ export default class AuxDisplay extends React.Component {
     }
     render() {
         let c = this.nowDisplay(this.props.data, this.props.time);
-        return <div className="jux-aux-display">{c}</div>;
+        return <div className="jux-media-display">{c}</div>;
     }
     componentDidMount() {
         const el = this.el;

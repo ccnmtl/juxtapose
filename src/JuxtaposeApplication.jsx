@@ -2,9 +2,9 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {formatDuration} from './utils.js';
-import {auxTrackData, textTrackData, collectionData} from './data.js';
-import AuxTrack from './AuxTrack.jsx';
-import AuxDisplay from './AuxDisplay.jsx';
+import {mediaTrackData, textTrackData, collectionData} from './data.js';
+import MediaTrack from './MediaTrack.jsx';
+import MediaDisplay from './MediaDisplay.jsx';
 import TextTrack from './TextTrack.jsx';
 import TextDisplay from './TextDisplay.jsx';
 import TimelineRuler from './TimelineRuler.jsx';
@@ -21,7 +21,7 @@ export default class JuxtaposeApplication extends React.Component {
             spineVideo: {
                 url: 'videos/triangle'
             },
-            auxTrack: auxTrackData,
+            mediaTrack: mediaTrackData,
             textTrack: textTrackData,
             collectionData: collectionData,
 
@@ -47,10 +47,10 @@ export default class JuxtaposeApplication extends React.Component {
                     ref={(c) => this._spineVid = c}
                     callbackParent={this.onTimeUpdate.bind(this)}
                     onVideoEnd={this.onSpineVideoEnd.bind(this)} />
-                <AuxDisplay time={this.state.time}
-                            data={this.state.auxTrack}
+                <MediaDisplay time={this.state.time}
+                            data={this.state.mediaTrack}
                             isPlaying={this.state.isPlaying}
-                            ref={(c) => this._auxVid = c} />
+                            ref={(c) => this._mediaVid = c} />
             </div>
             <TextDisplay time={this.state.time}
                          duration={this.state.duration} />
@@ -66,12 +66,12 @@ export default class JuxtaposeApplication extends React.Component {
                 <Playhead currentTime={this.state.time}
                           duration={this.state.duration}
                           onChange={this.onPlayheadTimeChange.bind(this)} />
-                <AuxTrack duration={this.state.duration}
-                          onDragStop={this.onAuxDragStop.bind(this)}
-                          onTrackElementAdd={this.onTrackElementAdd.bind(this)}
-                          collectionData={this.state.collectionData}
-                          activeItem={this.state.activeItem}
-                          data={this.state.auxTrack} />
+                <MediaTrack duration={this.state.duration}
+                            onDragStop={this.onMediaDragStop.bind(this)}
+                            onTrackElementAdd={this.onTrackElementAdd.bind(this)}
+                            collectionData={this.state.collectionData}
+                            activeItem={this.state.activeItem}
+                            data={this.state.mediaTrack} />
                 <TextTrack duration={this.state.duration}
                            onDragStop={this.onTextDragStop.bind(this)}
                            onTrackElementAdd={this.onTrackElementAdd.bind(this)}
@@ -97,7 +97,7 @@ export default class JuxtaposeApplication extends React.Component {
         if (activeItem.type === 'txt') {
             track = this.state.textTrack;
         } else {
-            track = this.state.auxTrack;
+            track = this.state.mediaTrack;
         }
 
         const item = _.find(track, ['key', activeItem.key, 10]);
@@ -112,7 +112,7 @@ export default class JuxtaposeApplication extends React.Component {
         if (activeItem.type === 'txt') {
             this.setState({textTrack: newTrack});
         } else {
-            this.setState({auxTrack: newTrack});
+            this.setState({mediaTrack: newTrack});
         }
     }
     onTrackElementAdd(txt, timestamp) {
@@ -145,11 +145,11 @@ export default class JuxtaposeApplication extends React.Component {
         newTrack = _.sortBy(newTrack, 'key');
         return newTrack;
     }
-    onAuxDragStop(items, event, item) {
-        const newTrack = this.trackItemDragHandler(this.state.auxTrack, item);
+    onMediaDragStop(items, event, item) {
+        const newTrack = this.trackItemDragHandler(this.state.mediaTrack, item);
         this.setState({
-            activeItem: ['aux', item.i],
-            auxTrack: newTrack
+            activeItem: ['media', item.i],
+            mediaTrack: newTrack
         });
     }
     onTextDragStop(items, event, item) {
@@ -167,10 +167,10 @@ export default class JuxtaposeApplication extends React.Component {
         // video components.
         if (newState) {
             this._spineVid.play();
-            this._auxVid.play();
+            this._mediaVid.play();
         } else {
             this._spineVid.pause();
-            this._auxVid.pause();
+            this._mediaVid.pause();
         }
     }
     onTimeUpdate(time, duration) {
@@ -198,10 +198,10 @@ export default class JuxtaposeApplication extends React.Component {
                 activeItem: null
             });
         } else {
-            var newTrack = this.state.auxTrack.slice();
+            var newTrack = this.state.mediaTrack.slice();
             newTrack.splice(i, 1);
             this.setState({
-                auxTrack: newTrack,
+                mediaTrack: newTrack,
                 activeItem: null
             });
         }
@@ -215,7 +215,7 @@ export default class JuxtaposeApplication extends React.Component {
         }
         this.setState(state);
         this._spineVid.updateVidPosition(newTime);
-        this._auxVid.updateVidPosition(newTime);
+        this._mediaVid.updateVidPosition(newTime);
     }
     onSpineVideoEnd() {
         this.setState({isPlaying: false});
@@ -224,7 +224,7 @@ export default class JuxtaposeApplication extends React.Component {
         this.setState({globalAnnotation: e.target.value});
     }
     /**
-     * Get the item in textTrack or auxTrack, based on the activeItem
+     * Get the item in textTrack or mediaTrack, based on the activeItem
      * format: [track type, index]
      */
     getItem(a) {
@@ -235,7 +235,7 @@ export default class JuxtaposeApplication extends React.Component {
         if (a[0] === 'txt') {
             return this.state.textTrack[a[1]];
         } else {
-            return this.state.auxTrack[a[1]];
+            return this.state.mediaTrack[a[1]];
         }
     }
 }

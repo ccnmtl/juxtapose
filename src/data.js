@@ -10,7 +10,7 @@
  *   source: <string> - identification data, i.e. URL or video ID.
  * }
  */
-export const auxTrackData = [
+export const mediaTrackData = [
     {
         key: 0,
         startTime: 1,
