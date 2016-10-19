@@ -19,7 +19,7 @@ export default class JuxtaposeApplication extends React.Component {
         super();
         this.state = {
             spineVideo: {
-                url: 'videos/triangle'
+                url: 'static/videos/triangle'
             },
             mediaTrack: mediaTrackData,
             textTrack: textTrackData,

@@ -16,7 +16,7 @@ export const mediaTrackData = [
         startTime: 1,
         endTime: 15,
         type: 'vid',
-        source: 'videos/wildspot.mp4'
+        source: 'static/videos/wildspot.mp4'
     },
     {
         key: 1,
@@ -39,7 +39,7 @@ export const mediaTrackData = [
         startTime: 38,
         endTime: 55,
         type: 'img',
-        source: 'img/image.jpg'
+        source: 'static/img/image.jpg'
     }
 ];
 
@@ -63,18 +63,18 @@ export const textTrackData = [
 export const collectionData = [
     {
         title: 'Item A',
-        thumbnail: 'img/image.jpg'
+        thumbnail: 'static/img/image.jpg'
     },
     {
         title: 'Item B',
-        thumbnail: 'img/image.jpg'
+        thumbnail: 'static/img/image.jpg'
     },
     {
         title: 'Item C',
-        thumbnail: 'img/image.jpg'
+        thumbnail: 'static/img/image.jpg'
     },
     {
         title: 'Item D',
-        thumbnail: 'img/image.jpg'
+        thumbnail: 'static/img/image.jpg'
     }
 ];

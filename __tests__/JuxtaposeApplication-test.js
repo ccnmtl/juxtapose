@@ -35,7 +35,7 @@ describe('JuxtaposeApplication.getItem', () => {
             'startTime': 38,
             'endTime': 55,
             'type': 'img',
-            'source': 'img/image.jpg'
+            'source': 'static/img/image.jpg'
         });
     });
 });

@@ -42,9 +42,9 @@ export default class MediaDisplay extends React.Component {
         return <video className={this.className}
                       ref={(ref) => this.el = ref}
                       width="297">
-            <source src="videos/wildspot.mp4" type="video/mp4" />
-            <source src="videos/wildspot.webm" type="video/webm" />
-            <source src="videos/wildspot.ogv"
+            <source src="static/videos/wildspot.mp4" type="video/mp4" />
+            <source src="static/videos/wildspot.webm" type="video/webm" />
+            <source src="static/videos/wildspot.ogv"
                     type='video/ogg; codecs="theora, vorbis"' />
 
         </video>;
