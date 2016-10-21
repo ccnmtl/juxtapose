@@ -1,6 +1,10 @@
 language: node_js
 node_js:
   - "4"
+before_script:
+  - cd node_modules/react-grid-layout
+  - npm install
+  - cd ../..
 script:
   - make eslint
   - make test

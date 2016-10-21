@@ -98,7 +98,8 @@ export default class Track extends React.Component {
                         onDragStop={this.props.onDragStop}
                         onClick={this.onClick}
                         maxRows={1}
-                        rowHeight={1}>
+                        rowHeight={1}
+                        preventCollision={true}>
                         {this.generateItems(this.props.data)}
                     </ReactGridLayout>
         </div>;
