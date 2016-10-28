@@ -1,6 +1,6 @@
 import React from 'react';
 import Track from './Track.jsx';
-import {createCollectionList} from './collectionList.js';
+import {createCollectionWidget} from './mediathreadCollection.js';
 
 export default class MediaTrack extends Track {
     constructor() {
@@ -8,6 +8,6 @@ export default class MediaTrack extends Track {
         this.type = 'media';
     }
     onAddTrackElementClick() {
-        createCollectionList();
+        createCollectionWidget();
     }
 }

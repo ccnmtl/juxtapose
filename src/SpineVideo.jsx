@@ -1,5 +1,5 @@
 import React from 'react';
-import {createCollectionList} from './collectionList.js';
+import {createCollectionWidget} from './mediathreadCollection.js';
 
 export default class SpineVideo extends React.Component {
     constructor() {
@@ -53,6 +53,6 @@ export default class SpineVideo extends React.Component {
         this.el.pause();
     }
     onClick() {
-        createCollectionList();
+        createCollectionWidget();
     }
 }
