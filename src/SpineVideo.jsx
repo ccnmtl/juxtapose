@@ -53,6 +53,6 @@ export default class SpineVideo extends React.Component {
         this.el.pause();
     }
     onClick() {
-        createCollectionWidget();
+        createCollectionWidget('video');
     }
 }
