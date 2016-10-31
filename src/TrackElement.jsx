@@ -1,5 +1,6 @@
 import React from 'react';
 import VidItemThumb from './VidItemThumb.jsx';
+import {ellipsis} from './utils.js';
 
 export default class TrackElement extends React.Component {
     constructor() {
@@ -50,7 +51,9 @@ export default class TrackElement extends React.Component {
         return <div className="jux-media-item-middle" style={style}></div>;
     }
     renderTxtThumb(data) {
-        return <p className="jux-media-item-middle">{data.source}</p>;
+        return <p className="jux-media-item-middle">
+            {ellipsis(data.source, 30)}
+        </p>;
     }
     render() {
         let c = '';

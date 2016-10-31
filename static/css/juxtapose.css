@@ -129,8 +129,8 @@ button.jux-play {
     height: 100%;
     background-color: #dedede;
     text-align: center;
-    margin-top: 2px;
-    margin-bottom: 6px;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .jux-track-element-manager {
@@ -225,7 +225,7 @@ button.jux-play {
     background-color: #000;
 }
 
-.jux-duration-controls {
+.jux-time-controls {
     margin-left: 5px;
 }
 

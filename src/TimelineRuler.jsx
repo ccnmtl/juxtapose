@@ -1,5 +1,5 @@
 import React from 'react';
-import {formatDuration} from './utils.js';
+import {formatTimecode} from './utils.js';
 
 
 export default class TimelineRuler extends React.Component {
@@ -15,7 +15,7 @@ export default class TimelineRuler extends React.Component {
             <div key={position + '-label'}
                  className="jux-timeline-ticklabel"
                  style={{left: visualOffset + '%'}}>
-                {formatDuration(position)}
+                {formatTimecode(position)}
             </div>,
             <div key={position}
                  className="jux-timeline-tick"

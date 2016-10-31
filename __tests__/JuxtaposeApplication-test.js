@@ -16,9 +16,7 @@ describe('JuxtaposeApplication.getItem', () => {
             'type': 'txt',
             'source': 'Lorem ipsum dolor sit amet, consectetur adipiscing ' +
                 'elit, sed do eiusmod tempor incididunt ut labore et ' +
-                'dolore magna aliqua. Ut enim ad minim veniam, quis ' +
-                'nostrud exercitation ullamco laboris nisi ut aliquip ex ' +
-                'ea commodo consequat.'
+                'dolore magna aliqua. Ut enim ad minim'
         });
         expect(app.getItem(['txt', 1])).toEqual({
             'key': 1,
@@ -27,8 +25,7 @@ describe('JuxtaposeApplication.getItem', () => {
             'type': 'txt',
             'source': 'Duis aute irure dolor in reprehenderit in voluptate ' +
                 'velit esse cillum dolore eu fugiat nulla pariatur. ' +
-                'Excepteur sint occaecat cupidatat non proident, sunt ' +
-                'in culpa qui officia deserunt mollit anim id est laborum.'
+                'Excepteur sint occaecat cupidatat non'
         });
         expect(app.getItem(['media', 3])).toEqual({
             'key': 3,
