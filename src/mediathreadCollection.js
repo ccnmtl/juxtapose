@@ -7,7 +7,7 @@
  * of React here.
  */
 
-export function createCollectionWidget() {
+export function createCollectionWidget(mediaType) {
     jQuery('#container').prepend(
         jQuery('<div class="jux-collection">' +
                '<div class="jux-collection-table"></div>' +
@@ -17,6 +17,7 @@ export function createCollectionWidget() {
     new CollectionWidget({
         '$el': jQuery('.jux-collection'),
         'template': 'collection',
+        'mediaType': mediaType,
         'template_label': 'jux-collection-table'
     });
 }
