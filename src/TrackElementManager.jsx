@@ -1,11 +1,12 @@
 import React from 'react';
-import {formatDuration} from './utils.js';
+import {formatTimecode} from './utils.js';
 
 export default class TrackElementManager extends React.Component {
     constructor() {
         super();
         this.state = {
             value: '',
+            startTime: null,
             duration: null
         }
     }
@@ -15,6 +16,7 @@ export default class TrackElementManager extends React.Component {
                            newProps.activeItem.startTime;
             this.setState({
                 value: newProps.activeItem.source,
+                startTime: newProps.activeItem.startTime,
                 duration: duration
             });
         }
@@ -32,6 +34,12 @@ export default class TrackElementManager extends React.Component {
         }
 
         if (activeItem) {
+            let displayTextarea = 'none';
+            let maxLength = Infinity;
+            if (activeItem.type === 'txt') {
+                displayTextarea = 'block';
+                maxLength = 140;
+            }
             return <div className="jux-track-element-manager">
                 <button className="jux-remove-track-element"
                         title="Delete Item"
@@ -39,13 +47,22 @@ export default class TrackElementManager extends React.Component {
                 <h2>{title}</h2>
                 <form onSubmit={this.onSubmit.bind(this)}>
                     <div className="form-group">
-                        Duration: <strong>{formatDuration(this.state.duration)}</strong>
-                        <span className="jux-duration-controls">
+                        Start time: <strong>{formatTimecode(this.state.startTime)}</strong>
+                        <span className="jux-time-controls">
+                            <button onClick={this.onStartTimeDecrease.bind(this)}>-</button>
+                            <button onClick={this.onStartTimeIncrease.bind(this)}>+</button>
+                        </span>
+                    </div>
+                    <div className="form-group">
+                        Duration: <strong>{formatTimecode(this.state.duration)}</strong>
+                        <span className="jux-time-controls">
                             <button onClick={this.onDurationDecrease.bind(this)}>-</button>
                             <button onClick={this.onDurationIncrease.bind(this)}>+</button>
                         </span>
                     </div>
-                    <textarea value={this.state.value}
+                    <textarea style={{'display': displayTextarea}}
+                              value={this.state.value}
+                              maxLength={maxLength}
                               onChange={this.onTextChange.bind(this)} />
                     <div>
                         <button type="submit">Submit</button>
@@ -60,6 +77,7 @@ export default class TrackElementManager extends React.Component {
         e.preventDefault();
         this.props.onSubmit(this.props.activeItem, {
             value: this.state.value,
+            startTime: this.state.startTime,
             duration: this.state.duration
         });
     }
@@ -68,6 +86,14 @@ export default class TrackElementManager extends React.Component {
     }
     onDeleteClick(e) {
         this.props.onDeleteClick();
+    }
+    onStartTimeIncrease(e) {
+        e.preventDefault();
+        this.setState({startTime: this.state.startTime + 1});
+    }
+    onStartTimeDecrease(e) {
+        e.preventDefault();
+        this.setState({startTime: Math.max(this.state.startTime - 1, 0)});
     }
     onDurationIncrease(e) {
         e.preventDefault();

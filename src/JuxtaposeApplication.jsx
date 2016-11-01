@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
-import {formatDuration} from './utils.js';
+import {formatTimecode} from './utils.js';
 import {mediaTrackData, textTrackData, collectionData} from './data.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
@@ -58,7 +58,7 @@ export default class JuxtaposeApplication extends React.Component {
                 <PlayButton isPlaying={this.state.isPlaying}
                             onClick={this.onPlayClick.bind(this)} />
                 <div className="jux-time">
-                    {formatDuration(this.state.time)} / {formatDuration(this.state.duration)}
+                    {formatTimecode(this.state.time)} / {formatTimecode(this.state.duration)}
                 </div>
             </div>
             <div className="jux-timeline">
