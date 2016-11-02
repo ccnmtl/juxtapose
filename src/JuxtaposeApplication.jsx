@@ -34,6 +34,16 @@ export default class JuxtaposeApplication extends React.Component {
             // The selected item that's managed in the TrackElementManager.
             activeItem: null
         };
+
+        document.addEventListener('asset.select', function(e) {
+            let oReq = new XMLHttpRequest();
+            oReq.addEventListener('load', function() {
+                // TODO
+                console.log(this.responseText);
+            });
+            oReq.open('GET', '/api' + e.detail);
+            oReq.send();
+        });
     }
     render() {
         const activeItem = this.getItem(this.state.activeItem);
