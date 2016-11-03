@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
-import {formatTimecode} from './utils.js';
+import {extractAssetData, formatTimecode} from './utils.js';
 import {mediaTrackData, textTrackData, collectionData} from './data.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
@@ -17,6 +17,7 @@ import SpineVideo from './SpineVideo.jsx';
 export default class JuxtaposeApplication extends React.Component {
     constructor() {
         super();
+        let self = this;
         this.state = {
             spineVideo: {
                 url: 'static/videos/triangle'
@@ -36,12 +37,23 @@ export default class JuxtaposeApplication extends React.Component {
         };
 
         document.addEventListener('asset.select', function(e) {
+            let assetData = extractAssetData(e.detail);
+
             let oReq = new XMLHttpRequest();
             oReq.addEventListener('load', function() {
-                // TODO
-                console.log(this.responseText);
+                const data = JSON.parse(this.responseText);
+                const id = this.responseURL.match(/.*\/(\d+)\/$/)[1];
+                const sources = data.assets[id].sources;
+                const vid = sources.video.url || sources.mp4_pseudo.url
+
+                // Set the spine video
+                self.setState({
+                    'spineVideo': {
+                        'url': vid
+                    }
+                });
             });
-            oReq.open('GET', '/api' + e.detail);
+            oReq.open('GET', '/api/asset/' + assetData['id'] + '/');
             oReq.send();
         });
     }
@@ -201,14 +213,14 @@ export default class JuxtaposeApplication extends React.Component {
         const i = this.state.activeItem[1];
 
         if (track === 'txt') {
-            var newTrack = this.state.textTrack.slice();
+            let newTrack = this.state.textTrack.slice();
             newTrack.splice(i, 1);
             this.setState({
                 textTrack: newTrack,
                 activeItem: null
             });
         } else {
-            var newTrack = this.state.mediaTrack.slice();
+            let newTrack = this.state.mediaTrack.slice();
             newTrack.splice(i, 1);
             this.setState({
                 mediaTrack: newTrack,
