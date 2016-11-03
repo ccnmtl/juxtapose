@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
-import {extractAssetData, formatTimecode} from './utils.js';
+import {extractAssetData, extractVideoData, formatTimecode} from './utils.js';
 import {mediaTrackData, textTrackData, collectionData} from './data.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
@@ -44,13 +44,16 @@ export default class JuxtaposeApplication extends React.Component {
                 const data = JSON.parse(this.responseText);
                 const id = this.responseURL.match(/.*\/(\d+)\/$/)[1];
                 const sources = data.assets[id].sources;
-                const vid = sources.video.url || sources.mp4_pseudo.url
+                const vid = extractVideoData(sources);
 
                 // Set the spine video
                 self.setState({
                     'spineVideo': {
-                        'url': vid
-                    }
+                        'url': vid.url,
+                        'host': vid.host
+                    },
+                    'isPlaying': false,
+                    'time': 0
                 });
             });
             oReq.open('GET', '/api/asset/' + assetData['id'] + '/');
@@ -68,6 +71,7 @@ export default class JuxtaposeApplication extends React.Component {
                     spineVideo={this.state.spineVideo}
                     ref={(c) => this._spineVid = c}
                     callbackParent={this.onTimeUpdate.bind(this)}
+                    onYTReady={this.onYTSpineReady.bind(this)}
                     onVideoEnd={this.onSpineVideoEnd.bind(this)} />
                 <MediaDisplay time={this.state.time}
                             data={this.state.mediaTrack}
@@ -138,7 +142,7 @@ export default class JuxtaposeApplication extends React.Component {
         }
     }
     onTrackElementAdd(txt, timestamp) {
-        var newTrack = this.state.textTrack.slice();
+        let newTrack = this.state.textTrack.slice();
         newTrack.push({
             key: newTrack.length,
             startTime: 30,
@@ -244,6 +248,9 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onGlobalAnnotationChange(e) {
         this.setState({globalAnnotation: e.target.value});
+    }
+    onYTSpineReady(e) {
+        this.setState({duration: e.target.getDuration()});
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeItem

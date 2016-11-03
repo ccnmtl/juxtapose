@@ -1,3 +1,5 @@
+const getYouTubeID = require('get-youtube-id');
+
 /**
  * {{ellipsis}}
  * Truncate the input string and removes all HTML tags
@@ -36,6 +38,32 @@ export function extractAssetData(s) {
         'id': id,
         'annotationId': annotationId
     };
+}
+
+/**
+ * extractVideoUrl
+ *
+ * Given a video source object in Mediathread's asset api format,
+ * return a juxtapose media object.
+ */
+export function extractVideoData(o) {
+    if (o.youtube && o.youtube.url) {
+        return {
+            url: getYouTubeID(o.youtube.url),
+            host: 'youtube'
+        };
+    }
+    if (o.video && o.video.url) {
+        return {
+            url: o.video.url
+        };
+    }
+    if (o.mp4_pseudo && o.mp4_pseudo.url) {
+        return {
+            url: o.mp4_pseudo.url
+        };
+    }
+    return null;
 }
 
 export function formatTimecode(totalSeconds) {
