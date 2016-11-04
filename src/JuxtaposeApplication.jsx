@@ -70,9 +70,10 @@ export default class JuxtaposeApplication extends React.Component {
                 <SpineVideo
                     spineVideo={this.state.spineVideo}
                     ref={(c) => this._spineVid = c}
-                    callbackParent={this.onTimeUpdate.bind(this)}
-                    onYTReady={this.onYTSpineReady.bind(this)}
-                    onVideoEnd={this.onSpineVideoEnd.bind(this)} />
+                    onDuration={this.onSpineDuration.bind(this)}
+                    onVideoEnd={this.onSpineVideoEnd.bind(this)}
+                    playing={this.state.isPlaying}
+                    onProgress={this.onSpineProgress.bind(this)} />
                 <MediaDisplay time={this.state.time}
                             data={this.state.mediaTrack}
                             isPlaying={this.state.isPlaying}
@@ -192,18 +193,10 @@ export default class JuxtaposeApplication extends React.Component {
         // TODO: this should be more declarative, handled by the
         // video components.
         if (newState) {
-            this._spineVid.play();
             this._mediaVid.play();
         } else {
-            this._spineVid.pause();
             this._mediaVid.pause();
         }
-    }
-    onTimeUpdate(time, duration) {
-        this.setState({
-            time: time,
-            duration: duration
-        });
     }
     /**
      * Remove the active track item.
@@ -235,12 +228,8 @@ export default class JuxtaposeApplication extends React.Component {
     onPlayheadTimeChange(e) {
         const percentDone = e.target.value / 1000;
         const newTime = this.state.duration * percentDone;
-        const state = {
-            time: newTime,
-            duration: this.state.duration
-        }
-        this.setState(state);
-        this._spineVid.updateVidPosition(newTime);
+        this.setState({time: newTime});
+        this._spineVid.updateVidPosition(percentDone);
         this._mediaVid.updateVidPosition(newTime);
     }
     onSpineVideoEnd() {
@@ -249,8 +238,15 @@ export default class JuxtaposeApplication extends React.Component {
     onGlobalAnnotationChange(e) {
         this.setState({globalAnnotation: e.target.value});
     }
-    onYTSpineReady(e) {
-        this.setState({duration: e.target.getDuration()});
+    onSpineDuration(duration) {
+        this.setState({duration: duration});
+    }
+    onSpineProgress(state) {
+        if (typeof state.played !== 'undefined') {
+            this.setState({
+                time: state.played * 100
+            });
+        }
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeItem
