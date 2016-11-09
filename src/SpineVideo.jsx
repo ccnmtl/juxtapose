@@ -38,7 +38,7 @@ export default class SpineVideo extends React.Component {
                     onDuration={this.props.onDuration}
                     onProgress={this.props.onProgress}
                     progressFrequency={100}
-                />;
+                />
             <button onClick={this.onClick}>&#9998;</button>
         </div>;
     }
