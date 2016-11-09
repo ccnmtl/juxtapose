@@ -25,15 +25,22 @@ export default class TimelineRuler extends React.Component {
     }
     generateTicks(duration) {
         // Generate a tick for every 30 seconds.
+        let tickOffset = 30;
+        if (duration > 300) {
+            tickOffset = 60;
+        } else if (duration > 900) {
+            tickOffset = 120;
+        }
+
         let ticks = [];
         let i = 0;
-        for (; i < duration; i += 30) {
+        for (; i < duration; i += tickOffset) {
             let visualOffset = (i / duration) * 100;
             ticks = ticks.concat(this.generateTick(visualOffset, i));
         }
         // If the last tick is more than 5 seconds before the end, generate
         // one for the end.
-        if (duration - (i - 30) > 5) {
+        if (duration - (i - tickOffset) > 5) {
             ticks = ticks.concat(this.generateTick(100, duration));
         }
         return ticks;
