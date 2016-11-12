@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
+import Cookies from 'js-cookie';
 import {extractAssetData, extractVideoData, formatTimecode} from './utils.js';
 import {mediaTrackData, textTrackData, collectionData} from './data.js';
 import MediaTrack from './MediaTrack.jsx';
@@ -109,7 +110,8 @@ export default class JuxtaposeApplication extends React.Component {
                 activeItem={activeItem}
                 onSubmit={this.onTrackElementUpdate.bind(this)}
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
-            <button className="jux-save-button">Save</button>
+            <button className="jux-save-button"
+                    onClick={this.onSaveClick}>Save</button>
         </div>;
     }
     /**
@@ -247,6 +249,22 @@ export default class JuxtaposeApplication extends React.Component {
                 time: state.played * 100
             });
         }
+    }
+    onSaveClick() {
+        const csrftoken = Cookies.get('csrftoken');
+        // TODO
+        fetch('/sequence/api/assets/', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                test: 'abc'
+            })
+        });
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeItem
