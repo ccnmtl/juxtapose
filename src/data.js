@@ -8,6 +8,7 @@
  *   type: vid|img
  *   host: youtube|vimeo (optional)
  *   source: <string> - identification data, i.e. URL or video ID.
+ *   id: The Mediathread Asset ID.
  * }
  */
 export const mediaTrackData = [
@@ -16,7 +17,8 @@ export const mediaTrackData = [
         startTime: 1,
         endTime: 15,
         type: 'vid',
-        source: 'static/videos/wildspot.mp4'
+        source: 'static/videos/wildspot.mp4',
+        id: 1
     },
     {
         key: 1,
@@ -24,7 +26,8 @@ export const mediaTrackData = [
         endTime: 30,
         type: 'vid',
         host: 'vimeo',
-        source: '35694950'
+        source: '35694950',
+        id: 2
     },
     {
         key: 2,
@@ -32,14 +35,16 @@ export const mediaTrackData = [
         endTime: 37.5,
         type: 'vid',
         host: 'youtube',
-        source: 'suUJxQoIA9k'
+        source: 'suUJxQoIA9k',
+        id: 3
     },
     {
         key: 3,
         startTime: 38,
         endTime: 55,
         type: 'img',
-        source: 'static/img/image.jpg'
+        source: 'static/img/image.jpg',
+        id: 4
     }
 ];
 
@@ -57,24 +62,5 @@ export const textTrackData = [
         endTime: 55,
         type: 'txt',
         source: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non'
-    }
-];
-
-export const collectionData = [
-    {
-        title: 'Item A',
-        thumbnail: 'static/img/image.jpg'
-    },
-    {
-        title: 'Item B',
-        thumbnail: 'static/img/image.jpg'
-    },
-    {
-        title: 'Item C',
-        thumbnail: 'static/img/image.jpg'
-    },
-    {
-        title: 'Item D',
-        thumbnail: 'static/img/image.jpg'
     }
 ];
