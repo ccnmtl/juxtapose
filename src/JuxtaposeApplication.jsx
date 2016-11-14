@@ -21,7 +21,8 @@ export default class JuxtaposeApplication extends React.Component {
         let self = this;
         this.state = {
             spineVideo: {
-                url: 'static/videos/triangle'
+                url: 'static/videos/triangle',
+                id: 9
             },
             mediaTrack: mediaTrackData,
             textTrack: textTrackData,
@@ -51,7 +52,8 @@ export default class JuxtaposeApplication extends React.Component {
                 self.setState({
                     'spineVideo': {
                         'url': vid.url,
-                        'host': vid.host
+                        'host': vid.host,
+                        'id': id
                     },
                     'isPlaying': false,
                     'time': 0
@@ -111,7 +113,7 @@ export default class JuxtaposeApplication extends React.Component {
                 onSubmit={this.onTrackElementUpdate.bind(this)}
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
             <button className="jux-save-button"
-                    onClick={this.onSaveClick}>Save</button>
+                    onClick={this.onSaveClick.bind(this)}>Save</button>
         </div>;
     }
     /**
@@ -250,9 +252,8 @@ export default class JuxtaposeApplication extends React.Component {
             });
         }
     }
-    onSaveClick() {
+    createSequenceAsset(data) {
         const csrftoken = Cookies.get('csrftoken');
-        // TODO
         fetch('/sequence/api/assets/', {
             method: 'post',
             headers: {
@@ -262,9 +263,12 @@ export default class JuxtaposeApplication extends React.Component {
             },
             credentials: 'same-origin',
             body: JSON.stringify({
-                test: 'abc'
+                spine: this.state.spineVideo.id
             })
         });
+    }
+    onSaveClick() {
+        this.createSequenceAsset();
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeItem

@@ -29,6 +29,7 @@ describe('JuxtaposeApplication.getItem', () => {
         });
         expect(app.getItem(['media', 3])).toEqual({
             'key': 3,
+            'id': 4,
             'startTime': 38,
             'endTime': 55,
             'type': 'img',
