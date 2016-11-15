@@ -1,22 +1,27 @@
 import Cookies from 'js-cookie';
 
 export default class Xhr {
-    createSequenceAsset(spineVidId, courseId, projectId) {
+    constructor() {
         const csrftoken = Cookies.get('csrftoken');
-        fetch('/sequence/api/assets/', {
-            method: 'post',
+        this.xhrOpts = {
+            method: 'get',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
             },
             credentials: 'same-origin',
-            body: JSON.stringify({
-                spine: spineVidId,
-                course: courseId,
-                project: projectId
-            })
+            body: {}
+        };
+    }
+    createSequenceAsset(spineVidId, courseId, projectId) {
+        this.xhrOpts.method = 'post';
+        this.xhrOpts.body = JSON.stringify({
+            spine: spineVidId,
+            course: courseId,
+            project: projectId
         });
+        fetch('/sequence/api/assets/', this.xhrOpts);
     }
     updateSequenceAsset() {
     }
