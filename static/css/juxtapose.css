@@ -100,15 +100,6 @@ button.jux-play {
     background-color: yellow;
 }
 
-.jux-spine-display button {
-    display: none;
-    position: absolute;
-}
-
-.jux-spine-display:hover button {
-    display: block;
-}
-
 .jux-spine-display,
 .jux-media-display {
     height: 225px;
