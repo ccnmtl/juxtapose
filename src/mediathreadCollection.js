@@ -8,16 +8,5 @@
  */
 
 export function createCollectionWidget(mediaType) {
-    jQuery('#container').prepend(
-        jQuery('<div class="jux-collection">' +
-               '<div class="jux-collection-table"></div>' +
-               '<div class="jux-collection-popup"></div>' +
-               '</div>'));
-
-    new CollectionWidget({
-        '$el': jQuery('.jux-collection'),
-        'template': 'collection',
-        'mediaType': mediaType,
-        'template_label': 'jux-collection-table'
-    });
+    jQuery(window).trigger('collection.open', []);
 }

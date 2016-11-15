@@ -20,10 +20,7 @@ export default class JuxtaposeApplication extends React.Component {
         super();
         let self = this;
         this.state = {
-            spineVideo: {
-                url: 'static/videos/triangle',
-                id: 9
-            },
+            spineVideo: null,
             mediaTrack: mediaTrackData,
             textTrack: textTrackData,
             collectionData: collectionData,
@@ -39,7 +36,7 @@ export default class JuxtaposeApplication extends React.Component {
         };
 
         document.addEventListener('asset.select', function(e) {
-            let assetData = extractAssetData(e.detail);
+            let assetData = extractAssetData(e.detail.annotation);
 
             let oReq = new XMLHttpRequest();
             oReq.addEventListener('load', function() {
