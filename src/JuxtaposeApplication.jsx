@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
-import Cookies from 'js-cookie';
 import {extractAssetData, extractVideoData, formatTimecode} from './utils.js';
 import {mediaTrackData, textTrackData, collectionData} from './data.js';
 import MediaTrack from './MediaTrack.jsx';
@@ -13,6 +12,7 @@ import TrackElementManager from './TrackElementManager.jsx';
 import PlayButton from './PlayButton.jsx';
 import Playhead from './Playhead.jsx';
 import SpineVideo from './SpineVideo.jsx';
+import Xhr from './Xhr.js';
 
 
 export default class JuxtaposeApplication extends React.Component {
@@ -249,23 +249,12 @@ export default class JuxtaposeApplication extends React.Component {
             });
         }
     }
-    createSequenceAsset(data) {
-        const csrftoken = Cookies.get('csrftoken');
-        fetch('/sequence/api/assets/', {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken
-            },
-            credentials: 'same-origin',
-            body: JSON.stringify({
-                spine: this.state.spineVideo.id
-            })
-        });
-    }
     onSaveClick() {
-        this.createSequenceAsset();
+        let xhr = new Xhr();
+        xhr.createSequenceAsset(
+            this.state.spineVideo.id,
+            window.MediaThread.current_course,
+            window.MediaThread.current_project);
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeItem
