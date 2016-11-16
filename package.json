@@ -35,13 +35,13 @@
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
-    "babel-jest": "~16.0.0",
+    "babel-jest": "~17.0.2",
     "babel-polyfill": "~6.16.0",
     "eslint": "~3.9.1",
     "eslint-plugin-react": "~6.4.1",
     "exports-loader": "^0.6.3",
     "imports-loader": "^0.6.5",
-    "jest-cli": "~16.0.1",
+    "jest-cli": "~17.0.2",
     "react-addons-test-utils": "~15.3.1"
   }
 }
