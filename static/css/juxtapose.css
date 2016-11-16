@@ -100,6 +100,14 @@ button.jux-play {
     background-color: yellow;
 }
 
+.jux-spine-display .jux-spine-revise {
+    display: none;
+}
+
+.jux-spine-display:hover .jux-spine-revise {
+    display: block;
+}
+
 .jux-spine-display,
 .jux-media-display {
     height: 225px;
