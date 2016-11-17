@@ -59,6 +59,29 @@ export default class JuxtaposeApplication extends React.Component {
             oReq.open('GET', '/api/asset/' + assetData['id'] + '/');
             oReq.send();
         });
+
+        // Initialize existing SequenceAsset
+        const xhr = new Xhr();
+        xhr.getSequenceAsset(window.MediaThread.current_project)
+           .then(function(sequenceAsset) {
+               if (sequenceAsset.spine) {
+                   xhr.getAsset(sequenceAsset.spine)
+                      .then(function(spine) {
+                          const sources = spine.assets[sequenceAsset.spine]
+                                              .sources;
+                          const vid = extractVideoData(sources);
+                          self.setState({
+                              'spineVideo': {
+                                  'url': vid.url,
+                                  'host': vid.host,
+                                  'id': sequenceAsset.spine
+                              },
+                              'isPlaying': false,
+                              'time': 0
+                          });
+                      });
+               }
+           });
     }
     render() {
         const activeItem = this.getItem(this.state.activeItem);
