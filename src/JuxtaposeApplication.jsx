@@ -250,8 +250,8 @@ export default class JuxtaposeApplication extends React.Component {
         }
     }
     onSaveClick() {
-        let xhr = new Xhr();
-        xhr.createSequenceAsset(
+        const xhr = new Xhr();
+        xhr.createOrUpdateSequenceAsset(
             this.state.spineVideo.id,
             window.MediaThread.current_course,
             window.MediaThread.current_project);
