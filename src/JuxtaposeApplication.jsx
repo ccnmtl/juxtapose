@@ -36,29 +36,54 @@ export default class JuxtaposeApplication extends React.Component {
         };
 
         document.addEventListener('asset.select', function(e) {
-            let assetData = extractAssetData(e.detail.annotation);
+            const assetData = extractAssetData(e.detail.annotation);
+            const xhr = new Xhr();
+            xhr.getAsset(assetData.id)
+               .then(function(asset) {
+                   const sources = asset.assets[assetData.id].sources;
+                   const vid = extractVideoData(sources);
 
-            let oReq = new XMLHttpRequest();
-            oReq.addEventListener('load', function() {
-                const data = JSON.parse(this.responseText);
-                const id = this.responseURL.match(/.*\/(\d+)\/$/)[1];
-                const sources = data.assets[id].sources;
-                const vid = extractVideoData(sources);
-
-                // Set the spine video
-                self.setState({
-                    'spineVideo': {
-                        'url': vid.url,
-                        'host': vid.host,
-                        'id': id
-                    },
-                    'isPlaying': false,
-                    'time': 0
-                });
-            });
-            oReq.open('GET', '/api/asset/' + assetData['id'] + '/');
-            oReq.send();
+                   // Set the spine video
+                   self.setState({
+                       'spineVideo': {
+                           'url': vid.url,
+                           'host': vid.host,
+                           'id': assetData.id
+                       },
+                       'isPlaying': false,
+                       'time': 0
+                   });
+               });
         });
+
+        // Initialize existing SequenceAsset
+        if (window.MediaThread && window.MediaThread.current_project) {
+            this.initializeSequenceAsset(window.MediaThread.current_project);
+        }
+    }
+    initializeSequenceAsset(currentProject) {
+        const self = this;
+        const xhr = new Xhr();
+        xhr.getSequenceAsset(currentProject)
+           .then(function(sequenceAsset) {
+               if (sequenceAsset.spine) {
+                   xhr.getAsset(sequenceAsset.spine)
+                      .then(function(spine) {
+                          const sources = spine.assets[sequenceAsset.spine]
+                                              .sources;
+                          const vid = extractVideoData(sources);
+                          self.setState({
+                              'spineVideo': {
+                                  'url': vid.url,
+                                  'host': vid.host,
+                                  'id': sequenceAsset.spine
+                              },
+                              'isPlaying': false,
+                              'time': 0
+                          });
+                      });
+               }
+           });
     }
     render() {
         const activeItem = this.getItem(this.state.activeItem);

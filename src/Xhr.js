@@ -14,10 +14,43 @@ export default class Xhr {
             body: {}
         };
     }
+
+    // API Endpoints
+    assetUrl(assetId) {
+        return '/api/asset/' + assetId + '/';
+    }
+    projectSequenceAssetUrl(projectId) {
+        return '/project/api/projectsequenceassets/?project=' + projectId;
+    }
+    sequenceAssetUrl(sequenceAssetId) {
+        return '/sequence/api/assets/' + sequenceAssetId + '/';
+    }
+    sequenceAssetsUrl() {
+        return '/sequence/api/assets/';
+    }
+
+    getAsset(assetId) {
+        return fetch(this.assetUrl(assetId), this.xhrOpts)
+            .then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                return json;
+            });
+    }
+    getSequenceAsset(projectId) {
+        return fetch(this.projectSequenceAssetUrl(projectId), this.xhrOpts)
+            .then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                if (json.length > 0) {
+                    return json[0].sequence_asset;
+                }
+                return null;
+            });
+    }
     createOrUpdateSequenceAsset(spineVidId, courseId, projectId) {
         const self = this;
-        fetch('/project/api/projectsequenceassets/?project=' + projectId,
-              this.xhrOpts)
+        fetch(this.projectSequenceAssetUrl(projectId), this.xhrOpts)
             .then(function(response) {
                 return response.json();
             }).then(function(json) {
@@ -40,7 +73,7 @@ export default class Xhr {
             course: courseId,
             project: projectId
         });
-        fetch('/sequence/api/assets/', this.xhrOpts);
+        fetch(this.sequenceAssetsUrl(), this.xhrOpts);
     }
     updateSequenceAsset(sequenceAssetId, spineVidId, courseId, projectId) {
         this.xhrOpts.method = 'put';
@@ -49,7 +82,6 @@ export default class Xhr {
             course: courseId,
             project: projectId
         });
-        const url = '/sequence/api/assets/' + sequenceAssetId + '/';
-        fetch(url, this.xhrOpts);
+        fetch(this.sequenceAssetUrl(sequenceAssetId), this.xhrOpts);
     }
 }
