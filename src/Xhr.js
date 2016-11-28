@@ -30,6 +30,10 @@ export default class Xhr {
     }
 
     getAsset(assetId) {
+        if (!assetId) {
+            throw 'getAsset: assetId is required.';
+        }
+
         return fetch(this.assetUrl(assetId), this.xhrOpts)
             .then(function(response) {
                 return response.json();
@@ -38,6 +42,10 @@ export default class Xhr {
             });
     }
     getSequenceAsset(projectId) {
+        if (!projectId) {
+            throw 'getSequenceAsset: projectId is required.';
+        }
+
         return fetch(this.projectSequenceAssetUrl(projectId), this.xhrOpts)
             .then(function(response) {
                 return response.json();
@@ -49,6 +57,10 @@ export default class Xhr {
             });
     }
     createOrUpdateSequenceAsset(spineVidId, courseId, projectId) {
+        if (!spineVidId || !courseId || !projectId) {
+            throw 'createOrUpdateSequenceAsset: missing parameter';
+        }
+
         const self = this;
         fetch(this.projectSequenceAssetUrl(projectId), this.xhrOpts)
             .then(function(response) {
@@ -67,6 +79,10 @@ export default class Xhr {
             });
     }
     createSequenceAsset(spineVidId, courseId, projectId) {
+        if (!spineVidId || !courseId || !projectId) {
+            throw 'createSequenceAsset: missing parameter';
+        }
+
         this.xhrOpts.method = 'post';
         this.xhrOpts.body = JSON.stringify({
             spine: spineVidId,
@@ -76,6 +92,10 @@ export default class Xhr {
         fetch(this.sequenceAssetsUrl(), this.xhrOpts);
     }
     updateSequenceAsset(sequenceAssetId, spineVidId, courseId, projectId) {
+        if (!sequenceAssetId || !spineVidId || !courseId || !projectId) {
+            throw 'updateSequenceAsset: missing parameter';
+        }
+
         this.xhrOpts.method = 'put';
         this.xhrOpts.body = JSON.stringify({
             spine: spineVidId,
