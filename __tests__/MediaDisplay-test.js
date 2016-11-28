@@ -11,16 +11,16 @@ describe('getCurrentItem', () => {
     it('returns an accurate current item', () => {
         let data = [{
                 key: 0,
-                startTime: 5,
-                endTime: 60,
+                start_time: 5,
+                end_time: 60,
                 type: 'vid',
                 source: 'video.mp4'
         }];
         expect(getCurrentItem(data, 3.2)).toBeNull;
         expect(getCurrentItem(data, 55)).toEqual({
             key: 0,
-            startTime: 5,
-            endTime: 60,
+            start_time: 5,
+            end_time: 60,
             type: 'vid',
             source: 'video.mp4'
         });
@@ -28,22 +28,22 @@ describe('getCurrentItem', () => {
         data = [
             {
                 key: 0,
-                startTime: 5,
-                endTime: 60,
+                start_time: 5,
+                end_time: 60,
                 type: 'vid',
                 source: 'video.mp4'
             },
             {
                 key: 1,
-                startTime: 63,
-                endTime: 64,
+                start_time: 63,
+                end_time: 64,
                 type: 'vid',
                 source: 'video.mp4'
             },
             {
                 key: 2,
-                startTime: 64,
-                endTime: 70,
+                start_time: 64,
+                end_time: 70,
                 type: 'vid',
                 source: 'video.mp4'
             },
@@ -51,23 +51,23 @@ describe('getCurrentItem', () => {
         expect(getCurrentItem(data, 3.2)).toBeNull;
         expect(getCurrentItem(data, 55)).toEqual({
             key: 0,
-            startTime: 5,
-            endTime: 60,
+            start_time: 5,
+            end_time: 60,
             type: 'vid',
             source: 'video.mp4'
         });
         expect(getCurrentItem(data, 60)).toEqual({
             key: 0,
-            startTime: 5,
-            endTime: 60,
+            start_time: 5,
+            end_time: 60,
             type: 'vid',
             source: 'video.mp4'
         });
         expect(getCurrentItem(data, 60.5)).toBeNull;
         expect(getCurrentItem(data, 63.88)).toEqual({
             key: 1,
-            startTime: 63,
-            endTime: 64,
+            start_time: 63,
+            end_time: 64,
             type: 'vid',
             source: 'video.mp4'
         });

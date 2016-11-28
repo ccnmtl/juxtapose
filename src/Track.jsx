@@ -39,9 +39,9 @@ export default class Track extends React.Component {
         trackData.map(function(data, i) {
             if (me.props.duration) {
                 const width = percentToTrackCoords(
-                    ((data.endTime - data.startTime) / me.props.duration)
+                    ((data.end_time - data.start_time) / me.props.duration)
                     * 100);
-                const percent = (data.startTime / me.props.duration) * 100;
+                const percent = (data.start_time / me.props.duration) * 100;
                 const xPos = percentToTrackCoords(percent);
                 const active = isActive(me.props.activeItem, me.type, i);
 

@@ -4,8 +4,8 @@ import {textTrackData} from './data.js';
 export default class TextDisplay extends React.Component {
     shouldDisplay(data, currentTime) {
         for (let e of data) {
-            if (currentTime >= e.startTime &&
-                currentTime <= e.endTime) {
+            if (currentTime >= e.start_time &&
+                currentTime <= e.end_time) {
                 return e.source;
             }
         }

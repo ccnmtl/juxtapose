@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import {prepareMediaData, prepareTextData} from './utils.js';
 
 export default class Xhr {
     constructor() {
@@ -56,8 +57,11 @@ export default class Xhr {
                 return null;
             });
     }
-    createOrUpdateSequenceAsset(spineVidId, courseId, projectId) {
-        if (!spineVidId || !courseId || !projectId) {
+    createOrUpdateSequenceAsset(spineVidId, courseId, projectId,
+                                mediaTrack, textTrack) {
+        if (!spineVidId || !courseId || !projectId ||
+            !mediaTrack || !textTrack
+           ) {
             throw 'createOrUpdateSequenceAsset: missing parameter';
         }
 
@@ -72,14 +76,24 @@ export default class Xhr {
                         sequenceAssetId,
                         spineVidId,
                         courseId,
-                        projectId);
+                        projectId,
+                        mediaTrack,
+                        textTrack);
                 } else {
-                    self.createSequenceAsset(spineVidId, courseId, projectId);
+                    self.createSequenceAsset(
+                        spineVidId,
+                        courseId,
+                        projectId,
+                        mediaTrack,
+                        textTrack);
                 }
             });
     }
-    createSequenceAsset(spineVidId, courseId, projectId) {
-        if (!spineVidId || !courseId || !projectId) {
+    createSequenceAsset(spineVidId, courseId, projectId,
+                        mediaTrack, textTrack) {
+        if (!spineVidId || !courseId || !projectId ||
+            !mediaTrack || !textTrack
+           ) {
             throw 'createSequenceAsset: missing parameter';
         }
 
@@ -87,20 +101,28 @@ export default class Xhr {
         this.xhrOpts.body = JSON.stringify({
             spine: spineVidId,
             course: courseId,
-            project: projectId
+            project: projectId,
+            media_elements: prepareMediaData(mediaTrack),
+            text_elements: prepareTextData(textTrack)
         });
         fetch(this.sequenceAssetsUrl(), this.xhrOpts);
     }
-    updateSequenceAsset(sequenceAssetId, spineVidId, courseId, projectId) {
-        if (!sequenceAssetId || !spineVidId || !courseId || !projectId) {
+    updateSequenceAsset(sequenceAssetId, spineVidId, courseId, projectId,
+                        mediaTrack, textTrack) {
+        if (!sequenceAssetId || !spineVidId || !courseId || !projectId ||
+            !mediaTrack || !textTrack
+           ) {
             throw 'updateSequenceAsset: missing parameter';
         }
 
         this.xhrOpts.method = 'put';
         this.xhrOpts.body = JSON.stringify({
+            id: sequenceAssetId,
             spine: spineVidId,
             course: courseId,
-            project: projectId
+            project: projectId,
+            media_elements: prepareMediaData(mediaTrack),
+            text_elements: prepareTextData(textTrack)
         });
         fetch(this.sequenceAssetUrl(sequenceAssetId), this.xhrOpts);
     }
