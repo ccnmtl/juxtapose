@@ -6,17 +6,17 @@ export default class TrackElementManager extends React.Component {
         super();
         this.state = {
             value: '',
-            startTime: null,
+            start_time: null,
             duration: null
         }
     }
     componentWillReceiveProps(newProps) {
         if (newProps.activeItem) {
-            const duration = newProps.activeItem.endTime -
-                           newProps.activeItem.startTime;
+            const duration = newProps.activeItem.end_time -
+                           newProps.activeItem.start_time;
             this.setState({
                 value: newProps.activeItem.source,
-                startTime: newProps.activeItem.startTime,
+                start_time: newProps.activeItem.start_time,
                 duration: duration
             });
         }
@@ -47,7 +47,7 @@ export default class TrackElementManager extends React.Component {
                 <h2>{title}</h2>
                 <form onSubmit={this.onSubmit.bind(this)}>
                     <div className="form-group">
-                        Start time: <strong>{formatTimecode(this.state.startTime)}</strong>
+                        Start time: <strong>{formatTimecode(this.state.start_time)}</strong>
                         <span className="jux-time-controls">
                             <button onClick={this.onStartTimeDecrease.bind(this)}>-</button>
                             <button onClick={this.onStartTimeIncrease.bind(this)}>+</button>
@@ -77,7 +77,7 @@ export default class TrackElementManager extends React.Component {
         e.preventDefault();
         this.props.onSubmit(this.props.activeItem, {
             value: this.state.value,
-            startTime: this.state.startTime,
+            start_time: this.state.start_time,
             duration: this.state.duration
         });
     }
@@ -89,11 +89,11 @@ export default class TrackElementManager extends React.Component {
     }
     onStartTimeIncrease(e) {
         e.preventDefault();
-        this.setState({startTime: this.state.startTime + 1});
+        this.setState({start_time: this.state.start_time + 1});
     }
     onStartTimeDecrease(e) {
         e.preventDefault();
-        this.setState({startTime: Math.max(this.state.startTime - 1, 0)});
+        this.setState({start_time: Math.max(this.state.start_time - 1, 0)});
     }
     onDurationIncrease(e) {
         e.preventDefault();

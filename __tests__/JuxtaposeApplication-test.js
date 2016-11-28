@@ -11,8 +11,8 @@ describe('JuxtaposeApplication.getItem', () => {
 
         expect(app.getItem(['txt', 0])).toEqual({
             'key': 0,
-            'startTime': 5,
-            'endTime': 40,
+            'start_time': 5,
+            'end_time': 40,
             'type': 'txt',
             'source': 'Lorem ipsum dolor sit amet, consectetur adipiscing ' +
                 'elit, sed do eiusmod tempor incididunt ut labore et ' +
@@ -20,8 +20,8 @@ describe('JuxtaposeApplication.getItem', () => {
         });
         expect(app.getItem(['txt', 1])).toEqual({
             'key': 1,
-            'startTime': 45,
-            'endTime': 55,
+            'start_time': 45,
+            'end_time': 55,
             'type': 'txt',
             'source': 'Duis aute irure dolor in reprehenderit in voluptate ' +
                 'velit esse cillum dolore eu fugiat nulla pariatur. ' +
@@ -30,8 +30,8 @@ describe('JuxtaposeApplication.getItem', () => {
         expect(app.getItem(['media', 3])).toEqual({
             'key': 3,
             'id': 4,
-            'startTime': 38,
-            'endTime': 55,
+            'start_time': 38,
+            'end_time': 55,
             'type': 'img',
             'source': 'static/img/image.jpg'
         });

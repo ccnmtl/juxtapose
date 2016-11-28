@@ -77,3 +77,21 @@ export function formatTimecode(totalSeconds) {
 export function pad2(number) {
     return (number < 10 ? '0' : '') + number;
 }
+
+export function prepareMediaData(array) {
+    for (let e of array) {
+        // We only need the Mediathread ID here.
+        e.media = e.id;
+        delete e.host;
+        delete e.source;
+    }
+    return array;
+}
+
+export function prepareTextData(array) {
+    for (let e of array) {
+        e.text = e.source;
+        delete e.source;
+    }
+    return array;
+}

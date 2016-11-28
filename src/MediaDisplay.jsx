@@ -8,7 +8,7 @@ import Vimeo from 'react-vimeo';
  */
 export function getCurrentItem(data, currentTime) {
     for (let e of data) {
-        if (currentTime >= e.startTime && currentTime <= e.endTime) {
+        if (currentTime >= e.start_time && currentTime <= e.end_time) {
             return e;
         }
     }
@@ -98,7 +98,7 @@ export default class MediaDisplay extends React.Component {
     updateVidPosition(time) {
         const e = getCurrentItem(this.props.data, time);
         if (this.el && e && e.type === 'vid') {
-            this.el.currentTime = time - e.startTime;
+            this.el.currentTime = time - e.start_time;
         }
     }
 }

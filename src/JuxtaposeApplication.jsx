@@ -156,7 +156,7 @@ export default class JuxtaposeApplication extends React.Component {
         const item = _.find(track, ['key', activeItem.key, 10]);
 
         item.source = newData.value;
-        item.endTime = item.startTime + newData.duration;
+        item.end_time = item.start_time + newData.duration;
 
         let newTrack = _.reject(track, ['key', item.key]);
         newTrack.push(item);
@@ -172,8 +172,8 @@ export default class JuxtaposeApplication extends React.Component {
         let newTrack = this.state.textTrack.slice();
         newTrack.push({
             key: newTrack.length,
-            startTime: 30,
-            endTime: 50,
+            start_time: 30,
+            end_time: 50,
             type: 'txt',
             source: txt
         });
@@ -188,9 +188,9 @@ export default class JuxtaposeApplication extends React.Component {
     trackItemDragHandler(origTrack, item) {
         const track = _.find(origTrack, ['key', parseInt(item['i'], 10)]);
         const percent = (item.x / 1000);
-        const len = track.endTime - track.startTime;
-        track.startTime = percent * this.state.duration;
-        track.endTime = track.startTime + len;
+        const len = track.end_time - track.start_time;
+        track.start_time = percent * this.state.duration;
+        track.end_time = track.start_time + len;
 
         // TODO: can this be simplified?
         let newTrack = _.reject(origTrack, ['key', track.key]);
@@ -279,7 +279,9 @@ export default class JuxtaposeApplication extends React.Component {
         xhr.createOrUpdateSequenceAsset(
             this.state.spineVideo.id,
             window.MediaThread.current_course,
-            window.MediaThread.current_project);
+            window.MediaThread.current_project,
+            this.state.mediaTrack,
+            this.state.textTrack);
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeItem
