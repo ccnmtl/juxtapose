@@ -32,7 +32,9 @@ export default class JuxtaposeApplication extends React.Component {
             duration: null,
 
             // The selected item that's managed in the TrackElementManager.
-            activeItem: null
+            activeItem: null,
+
+            saveStatus: null
         };
 
         document.addEventListener('asset.select', function(e) {
@@ -136,6 +138,7 @@ export default class JuxtaposeApplication extends React.Component {
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
             <button className="jux-save-button"
                     onClick={this.onSaveClick.bind(this)}>Save</button>
+            <div>{this.state.saveStatus}</div>
         </div>;
     }
     /**
@@ -275,13 +278,17 @@ export default class JuxtaposeApplication extends React.Component {
         }
     }
     onSaveClick() {
+        const me = this;
         const xhr = new Xhr();
         xhr.createOrUpdateSequenceAsset(
             this.state.spineVideo.id,
             window.MediaThread.current_course,
             window.MediaThread.current_project,
             this.state.mediaTrack,
-            this.state.textTrack);
+            this.state.textTrack
+        ).catch(function(e) {
+            me.setState({saveStatus: e.message});
+        });
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeItem

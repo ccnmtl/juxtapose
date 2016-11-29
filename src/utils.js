@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const getYouTubeID = require('get-youtube-id');
 
 /**
@@ -79,19 +81,21 @@ export function pad2(number) {
 }
 
 export function prepareMediaData(array) {
-    for (let e of array) {
+    let a = _.cloneDeep(array);
+    for (let e of a) {
         // We only need the Mediathread ID here.
         e.media = e.id;
         delete e.host;
         delete e.source;
     }
-    return array;
+    return a;
 }
 
 export function prepareTextData(array) {
-    for (let e of array) {
+    let a = _.cloneDeep(array);
+    for (let e of a) {
         e.text = e.source;
         delete e.source;
     }
-    return array;
+    return a;
 }
