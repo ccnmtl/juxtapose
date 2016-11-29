@@ -1,6 +1,20 @@
 import Cookies from 'js-cookie';
 import {prepareMediaData, prepareTextData} from './utils.js';
 
+function checkStatus(response) {
+    if (response.status >= 200 && response.status < 300) {
+        return response;
+    } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+    }
+}
+
+function parseJSON(response) {
+    return response.json();
+}
+
 export default class Xhr {
     constructor() {
         const csrftoken = Cookies.get('csrftoken');
@@ -66,13 +80,13 @@ export default class Xhr {
         }
 
         const self = this;
-        fetch(this.projectSequenceAssetUrl(projectId), this.xhrOpts)
+        return fetch(this.projectSequenceAssetUrl(projectId), this.xhrOpts)
             .then(function(response) {
                 return response.json();
             }).then(function(json) {
                 if (json.length > 0) {
                     const sequenceAssetId = json[0].sequence_asset.id;
-                    self.updateSequenceAsset(
+                    return self.updateSequenceAsset(
                         sequenceAssetId,
                         spineVidId,
                         courseId,
@@ -80,7 +94,7 @@ export default class Xhr {
                         mediaTrack,
                         textTrack);
                 } else {
-                    self.createSequenceAsset(
+                    return self.createSequenceAsset(
                         spineVidId,
                         courseId,
                         projectId,
@@ -105,7 +119,7 @@ export default class Xhr {
             media_elements: prepareMediaData(mediaTrack),
             text_elements: prepareTextData(textTrack)
         });
-        fetch(this.sequenceAssetsUrl(), this.xhrOpts);
+        return fetch(this.sequenceAssetsUrl(), this.xhrOpts);
     }
     updateSequenceAsset(sequenceAssetId, spineVidId, courseId, projectId,
                         mediaTrack, textTrack) {
@@ -124,6 +138,10 @@ export default class Xhr {
             media_elements: prepareMediaData(mediaTrack),
             text_elements: prepareTextData(textTrack)
         });
-        fetch(this.sequenceAssetUrl(sequenceAssetId), this.xhrOpts);
+        return fetch(
+            this.sequenceAssetUrl(sequenceAssetId),
+            this.xhrOpts)
+            .then(checkStatus)
+            .then(parseJSON);
     }
 }
