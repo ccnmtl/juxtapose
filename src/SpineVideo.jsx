@@ -43,7 +43,6 @@ export default class SpineVideo extends React.Component {
         </div>;
     }
     updateVidPosition(percent) {
-        console.log(this.player, percent);
         this.player.seekTo(percent);
     }
     onLoadedMetadata(e) {

@@ -1,6 +1,5 @@
 import React from 'react';
-import YouTube from 'react-youtube';
-import Vimeo from 'react-vimeo';
+import ReactPlayer from 'react-player'
 
 /**
  * Derive the currently playing item given the current time
@@ -21,33 +20,27 @@ export default class MediaDisplay extends React.Component {
         super()
         this.className = 'jux-media-video';
     }
-    renderVimeoVideo(data) {
-        return <Vimeo videoId={data.source}
-                      className={'vimeo ' + this.className}
-                      autoplay={true} />;
-    }
-    renderYoutubeVideo(data) {
-        const opts = {
-            height: 225,
-            width: 300,
-            playerVars: {
-                autoplay: 1
-            }
-        };
-        return <YouTube videoId={data.source}
-                        opts={opts}
-                        ref={(ref) => this.yel = ref} />;
-    }
     renderVideo(data) {
-        return <video className={this.className}
-                      ref={(ref) => this.el = ref}
-                      width="297">
-            <source src="static/videos/wildspot.mp4" type="video/mp4" />
-            <source src="static/videos/wildspot.webm" type="video/webm" />
-            <source src="static/videos/wildspot.ogv"
-                    type='video/ogg; codecs="theora, vorbis"' />
+        let url = null;
+        if (data.host === 'youtube') {
+            url = 'https://www.youtube.com/watch?v=' + data.source;
+        } else if (data.host === 'vimeo') {
+            url = 'https://www.vimeo.com/watch?v=' + data.source;
+        } else {
+            url = data.source;
+        }
 
-        </video>;
+        return <ReactPlayer
+            id={this.id}
+            ref={(ref) => this.player = ref}
+            width={297}
+            height={222.25}
+            playing={this.props.isPlaying}
+            url={url}
+            onDuration={this.props.onDuration}
+            onProgress={this.props.onProgress}
+            progressFrequency={100}
+        />;
     }
     renderImage(data) {
         return <img src={data.source} />;
@@ -55,14 +48,6 @@ export default class MediaDisplay extends React.Component {
     nowDisplay(data, currentTime) {
         const e = getCurrentItem(data, currentTime);
         if (e && e.type === 'vid') {
-            if (this.props.isPlaying) {
-                this.play();
-            }
-            if (e.host === 'youtube') {
-                return this.renderYoutubeVideo(e);
-            } else if (e.host === 'vimeo') {
-                return this.renderVimeoVideo(e);
-            }
             return this.renderVideo(e);
         } else if (e && e.type === 'img') {
             return this.renderImage(e);
@@ -74,31 +59,25 @@ export default class MediaDisplay extends React.Component {
         return <div className="jux-media-display">{c}</div>;
     }
     componentDidMount() {
-        const el = this.el;
+        const el = this.player;
         if (el && el.currentTime) {
             el.currentTime = 5.333;
         }
     }
     play() {
-        if (this.el && this.el.paused) {
-            this.el.play();
-        }
-        if (this.yel && this.yel.internalPlayer) {
-            this.yel.internalPlayer.playVideo();
+        if (this.player && this.player.paused) {
+            this.player.play();
         }
     }
     pause() {
-        if (this.el && !this.el.paused) {
-            this.el.pause();
-        }
-        if (this.yel && this.yel.internalPlayer) {
-            this.yel.internalPlayer.pauseVideo();
+        if (this.player && !this.player.paused) {
+            this.player.pause();
         }
     }
     updateVidPosition(time) {
         const e = getCurrentItem(this.props.data, time);
-        if (this.el && e && e.type === 'vid') {
-            this.el.currentTime = time - e.start_time;
+        if (this.player && e && e.type === 'vid') {
+            this.player.currentTime = time - e.start_time;
         }
     }
 }
