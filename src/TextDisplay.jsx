@@ -1,5 +1,4 @@
 import React from 'react';
-import {textTrackData} from './data.js';
 
 export default class TextDisplay extends React.Component {
     shouldDisplay(data, currentTime) {
@@ -12,7 +11,7 @@ export default class TextDisplay extends React.Component {
         return '';
     }
     render() {
-        const txt = this.shouldDisplay(textTrackData, this.props.time);
+        const txt = this.shouldDisplay(this.props.data, this.props.time);
         return <div className="jux-text-display">{txt}</div>;
     }
 }

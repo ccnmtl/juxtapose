@@ -1,12 +1,17 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import JuxtaposeApplication from '../src/JuxtaposeApplication.jsx';
+import {mediaTrackData, textTrackData} from '../src/data.js';
 
 describe('JuxtaposeApplication.getItem', () => {
     it('returns the expected output', () => {
         const app = TestUtils.renderIntoDocument(
             <JuxtaposeApplication />
         );
+        app.setState({
+            'mediaTrack': mediaTrackData,
+            'textTrack': textTrackData
+        })
         expect(app.getItem(null)).toBeNull;
 
         expect(app.getItem(['txt', 0])).toEqual({
