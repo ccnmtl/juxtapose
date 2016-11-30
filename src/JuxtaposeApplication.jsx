@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
-import {extractAssetData, extractVideoData, formatTimecode} from './utils.js';
+import {
+    extractAssetData, extractVideoData, formatTimecode,
+    loadMediaData, loadTextData
+} from './utils.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
 import TextTrack from './TextTrack.jsx';
@@ -53,7 +56,8 @@ export default class JuxtaposeApplication extends React.Component {
                    });
                });
         });
-
+    }
+    componentDidMount() {
         // Initialize existing SequenceAsset
         if (window.MediaThread && window.MediaThread.current_project) {
             this.initializeSequenceAsset(window.MediaThread.current_project);
@@ -64,6 +68,10 @@ export default class JuxtaposeApplication extends React.Component {
         const xhr = new Xhr();
         xhr.getSequenceAsset(currentProject)
            .then(function(sequenceAsset) {
+               self.setState({
+                   mediaTrack: loadMediaData(sequenceAsset.media_elements),
+                   textTrack: loadTextData(sequenceAsset.text_elements)
+               });
                if (sequenceAsset.spine) {
                    xhr.getAsset(sequenceAsset.spine)
                       .then(function(spine) {
@@ -71,13 +79,13 @@ export default class JuxtaposeApplication extends React.Component {
                                               .sources;
                           const vid = extractVideoData(sources);
                           self.setState({
-                              'spineVideo': {
-                                  'url': vid.url,
-                                  'host': vid.host,
-                                  'id': sequenceAsset.spine
+                              spineVideo: {
+                                  url: vid.url,
+                                  host: vid.host,
+                                  id: sequenceAsset.spine
                               },
-                              'isPlaying': false,
-                              'time': 0
+                              isPlaying: false,
+                              time: 0
                           });
                       });
                }
