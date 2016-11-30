@@ -99,3 +99,37 @@ export function prepareTextData(array) {
     }
     return a;
 }
+
+/**
+ * Given the JSON returned by the sequence API,
+ * prepare this data to be used in React's state.
+ */
+export function loadMediaData(array) {
+    let i = 1;
+    for (let e of array) {
+        // react-grid-layout requires a unique key for
+        // each grid element.
+        e.key = i;
+        e.start_time = parseInt(e.start_time, 10);
+        e.end_time = parseInt(e.end_time, 10);
+        i++;
+    }
+    return array;
+}
+
+/**
+ * Given the JSON returned by the sequence API,
+ * prepare this data to be used in React's state.
+ */
+export function loadTextData(array) {
+    let i = 1;
+    for (let e of array) {
+        e.type = 'txt';
+        e.key = i;
+        e.start_time = parseInt(e.start_time, 10);
+        e.end_time = parseInt(e.end_time, 10);
+        e.source = e.text;
+        i++;
+    }
+    return array;
+}
