@@ -1,25 +1,26 @@
-build: node_modules/.bin/webpack build/bundle.js
+NODE_MODULES ?= ./node_modules
+JS_SENTINAL ?= $(NODE_MODULES)/sentinal
+
+$(JS_SENTINAL): package.json
+	rm -rf $(NODE_MODULES)
+	npm install
+	cd $(NODE_MODULES)/react-grid-layout && npm install
+	cd ../..
+	touch $(JS_SENTINAL)
+
+build: $(JS_SENTINAL) build/bundle.js
 	npm run build
 
-dev: node_modules/.bin/webpack
+dev: $(JS_SENTINAL)
 	npm run dev
 
-eslint: node_modules/.bin/eslint
+eslint: $(JS_SENTINAL)
 	npm run eslint
 
-test: node_modules/.bin/jest
+test: $(JS_SENTINAL)
 	npm run test
 
-node_modules/.bin/webpack:
-	npm install
-
-node_modules/.bin/eslint:
-	npm install
-
-node_modules/.bin/jest:
-	npm install
-
 clean:
-	rm -rf node_modules
+	rm -rf $(NODE_MODULES)
 
 .PHONY: clean
