@@ -2,7 +2,6 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {extractAssetData, extractVideoData, formatTimecode} from './utils.js';
-import {mediaTrackData, textTrackData, collectionData} from './data.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
 import TextTrack from './TextTrack.jsx';
@@ -21,9 +20,8 @@ export default class JuxtaposeApplication extends React.Component {
         let self = this;
         this.state = {
             spineVideo: null,
-            mediaTrack: mediaTrackData,
-            textTrack: textTrackData,
-            collectionData: collectionData,
+            mediaTrack: [],
+            textTrack: [],
 
             globalAnnotation: '',
 
@@ -32,9 +30,7 @@ export default class JuxtaposeApplication extends React.Component {
             duration: null,
 
             // The selected item that's managed in the TrackElementManager.
-            activeItem: null,
-
-            saveStatus: null
+            activeItem: null
         };
 
         document.addEventListener('asset.select', function(e) {
@@ -107,7 +103,8 @@ export default class JuxtaposeApplication extends React.Component {
                             ref={(c) => this._mediaVid = c} />
             </div>
             <TextDisplay time={this.state.time}
-                         duration={this.state.duration} />
+                         duration={this.state.duration}
+                         data={this.state.textTrack} />
             <div className="jux-flex-horiz">
                 <PlayButton isPlaying={this.state.isPlaying}
                             onClick={this.onPlayClick.bind(this)} />
@@ -123,7 +120,6 @@ export default class JuxtaposeApplication extends React.Component {
                 <MediaTrack duration={this.state.duration}
                             onDragStop={this.onMediaDragStop.bind(this)}
                             onTrackElementAdd={this.onTrackElementAdd.bind(this)}
-                            collectionData={this.state.collectionData}
                             activeItem={this.state.activeItem}
                             data={this.state.mediaTrack} />
                 <TextTrack duration={this.state.duration}
@@ -138,7 +134,6 @@ export default class JuxtaposeApplication extends React.Component {
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
             <button className="jux-save-button"
                     onClick={this.onSaveClick.bind(this)}>Save</button>
-            <div>{this.state.saveStatus}</div>
         </div>;
     }
     /**
@@ -287,7 +282,8 @@ export default class JuxtaposeApplication extends React.Component {
             this.state.mediaTrack,
             this.state.textTrack
         ).catch(function(e) {
-            me.setState({saveStatus: e.message});
+            // TODO: open error pop-up
+            console.error(e);
         });
     }
     /**
