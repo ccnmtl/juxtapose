@@ -8,6 +8,6 @@ export default class MediaTrack extends Track {
         this.type = 'media';
     }
     onAddTrackElementClick() {
-        createCollectionWidget();
+        createCollectionWidget('all');
     }
 }
