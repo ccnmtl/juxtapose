@@ -8,5 +8,7 @@
  */
 
 export function createCollectionWidget(mediaType) {
-    jQuery(window).trigger('collection.open', []);
+    jQuery(window).trigger('collection.open', [{
+        'media_type': mediaType
+    }]);
 }
