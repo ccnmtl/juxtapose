@@ -43,7 +43,7 @@ export function extractAssetData(s) {
 }
 
 /**
- * extractVideoUrl
+ * extractVideoData
  *
  * Given a video source object in Mediathread's asset api format,
  * return a juxtapose media object.
