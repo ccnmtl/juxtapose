@@ -105,7 +105,7 @@ export function prepareTextData(array) {
  * prepare this data to be used in React's state.
  */
 export function loadMediaData(array) {
-    let i = 1;
+    let i = 0;
     for (let e of array) {
         // react-grid-layout requires a unique key for
         // each grid element.
@@ -122,13 +122,14 @@ export function loadMediaData(array) {
  * prepare this data to be used in React's state.
  */
 export function loadTextData(array) {
-    let i = 1;
+    let i = 0;
     for (let e of array) {
         e.type = 'txt';
         e.key = i;
         e.start_time = parseInt(e.start_time, 10);
         e.end_time = parseInt(e.end_time, 10);
         e.source = e.text;
+        delete e.text;
         i++;
     }
     return array;
