@@ -23,10 +23,10 @@ export default class TextAnnotationAdder extends React.Component {
                         title="Close">×</button>
                 <h2>Add item</h2>
                 <form onSubmit={this.onSubmit.bind(this)}>
-                    <textarea onChange={this.onTextChange.bind(this)}
+                    <textarea className="form-control" onChange={this.onTextChange.bind(this)}
                               value={this.state.value} />
                     <div>
-                        <button type="submit">Submit</button>
+                        <button className="btn btn-primary right" type="submit">Submit</button>
                     </div>
                 </form>
             </div>;
