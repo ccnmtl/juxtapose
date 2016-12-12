@@ -31,7 +31,7 @@ export default class Track extends React.Component {
         this.state = {
             adding: false
         };
-        this.width = 600;
+        this.width = 788;
     }
     generateItems(trackData) {
         let items = [];
@@ -87,7 +87,9 @@ export default class Track extends React.Component {
     }
     render() {
         const duration = this.props.duration;
-        return <div className="jux-track">
+        const cssClasses = "jux-track " + this.type;
+        return <div className="jux-track-container">
+	            <div className={cssClasses}>
                     {this.renderItemAdder()}
                     {this.generateSnapColumns()}
                     <ReactGridLayout
@@ -102,6 +104,7 @@ export default class Track extends React.Component {
                         preventCollision={true}>
                         {this.generateItems(this.props.data)}
                     </ReactGridLayout>
+		    </div>
         </div>;
     }
 }
