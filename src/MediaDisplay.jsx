@@ -33,8 +33,8 @@ export default class MediaDisplay extends React.Component {
         return <ReactPlayer
             id={this.id}
             ref={(ref) => this.player = ref}
-            width={297}
-            height={222.25}
+            width={480}
+            height={360}
             playing={this.props.isPlaying}
             url={url}
             onDuration={this.props.onDuration}

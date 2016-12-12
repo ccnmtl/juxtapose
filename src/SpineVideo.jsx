@@ -28,8 +28,8 @@ export default class SpineVideo extends React.Component {
                 <ReactPlayer
                     id={this.id}
                     ref={(ref) => this.player = ref}
-                    width={297}
-                    height={222.25}
+                    width={480}
+                    height={360}
                     playing={this.props.playing}
                     onLoadedMetadata={this.onLoadedMetadata.bind(this)}
                     onEnded={this.onEnded.bind(this)}
