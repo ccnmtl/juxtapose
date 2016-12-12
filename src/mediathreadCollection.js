@@ -8,7 +8,9 @@
  */
 
 export function createCollectionWidget(mediaType) {
+    var disable = mediaType === 'all' ? [] : ['media_type'];
     jQuery(window).trigger('collection.open', [{
-        'media_type': mediaType
+        'media_type': mediaType,
+	'disable': disable
     }]);
 }
