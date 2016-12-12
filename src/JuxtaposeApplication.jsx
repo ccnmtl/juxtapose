@@ -134,9 +134,9 @@ export default class JuxtaposeApplication extends React.Component {
             <TextDisplay time={this.state.time}
                          duration={this.state.duration}
                          data={this.state.textTrack} />
+            <PlayButton isPlaying={this.state.isPlaying}
+                        onClick={this.onPlayClick.bind(this)} />
             <div className="jux-flex-horiz">
-                <PlayButton isPlaying={this.state.isPlaying}
-                            onClick={this.onPlayClick.bind(this)} />
                 <div className="jux-time">
                     {formatTimecode(this.state.time)} / {formatTimecode(this.state.duration)}
                 </div>
