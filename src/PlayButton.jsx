@@ -8,8 +8,8 @@ export default class PlayButton extends React.Component {
         return <button className="jux-play"
                        onClick={this.onClick.bind(this)}>
             {this.props.isPlaying ?
-             String.fromCharCode(9208) :
-             String.fromCharCode(9654) }
+                <span className="glyphicon glyphicon-pause"></span> :
+                <span className="glyphicon glyphicon-play"></span>}
         </button>;
     }
 }
