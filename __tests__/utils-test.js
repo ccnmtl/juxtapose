@@ -25,7 +25,7 @@ describe('formatTimecode', () => {
         expect(formatTimecode(81)).toBe('01:21:00');
         expect(formatTimecode(9999)).toBe('166:39:00');
     });
-    it('formats microseconds correctly', () => {
+    it('formats centiseconds correctly', () => {
         expect(formatTimecode(0.2398572)).toBe('00:00:24');
         expect(formatTimecode(55.1871)).toBe('00:55:19');
         expect(formatTimecode(60.1241)).toBe('01:00:12');

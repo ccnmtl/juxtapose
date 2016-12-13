@@ -12,6 +12,10 @@ const getYouTubeID = require('get-youtube-id');
  * @return {String}          The truncated string.
  */
 export function ellipsis(str, limit, append) {
+    if (typeof str === 'undefined') {
+        return '';
+    }
+
     if (typeof append === 'undefined') {
         append = '…';
     }
@@ -68,12 +72,26 @@ export function extractVideoData(o) {
     return null;
 }
 
-export function formatTimecode(totalSeconds) {
+export function getMinutes(totalSeconds) {
+    return Math.floor(totalSeconds / 60);
+}
+
+export function getSeconds(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    return Math.floor(totalSeconds - minutes * 60);
+}
+
+export function getCentiseconds(totalSeconds) {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = Math.floor(totalSeconds - minutes * 60);
-    const microseconds = Math.round(
-        (totalSeconds - (minutes * 60) - seconds) * 100);
-    return pad2(minutes) + ':' + pad2(seconds) + ':' + pad2(microseconds);
+    return Math.round((totalSeconds - (minutes * 60) - seconds) * 100);
+}
+
+export function formatTimecode(totalSeconds) {
+    const minutes = getMinutes(totalSeconds);
+    const seconds = getSeconds(totalSeconds);
+    const centiseconds = getCentiseconds(totalSeconds);
+    return pad2(minutes) + ':' + pad2(seconds) + ':' + pad2(centiseconds);
 }
 
 export function pad2(number) {
