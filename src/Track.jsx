@@ -31,7 +31,7 @@ export default class Track extends React.Component {
         this.state = {
             adding: false
         };
-        this.width = 878;
+        this.width = 910;
     }
     generateItems(trackData) {
         let items = [];
@@ -53,7 +53,7 @@ export default class Track extends React.Component {
                                      x: xPos,
                                      y: 0,
                                      w: width,
-                                     h: 9
+                                     h: 49
                                  }} />;
                 items.push(item);
             }
@@ -95,7 +95,7 @@ export default class Track extends React.Component {
                     {this.generateSnapColumns()}
                     <ReactGridLayout
                         width={this.width}
-                        margin={[0,10]}
+                        margin={[0,0]}
                         className="layout react-grid-layout"
                         cols={1000}
                         onDragStop={this.props.onDragStop}
