@@ -159,7 +159,7 @@ export default class JuxtaposeApplication extends React.Component {
             </div>
             <TrackElementManager
                 activeItem={activeItem}
-                onSubmit={this.onTrackElementUpdate.bind(this)}
+                onChange={this.onTrackElementUpdate.bind(this)}
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
             <button className="jux-save-button"
                     onClick={this.onSaveClick.bind(this)}>Save</button>
@@ -169,6 +169,7 @@ export default class JuxtaposeApplication extends React.Component {
      * Update a track item's source value, for TrackElementManager.
      */
     onTrackElementUpdate(activeItem, newData) {
+        console.log('onTrackElementUpdate', activeItem, newData);
         if (!activeItem) {
             return;
         }
@@ -182,7 +183,7 @@ export default class JuxtaposeApplication extends React.Component {
 
         const item = _.find(track, ['key', activeItem.key, 10]);
 
-        item.source = newData.value;
+        item.source = newData.source || newData.value;
         item.end_time = item.start_time + newData.duration;
 
         let newTrack = _.reject(track, ['key', item.key]);

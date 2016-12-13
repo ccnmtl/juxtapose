@@ -135,7 +135,6 @@ button.jux-play {
 .jux-track-element-manager {
     margin-top: 10px;
     padding: 10px;
-    border: dashed 1px green;
     background-color: lightyellow;
 }
 
@@ -145,11 +144,6 @@ button.jux-play {
 
 .jux-track-element-manager textarea {
     width: 100%;
-}
-
-.jux-remove-track-element {
-    position: relative;
-    float: right;
 }
 
 .jux-popup-close {

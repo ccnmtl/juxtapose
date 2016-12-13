@@ -1,37 +1,10 @@
 import React from 'react';
 import {formatTimecode} from './utils.js';
+import TimecodeUpdater from './TimecodeUpdater.jsx';
 
 export default class TrackElementManager extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            value: '',
-            start_time: null,
-            duration: null
-        }
-    }
-    componentWillReceiveProps(newProps) {
-        if (newProps.activeItem) {
-            const duration = newProps.activeItem.end_time -
-                           newProps.activeItem.start_time;
-            this.setState({
-                value: newProps.activeItem.source,
-                start_time: newProps.activeItem.start_time,
-                duration: duration
-            });
-        }
-    }
     render() {
         const activeItem = this.props.activeItem;
-
-        let title = '';
-        if (activeItem && activeItem.type === 'txt') {
-            title = '🖹';
-        } else if (activeItem && activeItem.type === 'img') {
-            title = '📷';
-        } else if (activeItem && activeItem.type === 'vid') {
-            title = '📹';
-        }
 
         if (activeItem) {
             let displayTextarea = 'none';
@@ -41,66 +14,55 @@ export default class TrackElementManager extends React.Component {
                 maxLength = 140;
             }
             return <div className="jux-track-element-manager">
-                <button className="jux-remove-track-element"
-                        title="Delete Item"
-                        onClick={this.onDeleteClick.bind(this)}>Remove</button>
-                <h2>{title}</h2>
-                <form onSubmit={this.onSubmit.bind(this)}>
-                    <div className="form-group">
-                        Start time: <strong>{formatTimecode(this.state.start_time)}</strong>
-                        <span className="jux-time-controls">
-                            <button onClick={this.onStartTimeDecrease.bind(this)}>-</button>
-                            <button onClick={this.onStartTimeIncrease.bind(this)}>+</button>
-                        </span>
-                    </div>
-                    <div className="form-group">
-                        Duration: <strong>{formatTimecode(this.state.duration)}</strong>
-                        <span className="jux-time-controls">
-                            <button onClick={this.onDurationDecrease.bind(this)}>-</button>
-                            <button onClick={this.onDurationIncrease.bind(this)}>+</button>
-                        </span>
-                    </div>
-                    <textarea style={{'display': displayTextarea}}
-                              value={this.state.value}
-                              maxLength={maxLength}
-                              onChange={this.onTextChange.bind(this)} />
-                    <div>
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
+    <form>
+        <div className="form-group">
+            <label>
+                Start time: {formatTimecode(this.props.activeItem.start_time)}
+                <TimecodeUpdater
+                    timecode={this.props.activeItem.start_time}
+                    onChange={this.onStartTimeChange.bind(this)} />
+            </label>
+        </div>
+        <div className="form-group">
+            <label>
+                End time: {formatTimecode(this.props.activeItem.end_time)}
+                <TimecodeUpdater
+                    timecode={this.props.activeItem.end_time}
+                    onChange={this.onEndTimeChange.bind(this)} />
+            </label>
+        </div>
+        <div className="form-group">
+            <textarea style={{'display': displayTextarea}}
+                      className="form-control"
+                      value={this.props.activeItem.source}
+                      maxLength={maxLength}
+                      onChange={this.onTextChange.bind(this)} />
+        </div>
+        <div className="form-group">
+            <button className="jux-remove-track-element btn btn-default"
+                    title="Delete Item"
+                    onClick={this.onDeleteClick.bind(this)}>
+                <span className="glyphicon glyphicon-trash"
+                      aria-hidden="true"></span>
+            </button>
+        </div>
+        <div className="clearfix"></div>
+    </form>
             </div>;
         } else {
             return <div></div>;
         }
     }
-    onSubmit(e) {
-        e.preventDefault();
-        this.props.onSubmit(this.props.activeItem, {
-            value: this.state.value,
-            start_time: this.state.start_time,
-            duration: this.state.duration
-        });
-    }
     onTextChange(e) {
-        this.setState({value: e.target.value});
+        console.log('onTextChange', e.target.value);
     }
     onDeleteClick(e) {
         this.props.onDeleteClick();
     }
-    onStartTimeIncrease(e) {
-        e.preventDefault();
-        this.setState({start_time: this.state.start_time + 1});
+    onStartTimeChange(startTime) {
+        console.log('onStartTimeChange', startTime);
     }
-    onStartTimeDecrease(e) {
-        e.preventDefault();
-        this.setState({start_time: Math.max(this.state.start_time - 1, 0)});
-    }
-    onDurationIncrease(e) {
-        e.preventDefault();
-        this.setState({duration: this.state.duration + 1});
-    }
-    onDurationDecrease(e) {
-        e.preventDefault();
-        this.setState({duration: Math.max(this.state.duration - 1, 0)});
+    onEndTimeChange(endTime) {
+        console.log('onEndTimeChange', endTime);
     }
 }
