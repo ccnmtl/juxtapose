@@ -2,7 +2,6 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import TrackElement from './TrackElement.jsx';
 import TrackElementAddColumn from './TrackElementAddColumn.jsx';
-import GridItem from 'react-grid-layout';
 
 /**
  * Scale percentage to track x co-ordinate (0 to 1000).
