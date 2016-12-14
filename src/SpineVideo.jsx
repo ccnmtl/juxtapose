@@ -3,8 +3,8 @@ import ReactPlayer from 'react-player'
 import {createCollectionWidget} from './mediathreadCollection.js';
 
 export default class SpineVideo extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.id = 'jux-spine-video';
     }
     render() {
