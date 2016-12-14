@@ -166,7 +166,7 @@ export default class JuxtaposeApplication extends React.Component {
         </div>;
     }
     /**
-     * Update a track item's source value, for TrackElementManager.
+     * Update a track item, for TrackElementManager.
      */
     onTrackElementUpdate(activeItem, newData) {
         console.log('onTrackElementUpdate', activeItem, newData);
@@ -183,8 +183,15 @@ export default class JuxtaposeApplication extends React.Component {
 
         const item = _.find(track, ['key', activeItem.key, 10]);
 
-        item.source = newData.source || newData.value;
-        item.end_time = item.start_time + newData.duration;
+        if (newData.source) {
+            item.source = newData.source;
+        }
+        if (newData.start_time) {
+            item.start_time = newData.start_time;
+        }
+        if (newData.end_time) {
+            item.end_time = newData.end_time;
+        }
 
         let newTrack = _.reject(track, ['key', item.key]);
         newTrack.push(item);
