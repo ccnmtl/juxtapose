@@ -16,10 +16,11 @@ export default class TrackElementManager extends React.Component {
                 maxLength = 140;
             }
             return <div className="jux-track-element-manager">
-    <form>
+    <form className="form-inline">
         <div className="form-group">
             <label>
                 Start time: {formatTimecode(this.props.activeItem.start_time)}
+                <br />
                 <TimecodeUpdater
                     timecode={this.props.activeItem.start_time}
                     onMinutesChange={this.onStartTimeMinutesChange.bind(this)}
@@ -31,6 +32,7 @@ export default class TrackElementManager extends React.Component {
         <div className="form-group">
             <label>
                 End time: {formatTimecode(this.props.activeItem.end_time)}
+                <br />
                 <TimecodeUpdater
                     timecode={this.props.activeItem.end_time}
                     onMinutesChange={this.onEndTimeMinutesChange.bind(this)}
@@ -39,6 +41,7 @@ export default class TrackElementManager extends React.Component {
                 />
             </label>
         </div>
+        <br />
         <div className="form-group">
             <textarea style={{'display': displayTextarea}}
                       className="form-control"
@@ -46,8 +49,9 @@ export default class TrackElementManager extends React.Component {
                       maxLength={maxLength}
                       onChange={this.onTextChange.bind(this)} />
         </div>
+        <br />
         <div className="form-group">
-            <button className="jux-remove-track-element btn btn-default"
+            <button className="jux-remove-track-element btn btn-danger"
                     title="Delete Item"
                     onClick={this.onDeleteClick.bind(this)}>
                 <span className="glyphicon glyphicon-trash"
