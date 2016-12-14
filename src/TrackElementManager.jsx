@@ -1,5 +1,7 @@
 import React from 'react';
-import {formatTimecode} from './utils.js';
+import {
+    formatTimecode, getMinutes, getSeconds, getCentiseconds
+} from './utils.js';
 import TimecodeUpdater from './TimecodeUpdater.jsx';
 
 export default class TrackElementManager extends React.Component {
@@ -20,7 +22,10 @@ export default class TrackElementManager extends React.Component {
                 Start time: {formatTimecode(this.props.activeItem.start_time)}
                 <TimecodeUpdater
                     timecode={this.props.activeItem.start_time}
-                    onChange={this.onStartTimeChange.bind(this)} />
+                    onMinutesChange={this.onStartTimeMinutesChange.bind(this)}
+                    onSecondsChange={this.onStartTimeSecondsChange.bind(this)}
+                    onCentisecondsChange={this.onStartTimeCentisecondsChange.bind(this)}
+                />
             </label>
         </div>
         <div className="form-group">
@@ -28,7 +33,10 @@ export default class TrackElementManager extends React.Component {
                 End time: {formatTimecode(this.props.activeItem.end_time)}
                 <TimecodeUpdater
                     timecode={this.props.activeItem.end_time}
-                    onChange={this.onEndTimeChange.bind(this)} />
+                    onMinutesChange={this.onEndTimeMinutesChange.bind(this)}
+                    onSecondsChange={this.onEndTimeSecondsChange.bind(this)}
+                    onCentisecondsChange={this.onEndTimeCentisecondsChange.bind(this)}
+                />
             </label>
         </div>
         <div className="form-group">
@@ -54,15 +62,43 @@ export default class TrackElementManager extends React.Component {
         }
     }
     onTextChange(e) {
-        console.log('onTextChange', e.target.value);
+        this.props.onChange(this.props.activeItem, {source: e.target.value});
     }
     onDeleteClick(e) {
         this.props.onDeleteClick();
     }
-    onStartTimeChange(startTime) {
-        console.log('onStartTimeChange', startTime);
+    onStartTimeMinutesChange(val) {
+        const minutes = getMinutes(this.props.activeItem.start_time);
+        const newTime = this.props.activeItem.start_time -
+                        (minutes * 60) + (val * 60);
+        this.props.onChange(this.props.activeItem, {start_time: newTime});
     }
-    onEndTimeChange(endTime) {
-        console.log('onEndTimeChange', endTime);
+    onStartTimeSecondsChange(val) {
+        const seconds = getSeconds(this.props.activeItem.start_time);
+        const newTime = this.props.activeItem.start_time - seconds + val;
+        this.props.onChange(this.props.activeItem, {start_time: newTime});
+    }
+    onStartTimeCentisecondsChange(val) {
+        const centiseconds = getCentiseconds(this.props.activeItem.start_time);
+        const newTime = this.props.activeItem.start_time -
+                        (centiseconds / 100) + (val / 100);
+        this.props.onChange(this.props.activeItem, {start_time: newTime});
+    }
+    onEndTimeMinutesChange(val) {
+        const minutes = getMinutes(this.props.activeItem.end_time);
+        const newTime = this.props.activeItem.end_time -
+                        (minutes * 60) + (val * 60);
+        this.props.onChange(this.props.activeItem, {end_time: newTime});
+    }
+    onEndTimeSecondsChange(val) {
+        const seconds = getSeconds(this.props.activeItem.end_time);
+        const newTime = this.props.activeItem.end_time - seconds + val;
+        this.props.onChange(this.props.activeItem, {end_time: newTime});
+    }
+    onEndTimeCentisecondsChange(val) {
+        const centiseconds = getCentiseconds(this.props.activeItem.end_time);
+        const newTime = this.props.activeItem.end_time -
+                        (centiseconds / 100) + (val / 100);
+        this.props.onChange(this.props.activeItem, {end_time: newTime});
     }
 }
