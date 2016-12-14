@@ -146,16 +146,20 @@ export default class JuxtaposeApplication extends React.Component {
                 <Playhead currentTime={this.state.time}
                           duration={this.state.duration}
                           onChange={this.onPlayheadTimeChange.bind(this)} />
-                <MediaTrack duration={this.state.duration}
-                            onDragStop={this.onMediaDragStop.bind(this)}
-                            onTrackElementAdd={this.onTrackElementAdd.bind(this)}
-                            activeItem={this.state.activeItem}
-                            data={this.state.mediaTrack} />
-                <TextTrack duration={this.state.duration}
-                           onDragStop={this.onTextDragStop.bind(this)}
-                           onTrackElementAdd={this.onTrackElementAdd.bind(this)}
-                           activeItem={this.state.activeItem}
-                           data={this.state.textTrack} />
+                <MediaTrack
+                    duration={this.state.duration}
+                    onDragStop={this.onMediaDragStop.bind(this)}
+                    onTrackElementAdd={this.onTrackElementAdd.bind(this)}
+                    onTrackEditButtonClick={this.onMediaTrackEditButtonClick.bind(this)}
+                    activeItem={this.state.activeItem}
+                    data={this.state.mediaTrack} />
+                <TextTrack
+                    duration={this.state.duration}
+                    onDragStop={this.onTextDragStop.bind(this)}
+                    onTrackElementAdd={this.onTrackElementAdd.bind(this)}
+                    onTrackEditButtonClick={this.onTextTrackEditButtonClick.bind(this)}
+                    activeItem={this.state.activeItem}
+                    data={this.state.textTrack} />
             </div>
             <TrackElementManager
                 activeItem={activeItem}
@@ -169,7 +173,6 @@ export default class JuxtaposeApplication extends React.Component {
      * Update a track item, for TrackElementManager.
      */
     onTrackElementUpdate(activeItem, newData) {
-        console.log('onTrackElementUpdate', activeItem, newData);
         if (!activeItem) {
             return;
         }
@@ -233,19 +236,19 @@ export default class JuxtaposeApplication extends React.Component {
         newTrack = _.sortBy(newTrack, 'key');
         return newTrack;
     }
+    onMediaTrackEditButtonClick(event, item) {
+        this.setState({activeItem: ['media', item.props.data.key]});
+    }
+    onTextTrackEditButtonClick(event, item) {
+        this.setState({activeItem: ['txt', item.props.data.key]});
+    }
     onMediaDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.mediaTrack, item);
-        this.setState({
-            activeItem: ['media', item.i],
-            mediaTrack: newTrack
-        });
+        this.setState({mediaTrack: newTrack});
     }
     onTextDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.textTrack, item);
-        this.setState({
-            activeItem: ['txt', item.i],
-            textTrack: newTrack
-        });
+        this.setState({textTrack: newTrack});
     }
     onPlayClick(e) {
         const newState = !this.state.isPlaying;

@@ -46,6 +46,7 @@ export default class Track extends React.Component {
                 const active = isActive(me.props.activeItem, me.type, i);
 
                 const item = <TrackElement
+                                 onEditButtonClick={me.onEditButtonClick.bind(me)}
                                  isActive={active}
                                  key={i}
                                  data={data}
@@ -78,6 +79,9 @@ export default class Track extends React.Component {
     onTrackElementAdd(value, timestamp) {
         this.closeItemAdder();
         this.props.onTrackElementAdd(value, timestamp);
+    }
+    onEditButtonClick(e, item) {
+        this.props.onTrackEditButtonClick(e, item);
     }
     closeItemAdder() {
         this.setState({adding: false});
