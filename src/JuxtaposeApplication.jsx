@@ -18,8 +18,8 @@ import Xhr from './Xhr.js';
 
 
 export default class JuxtaposeApplication extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         let self = this;
         this.state = {
             spineVideo: null,

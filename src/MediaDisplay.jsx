@@ -16,8 +16,8 @@ export function getCurrentItem(data, currentTime) {
 
 
 export default class MediaDisplay extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.className = 'jux-media-video';
     }
     renderVideo(data) {

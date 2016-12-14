@@ -3,8 +3,8 @@ import Track from './Track.jsx';
 import TextAnnotationAdder from './TextAnnotationAdder.jsx';
 
 export default class TextTrack extends Track {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.type = 'txt';
     }
     renderItemAdder() {

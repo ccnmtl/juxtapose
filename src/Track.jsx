@@ -26,8 +26,8 @@ function isActive(activeItem, type, i) {
 
 
 export default class Track extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             adding: false
         };

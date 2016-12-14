@@ -3,8 +3,8 @@ import VidItemThumb from './VidItemThumb.jsx';
 import {ellipsis} from './utils.js';
 
 export default class TrackElement extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             vimeoThumbnailUrl: null
         }
