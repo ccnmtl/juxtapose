@@ -25,8 +25,7 @@ export default class Xhr {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
             },
-            credentials: 'same-origin',
-            body: {}
+            credentials: 'same-origin'
         };
     }
 
