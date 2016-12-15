@@ -72,6 +72,18 @@ export function extractVideoData(o) {
     return null;
 }
 
+/**
+ * Given a number of seconds as a float, return an array
+ * containing [minutes, seconds, centiseconds].
+ */
+export function getSeparatedTimeUnits(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = Math.floor(totalSeconds - minutes * 60);
+    const centiseconds = Math.round(
+        (totalSeconds - (minutes * 60) - seconds) * 100);
+    return [minutes, seconds, centiseconds];
+}
+
 export function getMinutes(totalSeconds) {
     return Math.floor(totalSeconds / 60);
 }
@@ -88,10 +100,8 @@ export function getCentiseconds(totalSeconds) {
 }
 
 export function formatTimecode(totalSeconds) {
-    const minutes = getMinutes(totalSeconds);
-    const seconds = getSeconds(totalSeconds);
-    const centiseconds = getCentiseconds(totalSeconds);
-    return pad2(minutes) + ':' + pad2(seconds) + ':' + pad2(centiseconds);
+    const units = getSeparatedTimeUnits(totalSeconds);
+    return pad2(units[0]) + ':' + pad2(units[1]) + ':' + pad2(units[2]);
 }
 
 export function pad2(number) {

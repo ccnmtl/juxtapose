@@ -1,4 +1,6 @@
-import {extractAssetData, formatTimecode, pad2} from '../src/utils.js';
+import {
+    extractAssetData, formatTimecode, pad2, getSeparatedTimeUnits
+} from '../src/utils.js';
 
 describe('extractAssetData', () => {
     it('handles bogus input', () => {
@@ -31,6 +33,14 @@ describe('formatTimecode', () => {
         expect(formatTimecode(60.1241)).toBe('01:00:12');
         expect(formatTimecode(81.3299)).toBe('01:21:33');
         expect(formatTimecode(9999.114)).toBe('166:39:11');
+    });
+});
+
+describe('getSeparatedTimeUnits', () => {
+    it('returns the correct values', () => {
+        expect(getSeparatedTimeUnits(0)).toEqual([0, 0, 0]);
+        expect(getSeparatedTimeUnits(0.01)).toEqual([0, 0, 1]);
+        expect(getSeparatedTimeUnits(110.01)).toEqual([1, 50, 1]);
     });
 });
 
