@@ -30,12 +30,10 @@ Then, in a new terminal:
 Now you can make changes in the Juxtapose repository, and the build will be
 updated when you access the tool in Mediathread.
 
-You'll also need to copy over the CSS files when you make changes to them.
-
 ## Deployment
 Here's how I'm currently pushing this code to Mediathread:
 * Run `make build`
-* Copy `build/bundle.js` and `static/css/` to `mediathread/media/juxtapose`
+* Copy `build/bundle.js` to `mediathread/media/juxtapose`
 * Commit the compiled code to Mediathread
 
 I'm planning on figuring out how to bundle this with npm, so this process
