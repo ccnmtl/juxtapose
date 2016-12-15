@@ -1,5 +1,5 @@
 import React from 'react';
-import {getMinutes, getSeconds, getCentiseconds} from './utils.js';
+import {getSeparatedTimeUnits} from './utils.js';
 
 /**
  * TimecodeUpdater is a form widget that handles updating a
@@ -8,9 +8,10 @@ import {getMinutes, getSeconds, getCentiseconds} from './utils.js';
  */
 export default class TimecodeUpdater extends React.Component {
     render() {
-        const minutes = getMinutes(this.props.timecode);
-        const seconds = getSeconds(this.props.timecode);
-        const centiseconds = getCentiseconds(this.props.timecode);
+        const units = getSeparatedTimeUnits(this.props.timecode);
+        const minutes = units[0];
+        const seconds = units[1];
+        const centiseconds = units[2];
         return <div className="input-group">
     <input type="number" className="form-control"
            size="2" min="0" required
