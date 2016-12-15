@@ -75,7 +75,17 @@ export default class TrackElement extends React.Component {
                     onMouseDown={this.props.onMouseDown}
                     onTouchEnd={this.props.onTouchEnd}
                     onTouchStart={this.props.onTouchStart}>
+            <div className="jux-track-manager-button">
+                <button className="btn btn-default btn-xs"
+                        onClick={this.onEditButtonClick.bind(this)}>
+                    <span className="glyphicon glyphicon-pencil"
+                          aria-hidden="true"></span>
+                </button>
+            </div>
             {c}
         </div>;
+    }
+    onEditButtonClick(e) {
+        this.props.onEditButtonClick(e, this);
     }
 }
