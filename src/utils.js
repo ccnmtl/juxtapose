@@ -59,12 +59,34 @@ export function extractAssetData(s) {
 }
 
 /**
- * extractVideoData
+ * extractAnnotation
  *
- * Given a video source object in Mediathread's asset api format,
+ * Given a source object in Mediathread's asset api format,
+ * return a annotation properties
+ */
+export function extractAnnotation(assetCtx, annotationId) {
+    for (var i = 0; i < assetCtx.annotations.length && annotationId; i++) {
+        let annotation = assetCtx.annotations[i];
+        if (annotation.id === annotationId) {
+            if (!annotation.is_global_annotation) {
+                let duration = annotation.range2 - annotation.range1;
+                return {
+                    duration: Math.min(30, duration),
+                    range1: annotation.range1
+                };
+            }
+        }
+    }
+    return {duration: 30, range1: 0};
+}
+
+/**
+ * extractSource
+ *
+ * Given a source object in Mediathread's asset api format,
  * return a juxtapose media object.
  */
-export function extractVideoData(o) {
+export function extractSource(o) {
     if (o.youtube && o.youtube.url) {
         return {
             url: getYouTubeID(o.youtube.url),
@@ -81,8 +103,14 @@ export function extractVideoData(o) {
             url: o.mp4_pseudo.url
         };
     }
+    if (o.mp4_audio && o.mp4_audio.url) {
+        return {
+            url: o.mp4_audio.url
+        };
+    }
     return null;
 }
+
 
 /**
  * Given a number of seconds as a float, return an array

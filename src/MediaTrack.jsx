@@ -7,7 +7,11 @@ export default class MediaTrack extends Track {
         super(props);
         this.type = 'media';
     }
-    onAddTrackElementClick() {
-        createCollectionWidget('all');
+    onAddTrackElementClick(e, absoluteTimecode) {
+        let caller = {
+            'type': 'track',
+            'timecode': absoluteTimecode
+        }
+        createCollectionWidget('all', caller);
     }
 }
