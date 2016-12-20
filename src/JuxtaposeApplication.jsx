@@ -165,8 +165,6 @@ export default class JuxtaposeApplication extends React.Component {
                 activeItem={activeItem}
                 onChange={this.onTrackElementUpdate.bind(this)}
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
-            <button className="jux-save-button"
-                    onClick={this.onSaveClick.bind(this)}>Save</button>
         </div>;
     }
     /**
@@ -216,6 +214,9 @@ export default class JuxtaposeApplication extends React.Component {
         } else {
             this.setState({mediaTrack: newTrack});
         }
+
+        jQuery(window).trigger('sequenceassignment.set_dirty',
+                               {'dirty': true});
     }
     onTrackElementAdd(txt, timestamp) {
         let newTrack = this.state.textTrack.slice();
@@ -256,10 +257,14 @@ export default class JuxtaposeApplication extends React.Component {
     onMediaDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.mediaTrack, item);
         this.setState({mediaTrack: newTrack});
+        jQuery(window).trigger('sequenceassignment.set_dirty',
+                               {'dirty': true});
     }
     onTextDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.textTrack, item);
         this.setState({textTrack: newTrack});
+        jQuery(window).trigger('sequenceassignment.set_dirty',
+                               {'dirty': true});
     }
     onPlayClick(e) {
         const newState = !this.state.isPlaying;
