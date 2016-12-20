@@ -90,7 +90,7 @@ export default class Track extends React.Component {
     }
     render() {
         const duration = this.props.duration;
-        const cssClasses = "jux-track-container " + this.type;
+        const cssClasses = "jux-track-container jux-" + this.type;
         return <div className={cssClasses}>
                     <div className="track-icon"></div>
 	            <div className="jux-track">
