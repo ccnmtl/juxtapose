@@ -7,9 +7,10 @@
  * of React here.
  */
 
-export function createCollectionWidget(mediaType) {
+export function createCollectionWidget(mediaType, caller) {
     jQuery(window).trigger('collection.open', [{
         'media_type': mediaType,
-	'disable': mediaType === 'all' ? [] : ['media_type']
+        'disable': mediaType === 'all' ? [] : ['media_type'],
+        'caller': caller
     }]);
 }

@@ -7,7 +7,12 @@ export default class MediaTrack extends Track {
         super(props);
         this.type = 'media';
     }
-    onAddTrackElementClick() {
-        createCollectionWidget('all');
+    onAddTrackElementClick(e) {
+        let caller = {
+            'type': 'track',
+            'screenX': e.screenX,
+            'screenY': e.screenY
+        }
+        createCollectionWidget('all', caller);
     }
 }

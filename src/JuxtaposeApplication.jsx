@@ -46,10 +46,7 @@ export default class JuxtaposeApplication extends React.Component {
                .then(function(asset) {
                    const sources = asset.assets[assetData.id].sources;
                    const vid = extractVideoData(sources);
-
-                   // TODO: need to come up with a way to find out whether
-                   // the user is adding a spine video or a media element.
-                   if (!self.state.spineVideo) {
+                   if (e.detail.caller.type === 'spine') {
                        // Set the spine video
                        self.setState({
                            spineVideo: {
