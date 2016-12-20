@@ -2,8 +2,8 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {
-    collisionPresent, extractAssetData, extractVideoData, formatTimecode,
-    loadMediaData, loadTextData
+    collisionPresent, extractAssetData, extractSource, extractAnnotation,
+    formatTimecode, loadMediaData, loadTextData
 } from './utils.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
@@ -44,36 +44,42 @@ export default class JuxtaposeApplication extends React.Component {
             const xhr = new Xhr();
             xhr.getAsset(assetData.id)
                .then(function(asset) {
-                   const sources = asset.assets[assetData.id].sources;
-                   const vid = extractVideoData(sources);
-
-                   // TODO: need to come up with a way to find out whether
-                   // the user is adding a spine video or a media element.
-                   if (!self.state.spineVideo) {
+                   const assetCtx = asset.assets[assetData.id];
+                   const source = extractSource(assetCtx.sources);
+                   const annotation = extractAnnotation(assetCtx, assetData.annotationId);
+                   
+                   if (e.detail.caller.type === 'spine') {
                        // Set the spine video
                        self.setState({
                            spineVideo: {
-                               url: vid.url,
-                               host: vid.host,
-                               id: assetData.id
+                               url: source.url,
+                               host: source.host,
+                               id: assetData.id,
+                               annotationId: assetData.annotationId
+                               // TODO - handle annotation.startTime
                            },
                            isPlaying: false,
                            time: 0
                        });
                    } else {
-                       let newTrack = self.state.mediaTrack.slice(0);
-                       newTrack.push({
-                           key: newTrack.length,
-                           start_time: 30, // TODO
-                           end_time: 50,
-                           type: 'vid',  // TODO: allow images
-                           host: vid.host,
-                           source: vid.url,
-                           id: assetData.id
-                       });
-                       self.setState({
-                           mediaTrack: newTrack
-                       });
+                       if (assetCtx.primary_type === 'image') {
+                       } else {
+                           let newTrack = self.state.mediaTrack.slice(0);
+                           newTrack.push({
+                               key: newTrack.length,
+                               start_time: e.detail.caller.timecode,
+                               end_time: e.detail.caller.timecode + annotation.duration,
+                               // TODO - handle annotation.startTime
+                               type: 'vid',
+                               host: source.host,
+                               source: source.url,
+                               id: assetData.id,
+                               annotationId: assetData.annotationId
+                           });
+                           self.setState({
+                               mediaTrack: newTrack
+                           });
+                       }
                    }
                });
         });
@@ -102,7 +108,7 @@ export default class JuxtaposeApplication extends React.Component {
                       .then(function(spine) {
                           const sources = spine.assets[sequenceAsset.spine]
                                               .sources;
-                          const vid = extractVideoData(sources);
+                          const vid = extractSource(sources);
                           self.setState({
                               spineVideo: {
                                   url: vid.url,

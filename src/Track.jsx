@@ -62,17 +62,21 @@ export default class Track extends React.Component {
     }
     generateSnapColumns() {
         let columns = [];
-        for (let i = 0; i < (this.width / 10); i++) {
+        let n = this.width / 10;
+        let duration = this.props.duration / n;
+        for (let i = 0; i < n; i++) {
+            let timecode = duration * i;
             columns.push(
                 <TrackElementAddColumn
                     key={i}
                     idx={i}
+                    absoluteTimecode={timecode}
                     callbackParent={this.onAddTrackElementClick.bind(this)} />
             );
         }
         return columns;
     }
-    onAddTrackElementClick() {
+    onAddTrackElementClick(e, absoluteTimecode) {
         this.setState({adding: true});
     }
     onTrackElementAdd(value, timestamp) {
