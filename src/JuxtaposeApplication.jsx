@@ -77,6 +77,10 @@ export default class JuxtaposeApplication extends React.Component {
                    }
                });
         });
+
+        document.addEventListener('sequenceassignment.save', function(e) {
+            self.onSaveClick();
+        });
     }
     componentDidMount() {
         // Initialize existing SequenceAsset
