@@ -41,8 +41,11 @@ export default class SpineVideo extends React.Component {
                     onProgress={this.props.onProgress}
                     progressFrequency={100}
                 />
-                <button className="jux-spine-revise"
-                        onClick={this.onClick}>&#9998;</button>
+                <button className="btn btn-default jux-spine-revise"
+                        onClick={this.onClick}>
+                    <span className="glyphicon glyphicon-pencil"
+                          aria-hidden="true"></span>
+                </button>
         </div>;
     }
     updateVidPosition(percent) {
