@@ -1,6 +1,56 @@
 import {
-    extractAssetData, formatTimecode, pad2, getSeparatedTimeUnits
+    collisionPresent, extractAssetData, formatTimecode, pad2,
+    getSeparatedTimeUnits
 } from '../src/utils.js';
+
+describe('collisionPresent', () => {
+    it('handles an empty track', () => {
+        expect(collisionPresent([], 1, 2)).toBe(false);
+        expect(collisionPresent([], 0, 2)).toBe(false);
+        expect(collisionPresent([], 0, 99)).toBe(false);
+    });
+    it('correctly detecs collisions', () => {
+        expect(collisionPresent([{
+            start_time: 0.22,
+            end_time: 0.66
+        }], 0, 0.23)).toBe(true);
+
+        expect(collisionPresent([{
+            start_time: 0.22,
+            end_time: 0.66
+        }], 0.78, 1)).toBe(false);
+
+        expect(collisionPresent([
+            {
+                start_time: 0.22,
+                end_time: 0.66
+            },
+            {
+                start_time: 0.68,
+                end_time: 1
+            },
+            {
+                start_time: 1.2,
+                end_time: 11
+            }
+        ], 0.78, 1)).toBe(true);
+
+        expect(collisionPresent([
+            {
+                start_time: 0.22,
+                end_time: 0.66
+            },
+            {
+                start_time: 0.68,
+                end_time: 1
+            },
+            {
+                start_time: 1.2,
+                end_time: 11
+            }
+        ], 1.1, 1.15)).toBe(false);
+    });
+});
 
 describe('extractAssetData', () => {
     it('handles bogus input', () => {

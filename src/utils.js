@@ -2,6 +2,18 @@ import _ from 'lodash';
 
 const getYouTubeID = require('get-youtube-id');
 
+export function collisionPresent(track, start_time, end_time) {
+    if (track.length === 0 || (!start_time && !end_time)) {
+        return false;
+    }
+    for (let e of track) {
+        if (start_time <= e.end_time && end_time >= e.start_time) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * {{ellipsis}}
  * Truncate the input string and removes all HTML tags

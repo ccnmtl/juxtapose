@@ -2,7 +2,7 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {
-    extractAssetData, extractVideoData, formatTimecode,
+    collisionPresent, extractAssetData, extractVideoData, formatTimecode,
     loadMediaData, loadTextData
 } from './utils.js';
 import MediaTrack from './MediaTrack.jsx';
@@ -185,6 +185,18 @@ export default class JuxtaposeApplication extends React.Component {
         }
 
         const item = _.find(track, ['key', activeItem.key, 10]);
+        let newTrack = _.reject(track, ['key', item.key]);
+
+        // If there's a collision present given the new start_time and
+        // end_time, cancel this action.
+        if (
+            collisionPresent(
+                newTrack,
+                newData.start_time || item.start_time,
+                newData.end_time || item.end_time)
+        ) {
+            return;
+        }
 
         if (newData.source) {
             item.source = newData.source;
@@ -196,7 +208,6 @@ export default class JuxtaposeApplication extends React.Component {
             item.end_time = newData.end_time;
         }
 
-        let newTrack = _.reject(track, ['key', item.key]);
         newTrack.push(item);
         newTrack = _.sortBy(newTrack, 'key');
 
