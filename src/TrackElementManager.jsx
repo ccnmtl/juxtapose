@@ -31,7 +31,7 @@ export default class TrackElementManager extends React.Component {
         </div>
         <div className="form-group">
             <label>
-                End time: {formatTimecode(this.props.activeItem.end_time)}
+                Duration: {formatTimecode(this.props.activeItem.end_time)}
                 <br />
                 <TimecodeUpdater
                     timecode={this.props.activeItem.end_time}
