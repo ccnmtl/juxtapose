@@ -9,8 +9,7 @@ export default class Playhead extends React.Component {
         }
 
         const clientWidth = this.el ? this.el.clientWidth : 0;
-        const offsetLeft = this.el ? this.el.offsetLeft : 0;
-        const x = clientWidth * currentPos + offsetLeft;
+        const x = clientWidth * currentPos;
         const lineStyle = {left: x + 'px'};
 
         return <div className="jux-playhead-container">
