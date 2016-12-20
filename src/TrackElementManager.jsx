@@ -73,20 +73,34 @@ export default class TrackElementManager extends React.Component {
     }
     onStartTimeMinutesChange(val) {
         const minutes = getMinutes(this.props.activeItem.start_time);
-        const newTime = this.props.activeItem.start_time -
-                        (minutes * 60) + (val * 60);
-        this.props.onChange(this.props.activeItem, {start_time: newTime});
+        const newStartTime = this.props.activeItem.start_time -
+                             (minutes * 60) + (val * 60);
+        const newEndTime = this.props.activeItem.end_time -
+                             (minutes * 60) + (val * 60);
+        this.props.onChange(this.props.activeItem, {
+            start_time: newStartTime,
+            end_time: newEndTime
+        });
     }
     onStartTimeSecondsChange(val) {
         const seconds = getSeconds(this.props.activeItem.start_time);
-        const newTime = this.props.activeItem.start_time - seconds + val;
-        this.props.onChange(this.props.activeItem, {start_time: newTime});
+        const newStartTime = this.props.activeItem.start_time - seconds + val;
+        const newEndTime = this.props.activeItem.end_time - seconds + val;
+        this.props.onChange(this.props.activeItem, {
+            start_time: newStartTime,
+            end_time: newEndTime
+        });
     }
     onStartTimeCentisecondsChange(val) {
         const centiseconds = getCentiseconds(this.props.activeItem.start_time);
-        const newTime = this.props.activeItem.start_time -
-                        (centiseconds / 100) + (val / 100);
-        this.props.onChange(this.props.activeItem, {start_time: newTime});
+        const newStartTime = this.props.activeItem.start_time -
+                             (centiseconds / 100) + (val / 100);
+        const newEndTime = this.props.activeItem.end_time -
+                             (centiseconds / 100) + (val / 100);
+        this.props.onChange(this.props.activeItem, {
+            start_time: newStartTime,
+            end_time: newEndTime,
+        });
     }
     onEndTimeMinutesChange(val) {
         const minutes = getMinutes(this.props.activeItem.end_time);
