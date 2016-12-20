@@ -16,7 +16,8 @@ var config = {
         }),
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': JSON.stringify('production')
+                // Turn 'production' env on when running `make build`
+                // 'NODE_ENV': JSON.stringify('production')
             }
         })
     ],
@@ -26,13 +27,12 @@ var config = {
                 test: /\.jsx?$/,
                 include: APP_DIR,
                 loader: 'babel',
-		        query: {
-			        presets: ['react', 'es2015']
-		        }
+                query: {
+                    presets: ['react', 'es2015']
+                }
             }
         ]
     }
 };
 
 module.exports = config;
-
