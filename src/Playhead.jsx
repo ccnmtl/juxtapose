@@ -14,8 +14,7 @@ export default class Playhead extends React.Component {
         const lineStyle = {left: x + 'px'};
 
         return <div className="jux-playhead-container">
-            <div ref={(ref) => this._line = ref}
-                 className="jux-playhead-line"
+            <div className="jux-playhead-line"
                  style={lineStyle}>
                 <div className="jux-playhead-top-cutpoint"></div>
                 <div className="jux-playhead-bottom-cutpoint"></div>
