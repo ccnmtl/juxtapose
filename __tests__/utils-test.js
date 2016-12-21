@@ -5,20 +5,20 @@ import {
 
 describe('collisionPresent', () => {
     it('handles an empty track', () => {
-        expect(collisionPresent([], 1, 2)).toBe(false);
-        expect(collisionPresent([], 0, 2)).toBe(false);
-        expect(collisionPresent([], 0, 99)).toBe(false);
+        expect(collisionPresent([], 30, 1, 2)).toBe(false);
+        expect(collisionPresent([], 30, 0, 2)).toBe(false);
+        expect(collisionPresent([], 30, 0, 99)).toBe(true);
     });
-    it('correctly detecs collisions', () => {
+    it('correctly detects collisions', () => {
         expect(collisionPresent([{
             start_time: 0.22,
             end_time: 0.66
-        }], 0, 0.23)).toBe(true);
+        }], 30, 0, 0.23)).toBe(true);
 
         expect(collisionPresent([{
             start_time: 0.22,
             end_time: 0.66
-        }], 0.78, 1)).toBe(false);
+        }], 30, 0.78, 1)).toBe(false);
 
         expect(collisionPresent([
             {
@@ -33,7 +33,7 @@ describe('collisionPresent', () => {
                 start_time: 1.2,
                 end_time: 11
             }
-        ], 0.78, 1)).toBe(true);
+        ], 30, 0.78, 1)).toBe(true);
 
         expect(collisionPresent([
             {
@@ -48,7 +48,7 @@ describe('collisionPresent', () => {
                 start_time: 1.2,
                 end_time: 11
             }
-        ], 1.1, 1.15)).toBe(false);
+        ], 30, 1.1, 1.15)).toBe(false);
     });
 });
 
