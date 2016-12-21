@@ -243,6 +243,7 @@ export default class JuxtaposeApplication extends React.Component {
         if (
             collisionPresent(
                 newTrack,
+                this.state.duration,
                 newData.start_time || item.start_time,
                 newData.end_time || item.end_time)
         ) {

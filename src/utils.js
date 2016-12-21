@@ -2,15 +2,40 @@ import _ from 'lodash';
 
 const getYouTubeID = require('get-youtube-id');
 
-export function collisionPresent(track, start_time, end_time) {
+/**
+ * Returns true if there's a collision present given the
+ * following input:
+ *
+ * track - an array of track elements
+ * duration - the total duration for the sequence asset
+ * start_time - A possible start time for the element in question
+ * end_time - A possible end time for the element in question
+ *
+ * All times are specified in seconds.
+ */
+export function collisionPresent(track, duration, start_time, end_time) {
+    if (end_time <= start_time) {
+        throw new Error('end_time must be greater than start_time.');
+    }
+
+    if (!duration) {
+        throw new Error('A sequence must have a duration.');
+    }
+
+    if (end_time > duration) {
+        return true;
+    }
+
     if (track.length === 0 || (!start_time && !end_time)) {
         return false;
     }
+
     for (let e of track) {
         if (start_time <= e.end_time && end_time >= e.start_time) {
             return true;
         }
     }
+
     return false;
 }
 
