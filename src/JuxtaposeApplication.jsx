@@ -184,6 +184,8 @@ export default class JuxtaposeApplication extends React.Component {
                     onVideoEnd={this.onSpineVideoEnd.bind(this)}
                     playing={this.state.isPlaying}
                     onProgress={this.onSpineProgress.bind(this)}
+                    onPlay={this.onSpinePlay.bind(this)}
+                    onPause={this.onSpinePause.bind(this)}
                     instructions={this.props.primaryInstructions}
                 />
                 <MediaDisplay
@@ -370,6 +372,16 @@ export default class JuxtaposeApplication extends React.Component {
         if (typeof state.played !== 'undefined') {
             const seconds = this.state.duration * state.played;
             this.setState({time: seconds});
+        }
+    }
+    onSpinePlay() {
+        if (!this.state.isPlaying) {
+            this.setState({isPlaying: true});
+        }
+    }
+    onSpinePause() {
+        if (this.state.isPlaying) {
+            this.setState({isPlaying: false});
         }
     }
     onSaveClick() {
