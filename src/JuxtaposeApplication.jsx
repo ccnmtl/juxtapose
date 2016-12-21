@@ -48,7 +48,7 @@ export default class JuxtaposeApplication extends React.Component {
                    const source = extractSource(assetCtx.sources);
                    const annotation = extractAnnotation(assetCtx, assetData.annotationId);
                    
-                   if (e.detail.caller === 'spine') {
+                   if (e.detail.caller.type === 'spine') {
                        // Set the spine video
                        self.setState({
                            spineVideo: {
