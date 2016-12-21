@@ -62,9 +62,20 @@ export default class JuxtaposeApplication extends React.Component {
                            time: 0
                        });
                    } else {
+                       let newTrack = self.state.mediaTrack.slice(0);
                        if (assetCtx.primary_type === 'image') {
+                           newTrack.push({
+                               key: newTrack.length,
+                               start_time: e.detail.caller.timecode,
+                               end_time: e.detail.caller.timecode + annotation.duration,
+                               type: 'img',
+                               host: source.host,
+                               source: source.url,
+                               id: assetData.id,
+                               annotationId: assetData.annotationId,
+                               annotationData: annotation.annotationData
+                           });
                        } else {
-                           let newTrack = self.state.mediaTrack.slice(0);
                            newTrack.push({
                                key: newTrack.length,
                                start_time: e.detail.caller.timecode,
@@ -76,10 +87,11 @@ export default class JuxtaposeApplication extends React.Component {
                                id: assetData.id,
                                annotationId: assetData.annotationId
                            });
-                           self.setState({
-                               mediaTrack: newTrack
-                           });
                        }
+
+                       self.setState({
+                           mediaTrack: newTrack
+                       });
                    }
                });
         });
