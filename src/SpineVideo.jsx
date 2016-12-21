@@ -27,6 +27,15 @@ export default class SpineVideo extends React.Component {
             url = this.props.spineVideo.url;
         }
 
+        let editButton = '';
+        if (!this.props.readOnly) {
+            editButton = <button className="btn btn-default jux-spine-revise"
+                                 onClick={this.onClick}>
+                <span className="glyphicon glyphicon-pencil"
+                      aria-hidden="true"></span>
+            </button>;
+        }
+
         return <div className="jux-spine-display">
                 <ReactPlayer
                     id={this.id}
@@ -41,11 +50,7 @@ export default class SpineVideo extends React.Component {
                     onProgress={this.props.onProgress}
                     progressFrequency={100}
                 />
-                <button className="btn btn-default jux-spine-revise"
-                        onClick={this.onClick}>
-                    <span className="glyphicon glyphicon-pencil"
-                          aria-hidden="true"></span>
-                </button>
+                {editButton}
         </div>;
     }
     updateVidPosition(percent) {

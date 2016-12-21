@@ -136,6 +136,26 @@ export default class JuxtaposeApplication extends React.Component {
     }
     render() {
         const activeItem = this.getItem(this.state.activeItem);
+        let tracks = '';
+        if (!this.props.readOnly) {
+            tracks = <span>
+    <MediaTrack
+        duration={this.state.duration}
+        onDragStop={this.onMediaDragStop.bind(this)}
+        onTrackElementAdd={this.onTrackElementAdd.bind(this)}
+        onTrackEditButtonClick={this.onMediaTrackEditButtonClick.bind(this)}
+        activeItem={this.state.activeItem}
+        data={this.state.mediaTrack} />
+    <TextTrack
+        duration={this.state.duration}
+        onDragStop={this.onTextDragStop.bind(this)}
+        onTrackElementAdd={this.onTrackElementAdd.bind(this)}
+        onTrackEditButtonClick={this.onTextTrackEditButtonClick.bind(this)}
+        activeItem={this.state.activeItem}
+        data={this.state.textTrack} />
+            </span>;
+        }
+
         return <div className="jux-container">
            <textarea className="jux-global-annotation"
                      value={this.state.globalAnnotation}
@@ -144,6 +164,7 @@ export default class JuxtaposeApplication extends React.Component {
                 <SpineVideo
                     spineVideo={this.state.spineVideo}
                     ref={(c) => this._spineVid = c}
+                    readOnly={this.props.readOnly}
                     onDuration={this.onSpineDuration.bind(this)}
                     onVideoEnd={this.onSpineVideoEnd.bind(this)}
                     playing={this.state.isPlaying}
@@ -169,20 +190,7 @@ export default class JuxtaposeApplication extends React.Component {
                           duration={this.state.duration}
                           onMouseUp={this.onPlayheadMouseUp.bind(this)}
                           onChange={this.onPlayheadTimeChange.bind(this)} />
-                <MediaTrack
-                    duration={this.state.duration}
-                    onDragStop={this.onMediaDragStop.bind(this)}
-                    onTrackElementAdd={this.onTrackElementAdd.bind(this)}
-                    onTrackEditButtonClick={this.onMediaTrackEditButtonClick.bind(this)}
-                    activeItem={this.state.activeItem}
-                    data={this.state.mediaTrack} />
-                <TextTrack
-                    duration={this.state.duration}
-                    onDragStop={this.onTextDragStop.bind(this)}
-                    onTrackElementAdd={this.onTrackElementAdd.bind(this)}
-                    onTrackEditButtonClick={this.onTextTrackEditButtonClick.bind(this)}
-                    activeItem={this.state.activeItem}
-                    data={this.state.textTrack} />
+                {tracks}
             </div>
             <TrackElementManager
                 activeItem={activeItem}
