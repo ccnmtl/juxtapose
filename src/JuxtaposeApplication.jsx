@@ -113,6 +113,19 @@ export default class JuxtaposeApplication extends React.Component {
         const xhr = new Xhr();
         xhr.getSequenceAsset(currentProject)
            .then(function(sequenceAsset) {
+               // Fetch each media element's actual media from Mediathread.
+               sequenceAsset.media_elements.forEach(function(e) {
+                   xhr.getAsset(e.media).then(function(asset) {
+                       const sources = asset.assets[e.media].sources;
+                       const source = extractSource(sources);
+                       e.source = source.url;
+                       if (asset.assets[e.media].primary_type === 'image') {
+                           e.type = 'img';
+                       } else {
+                           e.type = 'vid';
+                       }
+                   });
+               });
                self.setState({
                    mediaTrack: loadMediaData(sequenceAsset.media_elements),
                    textTrack: loadTextData(sequenceAsset.text_elements)
