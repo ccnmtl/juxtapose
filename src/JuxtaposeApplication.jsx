@@ -183,12 +183,16 @@ export default class JuxtaposeApplication extends React.Component {
                     onDuration={this.onSpineDuration.bind(this)}
                     onVideoEnd={this.onSpineVideoEnd.bind(this)}
                     playing={this.state.isPlaying}
-                    onProgress={this.onSpineProgress.bind(this)} />
+                    onProgress={this.onSpineProgress.bind(this)}
+                    instructions={this.props.primaryInstructions}
+                />
                 <MediaDisplay
                     time={this.state.time}
                     data={this.state.mediaTrack}
                     playing={this.state.isPlaying}
-                    ref={(c) => this._mediaVid = c} />
+                    ref={(c) => this._mediaVid = c}
+                    instructions={this.props.secondaryInstructions}
+                />
             </div>
             <TextDisplay time={this.state.time}
                          duration={this.state.duration}

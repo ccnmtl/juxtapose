@@ -13,6 +13,7 @@ export default class SpineVideo extends React.Component {
               <div className="help-text">
               <button className="add-spine" onClick={this.onClick}></button>
               <h1>Add a primary video</h1>
+              <p className="instructions">{this.props.instructions}</p>
               </div>
             </div>;
         }

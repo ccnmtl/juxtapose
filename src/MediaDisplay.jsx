@@ -55,6 +55,23 @@ export default class MediaDisplay extends React.Component {
         return '';
     }
     render() {
+        if (this.props.data.length < 1) {
+            return <div className="jux-media-display">
+              <div className="help-text">
+                  <h1>Place secondary elements</h1>
+                  <p className="instructions">
+                      Click the tracks below to add<br />
+                      <span className="media-track-icon"></span>
+                      media and
+                      <span className="text-track-icon"></span>
+                      text elements
+                      <br /><br />
+                      {this.props.instructions}
+                  </p>
+              </div>
+            </div>;
+        }
+
         let c = this.nowDisplay(this.props.data, this.props.time);
         return <div className="jux-media-display">{c}</div>;
     }
