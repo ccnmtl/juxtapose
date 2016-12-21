@@ -21,6 +21,7 @@ export default class Playhead extends React.Component {
             <input type="range" min="0" max="1000"
                    ref={(ref) => this.el = ref}
                    onChange={this.props.onChange}
+                   onMouseUp={this.props.onMouseUp}
                    value={currentPos * 1000} />
         </div>;
     }

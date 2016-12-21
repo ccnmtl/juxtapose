@@ -155,6 +155,7 @@ export default class JuxtaposeApplication extends React.Component {
                 <TimelineRuler duration={this.state.duration} />
                 <Playhead currentTime={this.state.time}
                           duration={this.state.duration}
+                          onMouseUp={this.onPlayheadMouseUp.bind(this)}
                           onChange={this.onPlayheadTimeChange.bind(this)} />
                 <MediaTrack
                     duration={this.state.duration}
@@ -319,6 +320,10 @@ export default class JuxtaposeApplication extends React.Component {
         const percentDone = e.target.value / 1000;
         const newTime = this.state.duration * percentDone;
         this.setState({time: newTime});
+    }
+    onPlayheadMouseUp(e) {
+        const percentDone = e.target.value / 1000;
+        const newTime = this.state.duration * percentDone;
         this._spineVid.updateVidPosition(percentDone);
         this._mediaVid.updateVidPosition(newTime);
     }
