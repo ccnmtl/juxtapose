@@ -35,7 +35,7 @@ export default class MediaDisplay extends React.Component {
             ref={(ref) => this.player = ref}
             width={480}
             height={360}
-            playing={this.props.isPlaying}
+            playing={this.props.playing}
             url={url}
             onDuration={this.props.onDuration}
             onProgress={this.props.onProgress}
@@ -75,26 +75,12 @@ export default class MediaDisplay extends React.Component {
         let c = this.nowDisplay(this.props.data, this.props.time);
         return <div className="jux-media-display">{c}</div>;
     }
-    componentDidMount() {
-        const el = this.player;
-        if (el && el.currentTime) {
-            el.currentTime = 5.333;
-        }
-    }
-    play() {
-        if (this.player && this.player.paused) {
-            this.player.play();
-        }
-    }
-    pause() {
-        if (this.player && !this.player.paused) {
-            this.player.pause();
-        }
-    }
-    updateVidPosition(time) {
+    updateVidPosition(percentage) {
+        const time = this.props.duration * percentage;
         const e = getCurrentItem(this.props.data, time);
         if (this.player && e && e.type === 'vid') {
-            this.player.currentTime = time - e.start_time;
+            const newPercentage = (time - e.start_time) / this.props.duration;
+            this.player.seekTo(newPercentage);
         }
     }
 }

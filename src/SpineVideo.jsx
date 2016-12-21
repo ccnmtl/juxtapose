@@ -54,8 +54,8 @@ export default class SpineVideo extends React.Component {
                 {editButton}
         </div>;
     }
-    updateVidPosition(fraction) {
-        this.player.seekTo(fraction);
+    updateVidPosition(percentage) {
+        this.player.seekTo(percentage);
     }
     onLoadedMetadata(e) {
         const vid = e.target;
