@@ -171,10 +171,11 @@ export default class JuxtaposeApplication extends React.Component {
                     onVideoEnd={this.onSpineVideoEnd.bind(this)}
                     playing={this.state.isPlaying}
                     onProgress={this.onSpineProgress.bind(this)} />
-                <MediaDisplay time={this.state.time}
-                            data={this.state.mediaTrack}
-                            isPlaying={this.state.isPlaying}
-                            ref={(c) => this._mediaVid = c} />
+                <MediaDisplay
+                    time={this.state.time}
+                    data={this.state.mediaTrack}
+                    playing={this.state.isPlaying}
+                    ref={(c) => this._mediaVid = c} />
             </div>
             <TextDisplay time={this.state.time}
                          duration={this.state.duration}
@@ -302,14 +303,6 @@ export default class JuxtaposeApplication extends React.Component {
     onPlayClick(e) {
         const newState = !this.state.isPlaying;
         this.setState({isPlaying: newState})
-
-        // TODO: this should be more declarative, handled by the
-        // video components.
-        if (newState) {
-            this._mediaVid.play();
-        } else {
-            this._mediaVid.pause();
-        }
     }
     /**
      * Remove the active track item.
@@ -343,11 +336,9 @@ export default class JuxtaposeApplication extends React.Component {
         const newTime = this.state.duration * percentDone;
         this.setState({time: newTime});
     }
-    onPlayheadMouseUp(e) {
-        const percentDone = e.target.value / 1000;
-        const newTime = this.state.duration * percentDone;
-        this._spineVid.updateVidPosition(percentDone);
-        this._mediaVid.updateVidPosition(newTime);
+    onPlayheadMouseUp() {
+        const percentage = this.state.time / this.state.duration;
+        this._spineVid.updateVidPosition(percentage);
     }
     onSpineVideoEnd() {
         this.setState({isPlaying: false});
@@ -360,9 +351,8 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onSpineProgress(state) {
         if (typeof state.played !== 'undefined') {
-            this.setState({
-                time: state.played * 100
-            });
+            const seconds = this.state.duration * state.played;
+            this.setState({time: seconds});
         }
     }
     onSaveClick() {
