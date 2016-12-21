@@ -93,6 +93,8 @@ export default class JuxtaposeApplication extends React.Component {
                            mediaTrack: newTrack
                        });
                    }
+                   jQuery(window).trigger('sequenceassignment.set_dirty',
+                                          {'dirty': true});
                });
         });
 
