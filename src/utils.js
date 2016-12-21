@@ -69,10 +69,11 @@ export function extractAnnotation(assetCtx, annotationId) {
         let annotation = assetCtx.annotations[i];
         if (annotation.id === annotationId) {
             if (!annotation.is_global_annotation) {
-                let duration = annotation.range2 - annotation.range1;
+                let duration = (annotation.range2 - annotation.range1) || 30;
                 return {
                     duration: Math.min(30, duration),
-                    range1: annotation.range1
+                    range1: annotation.range1,
+                    annotationData: annotation.annotation_data
                 };
             }
         }
@@ -106,6 +107,13 @@ export function extractSource(o) {
     if (o.mp4_audio && o.mp4_audio.url) {
         return {
             url: o.mp4_audio.url
+        };
+    }
+    if (o.image && o.image.url) {
+        return {
+            url: o.image.url,
+            width: o.image.width,
+            height: o.image.height
         };
     }
     return null;
