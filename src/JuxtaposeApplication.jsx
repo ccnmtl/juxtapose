@@ -339,7 +339,6 @@ export default class JuxtaposeApplication extends React.Component {
         }
     }
     onSaveClick() {
-        const me = this;
         const xhr = new Xhr();
         xhr.createOrUpdateSequenceAsset(
             this.state.spineVideo.id,
@@ -347,9 +346,11 @@ export default class JuxtaposeApplication extends React.Component {
             window.MediaThread.current_project,
             this.state.mediaTrack,
             this.state.textTrack
-        ).catch(function(e) {
-            // TODO: open error pop-up
-            console.error(e);
+        ).then(function(e) {
+            jQuery(window).trigger('sequenceassignment.on_save_success', e);
+        }).catch(function(e) {
+            // Open Mediathread's error popup
+            jQuery(window).trigger('sequenceassignment.on_save_error', e);
         });
     }
     /**
