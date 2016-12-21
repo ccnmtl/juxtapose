@@ -33,7 +33,7 @@
     "whatwg-fetch": "^2.0.0"
   },
   "devDependencies": {
-    "babel-jest": "~17.0.2",
+    "babel-jest": "~18.0.0",
     "babel-polyfill": "~6.20.0",
     "eslint": "~3.12.2",
     "eslint-plugin-react": "~6.8.0",
