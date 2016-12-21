@@ -4,6 +4,6 @@ import JuxtaposeApplication from './JuxtaposeApplication.jsx';
 
 
 ReactDOM.render(
-    <JuxtaposeApplication />,
+    <JuxtaposeApplication readOnly={(view && view.submitted) || false} />,
     document.getElementById('jux-container')
 );
