@@ -157,14 +157,13 @@ export default class JuxtaposeApplication extends React.Component {
     <MediaTrack
         duration={this.state.duration}
         onDragStop={this.onMediaDragStop.bind(this)}
-        onTrackElementAdd={this.onTrackElementAdd.bind(this)}
         onTrackEditButtonClick={this.onMediaTrackEditButtonClick.bind(this)}
         activeItem={this.state.activeItem}
         data={this.state.mediaTrack} />
     <TextTrack
         duration={this.state.duration}
         onDragStop={this.onTextDragStop.bind(this)}
-        onTrackElementAdd={this.onTrackElementAdd.bind(this)}
+        onTrackElementAdd={this.onTextTrackElementAdd.bind(this)}
         onTrackEditButtonClick={this.onTextTrackEditButtonClick.bind(this)}
         activeItem={this.state.activeItem}
         data={this.state.textTrack} />
@@ -265,7 +264,7 @@ export default class JuxtaposeApplication extends React.Component {
         jQuery(window).trigger('sequenceassignment.set_dirty',
                                {'dirty': true});
     }
-    onTrackElementAdd(txt, timestamp) {
+    onTextTrackElementAdd(txt, timestamp) {
         let newTrack = this.state.textTrack.slice();
         newTrack.push({
             key: newTrack.length,
@@ -275,6 +274,8 @@ export default class JuxtaposeApplication extends React.Component {
             source: txt
         });
         this.setState({textTrack: newTrack});
+        jQuery(window).trigger('sequenceassignment.set_dirty',
+                               {'dirty': true});
     }
     /**
      * This function handles the drag stop event for track items.
