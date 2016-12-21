@@ -37,6 +37,20 @@ export default class SpineVideo extends React.Component {
             </button>;
         }
 
+        const youtubeConfig = {
+            playerVars: {
+                // Disable fullscreen
+                fs: 0,
+                // Disable keyboard controls
+                disablekb: 1,
+                // Hide video annotations
+                iv_load_policy: 3,
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0
+            }
+        };
+
         return <div className="jux-spine-display">
                 <ReactPlayer
                     id={this.id}
@@ -49,7 +63,10 @@ export default class SpineVideo extends React.Component {
                     url={url}
                     onDuration={this.props.onDuration}
                     onProgress={this.props.onProgress}
+                    onPlay={this.props.onPlay}
+                    onPause={this.props.onPause}
                     progressFrequency={100}
+                    youtubeConfig={youtubeConfig}
                 />
                 {editButton}
         </div>;
