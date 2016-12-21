@@ -65,6 +65,10 @@ export default class SpineVideo extends React.Component {
     }
     // TODO: handle playback finish event
     onClick() {
-        createCollectionWidget('video', 'spine');
+        let caller = {
+            'type': 'spine',
+            'timecode': 0
+        };
+        createCollectionWidget('video', caller);
     }
 }
