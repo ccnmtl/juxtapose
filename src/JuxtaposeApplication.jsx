@@ -178,7 +178,7 @@ export default class JuxtaposeApplication extends React.Component {
            <div className="vid-container">
                 <SpineVideo
                     spineVideo={this.state.spineVideo}
-                    ref={(c) => this._spineVid = c}
+                    ref={(c) => this._primaryVid = c}
                     readOnly={this.props.readOnly}
                     onDuration={this.onSpineDuration.bind(this)}
                     onVideoEnd={this.onSpineVideoEnd.bind(this)}
@@ -188,9 +188,10 @@ export default class JuxtaposeApplication extends React.Component {
                 />
                 <MediaDisplay
                     time={this.state.time}
+                    duration={this.state.duration}
                     data={this.state.mediaTrack}
+                    ref={(c) => this._secondaryVid = c}
                     playing={this.state.isPlaying}
-                    ref={(c) => this._mediaVid = c}
                     instructions={this.props.secondaryInstructions}
                 />
             </div>
@@ -355,7 +356,8 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onPlayheadMouseUp() {
         const percentage = this.state.time / this.state.duration;
-        this._spineVid.updateVidPosition(percentage);
+        this._primaryVid.updateVidPosition(percentage);
+        this._secondaryVid.updateVidPosition(percentage);
     }
     onSpineVideoEnd() {
         this.setState({isPlaying: false});
