@@ -170,14 +170,13 @@ export default class JuxtaposeApplication extends React.Component {
     <MediaTrack
         duration={this.state.duration}
         onDragStop={this.onMediaDragStop.bind(this)}
-        onTrackElementAdd={this.onTrackElementAdd.bind(this)}
         onTrackEditButtonClick={this.onMediaTrackEditButtonClick.bind(this)}
         activeItem={this.state.activeItem}
         data={this.state.mediaTrack} />
     <TextTrack
         duration={this.state.duration}
         onDragStop={this.onTextDragStop.bind(this)}
-        onTrackElementAdd={this.onTrackElementAdd.bind(this)}
+        onTrackElementAdd={this.onTextTrackElementAdd.bind(this)}
         onTrackEditButtonClick={this.onTextTrackEditButtonClick.bind(this)}
         activeItem={this.state.activeItem}
         data={this.state.textTrack} />
@@ -191,19 +190,22 @@ export default class JuxtaposeApplication extends React.Component {
            <div className="vid-container">
                 <SpineVideo
                     spineVideo={this.state.spineVideo}
-                    ref={(c) => this._spineVid = c}
+                    ref={(c) => this._primaryVid = c}
                     readOnly={this.props.readOnly}
                     onDuration={this.onSpineDuration.bind(this)}
                     onVideoEnd={this.onSpineVideoEnd.bind(this)}
                     playing={this.state.isPlaying}
                     onProgress={this.onSpineProgress.bind(this)}
+                    onPlay={this.onSpinePlay.bind(this)}
+                    onPause={this.onSpinePause.bind(this)}
                     instructions={this.props.primaryInstructions}
                 />
                 <MediaDisplay
                     time={this.state.time}
+                    duration={this.state.duration}
                     data={this.state.mediaTrack}
+                    ref={(c) => this._secondaryVid = c}
                     playing={this.state.isPlaying}
-                    ref={(c) => this._mediaVid = c}
                     instructions={this.props.secondaryInstructions}
                 />
             </div>
@@ -254,6 +256,7 @@ export default class JuxtaposeApplication extends React.Component {
         if (
             collisionPresent(
                 newTrack,
+                this.state.duration,
                 newData.start_time || item.start_time,
                 newData.end_time || item.end_time)
         ) {
@@ -282,7 +285,7 @@ export default class JuxtaposeApplication extends React.Component {
         jQuery(window).trigger('sequenceassignment.set_dirty',
                                {'dirty': true});
     }
-    onTrackElementAdd(txt, timestamp) {
+    onTextTrackElementAdd(txt, timestamp) {
         let newTrack = this.state.textTrack.slice();
         newTrack.push({
             key: newTrack.length,
@@ -292,6 +295,8 @@ export default class JuxtaposeApplication extends React.Component {
             source: txt
         });
         this.setState({textTrack: newTrack});
+        jQuery(window).trigger('sequenceassignment.set_dirty',
+                               {'dirty': true});
     }
     /**
      * This function handles the drag stop event for track items.
@@ -368,7 +373,8 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onPlayheadMouseUp() {
         const percentage = this.state.time / this.state.duration;
-        this._spineVid.updateVidPosition(percentage);
+        this._primaryVid.updateVidPosition(percentage);
+        this._secondaryVid.updateVidPosition(percentage);
     }
     onSpineVideoEnd() {
         this.setState({isPlaying: false});
@@ -383,6 +389,16 @@ export default class JuxtaposeApplication extends React.Component {
         if (typeof state.played !== 'undefined') {
             const seconds = this.state.duration * state.played;
             this.setState({time: seconds});
+        }
+    }
+    onSpinePlay() {
+        if (!this.state.isPlaying) {
+            this.setState({isPlaying: true});
+        }
+    }
+    onSpinePause() {
+        if (this.state.isPlaying) {
+            this.setState({isPlaying: false});
         }
     }
     onSaveClick() {
