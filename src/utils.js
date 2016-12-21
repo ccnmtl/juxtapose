@@ -160,7 +160,7 @@ export function prepareMediaData(array) {
     let a = _.cloneDeep(array);
     for (let e of a) {
         // We only need the Mediathread ID here.
-        e.media = e.id;
+        e.media = e.id || e.media;
         delete e.host;
         delete e.source;
     }
