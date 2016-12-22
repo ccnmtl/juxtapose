@@ -27,9 +27,6 @@ function isActive(activeItem, type, i) {
 export default class Track extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            adding: false
-        };
         this.width = 910;
     }
     generateItems(trackData) {
@@ -75,13 +72,6 @@ export default class Track extends React.Component {
             );
         }
         return columns;
-    }
-    onAddTrackElementClick(e, absoluteTimecode) {
-        this.setState({adding: true});
-    }
-    onTrackElementAdd(value, timestamp) {
-        this.closeItemAdder();
-        this.props.onTrackElementAdd(value, timestamp);
     }
     onEditButtonClick(e, item) {
         this.props.onTrackEditButtonClick(e, item);

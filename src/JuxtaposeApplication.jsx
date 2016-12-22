@@ -291,12 +291,12 @@ export default class JuxtaposeApplication extends React.Component {
         jQuery(window).trigger('sequenceassignment.set_dirty',
                                {dirty: true});
     }
-    onTextTrackElementAdd(txt, timestamp) {
+    onTextTrackElementAdd(txt, timecode) {
         let newTrack = this.state.textTrack.slice();
         newTrack.push({
             key: newTrack.length,
-            start_time: 30,
-            end_time: 50,
+            start_time: timecode,
+            end_time: timecode + 30,
             type: 'txt',
             source: txt
         });
