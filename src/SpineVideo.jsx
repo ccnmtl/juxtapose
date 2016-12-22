@@ -12,7 +12,7 @@ export default class SpineVideo extends React.Component {
         if (!this.props.spineVideo) {
             return <div className="jux-spine-display">
               <div className="help-text">
-              <button className="add-spine" onClick={this.onClick}></button>
+              <button className="add-spine" onClick={this.onClickReviseSpine}></button>
               <h1>Add a primary video</h1>
               <p className="instructions">{this.props.instructions}</p>
               </div>
