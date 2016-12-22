@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactPlayer from 'react-player'
 import {createCollectionWidget} from './mediathreadCollection.js';
+import {editAnnotationWidget} from './mediathreadCollection.js';
 
 export default class SpineVideo extends React.Component {
     constructor(props) {
@@ -28,13 +29,21 @@ export default class SpineVideo extends React.Component {
             url = this.props.spineVideo.url;
         }
 
-        let editButton = '';
+        let reviseButton = '';
+        let editSpineButton = '';
         if (!this.props.readOnly) {
-            editButton = <button className="btn btn-default jux-spine-revise"
-                                 onClick={this.onClick}>
+            reviseButton =
+                <button className="btn btn-default jux-spine-revise"
+                    onClick={this.onClickReviseSpine}>
+                <span className="glyphicon glyphicon-refresh"
+                    aria-hidden="true"></span>
+                </button>;
+            editSpineButton =
+                <button className="btn btn-default jux-spine-edit"
+                    onClick={this.onClickEditSpine.bind(this)}>
                 <span className="glyphicon glyphicon-pencil"
-                      aria-hidden="true"></span>
-            </button>;
+                    aria-hidden="true"></span>
+                </button>;
         }
 
         const youtubeConfig = {
@@ -68,7 +77,8 @@ export default class SpineVideo extends React.Component {
                     progressFrequency={100}
                     youtubeConfig={youtubeConfig}
                 />
-                {editButton}
+                {reviseButton}
+                {editSpineButton}
         </div>;
     }
     updateVidPosition(percentage) {
@@ -82,11 +92,19 @@ export default class SpineVideo extends React.Component {
         this.props.onVideoEnd();
     }
     // TODO: handle playback finish event
-    onClick() {
+    onClickReviseSpine() {
         let caller = {
             'type': 'spine',
             'timecode': 0
         };
         createCollectionWidget('video', caller);
+    }
+    onClickEditSpine(e) {
+        let caller = {
+            'type': 'spine',
+        };
+        editAnnotationWidget(this.props.spineVideo.id,
+                             this.props.spineVideo.annotationId,
+                             caller);
     }
 }

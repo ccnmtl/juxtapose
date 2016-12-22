@@ -14,3 +14,14 @@ export function createCollectionWidget(mediaType, caller) {
         'caller': caller
     }]);
 }
+
+export function editAnnotationWidget(assetId, annotationId, caller) {
+    const eventName = annotationId ?
+        'collection.annotation.edit' : 'collection.asset.edit';
+
+    jQuery(window).trigger(eventName, [{
+        'caller': caller,
+        'assetId': assetId,
+        'annotationId': annotationId
+    }]);
+}

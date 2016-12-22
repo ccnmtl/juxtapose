@@ -55,8 +55,9 @@ export default class JuxtaposeApplication extends React.Component {
                                url: source.url,
                                host: source.host,
                                id: assetData.id,
-                               annotationId: assetData.annotationId
-                               // TODO - handle annotation.startTime
+                               annotationId: assetData.annotationId,
+                               annotationStartTime: annotation.startTime,
+                               annotationDuration: annotation.duration
                            },
                            isPlaying: false,
                            time: 0
@@ -80,7 +81,8 @@ export default class JuxtaposeApplication extends React.Component {
                                key: newTrack.length,
                                start_time: e.detail.caller.timecode,
                                end_time: e.detail.caller.timecode + annotation.duration,
-                               // TODO - handle annotation.startTime
+                               annotationStartTime: annotation.startTime,
+                               annotationDuration: annotation.duration,
                                type: 'vid',
                                host: source.host,
                                source: source.url,
@@ -100,6 +102,17 @@ export default class JuxtaposeApplication extends React.Component {
 
         document.addEventListener('sequenceassignment.save', function(e) {
             self.onSaveClick();
+        });
+
+        document.addEventListener('asset.save', function(e) {
+            if (e.detail.caller.type === 'spine') {
+                let state = _.extend({}, self.state);
+                state.spineVideo.annotationStartTime = e.detail.startTime;
+                state.spineVideo.annotationDuration = e.detail.duration;
+                self.setState(state);
+            } else {
+               // TODO Find the TrackElement & update start & duration
+            }
         });
     }
     componentDidMount() {
