@@ -202,7 +202,7 @@ export function pad2(number) {
 export function prepareMediaData(array) {
     let a = _.cloneDeep(array);
     for (let e of a) {
-        e.media = e.annotationId;
+        e.media = e.annotationId || e.media;
         delete e.host;
         delete e.source;
     }
