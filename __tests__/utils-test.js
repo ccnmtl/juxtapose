@@ -54,16 +54,16 @@ describe('collisionPresent', () => {
 
 describe('extractAssetData', () => {
     it('handles bogus input', () => {
-        expect(extractAssetData('').id).toBe(null);
+        expect(extractAssetData('').assetId).toBe(null);
         expect(extractAssetData('').annotationId).toBe(null);
-        expect(extractAssetData(null).id).toBe(null);
+        expect(extractAssetData(null).assetId).toBe(null);
         expect(extractAssetData(null).annotationId).toBe(null);
     });
     it('extracts the url correctly', () => {
-        expect(extractAssetData('/asset/124567/').id).toBe(124567);
+        expect(extractAssetData('/asset/124567/').assetId).toBe(124567);
         expect(extractAssetData('/asset/124567/').annotationId).toBe(null);
         expect(extractAssetData(
-            '/asset/124567/annotations/15161/').id).toBe(124567);
+            '/asset/124567/annotations/15161/').assetId).toBe(124567);
         expect(extractAssetData(
             '/asset/124567/annotations/15161/').annotationId).toBe(15161);
     });
