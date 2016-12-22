@@ -133,12 +133,13 @@ export default class JuxtaposeApplication extends React.Component {
                    textTrack: loadTextData(sequenceAsset.text_elements)
                });
 
-               let promises = [];
-               promises.push(
-                   xhr.getAsset(sequenceAsset.spine_asset)
+               return xhr
+                   .getAsset(sequenceAsset.spine_asset)
                    .then(function(json) {
                        const ctx = parseAsset(
-                           json, sequenceAsset.spine_asset, sequenceAsset.spine);
+                           json,
+                           sequenceAsset.spine_asset,
+                           sequenceAsset.spine);
 
                        self.setState({
                            spineVideo: {
@@ -152,8 +153,10 @@ export default class JuxtaposeApplication extends React.Component {
                            isPlaying: false,
                            time: 0
                        });
-                   }));
-              return Promise.all(promises);
+                   })
+                   .catch(function(error) {
+                       console.error('Sequence loading error:', error);
+                   });
            }).then(function() {
                jQuery(window).trigger('sequenceassignment.set_submittable', {
                    submittable: self.isBaselineWorkCompleted()
