@@ -2,7 +2,7 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {
-    collisionPresent, extractAssetData, extractSource, extractAnnotation,
+    collisionPresent, extractAssetData, parseAsset,
     formatTimecode, loadMediaData, loadTextData
 } from './utils.js';
 import MediaTrack from './MediaTrack.jsx';
@@ -42,54 +42,40 @@ export default class JuxtaposeApplication extends React.Component {
             // on what the user is doing.
             const assetData = extractAssetData(e.detail.annotation);
             const xhr = new Xhr();
-            xhr.getAsset(assetData.id)
-               .then(function(asset) {
-                   const assetCtx = asset.assets[assetData.id];
-                   const source = extractSource(assetCtx.sources);
-                   const annotation = extractAnnotation(assetCtx, assetData.annotationId);
+            xhr.getAsset(assetData.assetId)
+               .then(function(json) {
+                   const ctx = parseAsset(
+                       json, assetData.assetId, assetData.annotationId);
                    
                    if (e.detail.caller.type === 'spine') {
                        // Set the spine video
                        self.setState({
                            spineVideo: {
-                               url: source.url,
-                               host: source.host,
-                               id: assetData.id,
+                               url: ctx.url,
+                               host: ctx.host,
+                               assetId: assetData.assetId,
                                annotationId: assetData.annotationId,
-                               annotationStartTime: annotation.startTime,
-                               annotationDuration: annotation.duration
+                               annotationStartTime: ctx.startTime,
+                               annotationDuration: ctx.duration
                            },
                            isPlaying: false,
                            time: 0
                        });
                    } else {
                        let newTrack = self.state.mediaTrack.slice(0);
-                       if (assetCtx.primary_type === 'image') {
-                           newTrack.push({
-                               key: newTrack.length,
-                               start_time: e.detail.caller.timecode,
-                               end_time: e.detail.caller.timecode + annotation.duration,
-                               type: 'img',
-                               host: source.host,
-                               source: source.url,
-                               id: assetData.id,
-                               annotationId: assetData.annotationId,
-                               annotationData: annotation.annotationData
-                           });
-                       } else {
-                           newTrack.push({
-                               key: newTrack.length,
-                               start_time: e.detail.caller.timecode,
-                               end_time: e.detail.caller.timecode + annotation.duration,
-                               annotationStartTime: annotation.startTime,
-                               annotationDuration: annotation.duration,
-                               type: 'vid',
-                               host: source.host,
-                               source: source.url,
-                               id: assetData.id,
-                               annotationId: assetData.annotationId
-                           });
-                       }
+                       newTrack.push({
+                           key: newTrack.length,
+                           start_time: e.detail.caller.timecode,
+                           end_time: e.detail.caller.timecode + ctx.duration,
+                           type: ctx.type,
+                           host: ctx.host,
+                           source: ctx.url,
+                           assetId: assetData.assetId,
+                           annotationId: assetData.annotationId,
+                           annotationData: ctx.data,
+                           annotationStartTime: ctx.startTime,
+                           annotationDuration: ctx.duration
+                       });
 
                        self.setState({
                            mediaTrack: newTrack
@@ -126,21 +112,20 @@ export default class JuxtaposeApplication extends React.Component {
         const xhr = new Xhr();
         xhr.getSequenceAsset(currentProject)
            .then(function(sequenceAsset) {
-               if (!sequenceAsset) {
+               if (!sequenceAsset || !sequenceAsset.spine) {
                    return;
                }
 
                // Fetch each media element's actual media from Mediathread.
                sequenceAsset.media_elements.forEach(function(e) {
-                   xhr.getAsset(e.media).then(function(asset) {
-                       const sources = asset.assets[e.media].sources;
-                       const source = extractSource(sources);
-                       e.source = source.url;
-                       if (asset.assets[e.media].primary_type === 'image') {
-                           e.type = 'img';
-                       } else {
-                           e.type = 'vid';
-                       }
+                   xhr.getAsset(e.media_asset).then(function(json) {
+                       const ctx = parseAsset(json, e.media_asset, e.media);
+                       e.host = ctx.host;
+                       e.source = ctx.url;
+                       e.type = ctx.type;
+                       e.annotationStartTime = ctx.startTime;
+                       e.annotationDuration = ctx.duration;
+                       e.annotationData = ctx.data;
                    });
                });
                self.setState({
@@ -148,27 +133,30 @@ export default class JuxtaposeApplication extends React.Component {
                    textTrack: loadTextData(sequenceAsset.text_elements)
                });
 
-               let promises = [];
-               if (sequenceAsset.spine) {
-                   promises.push(
-                       xhr.getAsset(sequenceAsset.spine)
-                          .then(function(spine) {
-                              const sources =
-                                  spine.assets[sequenceAsset.spine].sources;
-                              const vid = extractSource(sources);
-                              self.setState({
-                                  spineVideo: {
-                                      url: vid.url,
-                                      host: vid.host,
-                                      id: sequenceAsset.spine
-                                  },
-                                  isPlaying: false,
-                                  time: 0
-                              });
-                          }));
-               }
+               return xhr
+                   .getAsset(sequenceAsset.spine_asset)
+                   .then(function(json) {
+                       const ctx = parseAsset(
+                           json,
+                           sequenceAsset.spine_asset,
+                           sequenceAsset.spine);
 
-               return Promise.all(promises);
+                       self.setState({
+                           spineVideo: {
+                               url: ctx.url,
+                               host: ctx.host,
+                               assetId: sequenceAsset.spine_asset,
+                               annotationId: sequenceAsset.spine,
+                               annotationStartTime: ctx.annotationStartTime,
+                               annotationDuration: ctx.annotationEndTime
+                           },
+                           isPlaying: false,
+                           time: 0
+                       });
+                   })
+                   .catch(function(error) {
+                       console.error('Sequence loading error:', error);
+                   });
            }).then(function() {
                jQuery(window).trigger('sequenceassignment.set_submittable', {
                    submittable: self.isBaselineWorkCompleted()
@@ -423,7 +411,7 @@ export default class JuxtaposeApplication extends React.Component {
         const xhr = new Xhr();
         const self = this;
         xhr.createOrUpdateSequenceAsset(
-            this.state.spineVideo.id,
+            this.state.spineVideo.annotationId,
             window.MediaThread.current_course,
             window.MediaThread.current_project,
             this.state.mediaTrack,

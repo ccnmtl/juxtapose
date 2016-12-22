@@ -78,7 +78,7 @@ export function extractAssetData(s) {
         }
     }
     return {
-        'id': id,
+        'assetId': id,
         'annotationId': annotationId
     };
 }
@@ -144,6 +144,24 @@ export function extractSource(o) {
     return null;
 }
 
+/**
+ * parseAsset
+ * 
+ */
+export function parseAsset(json, assetId, annotationId) {
+    const assetCtx = json.assets[assetId];
+    const source = extractSource(assetCtx.sources);
+    const annotation = extractAnnotation(assetCtx, annotationId);
+    const type = assetCtx.primary_type === 'image' ? 'img' : 'vid';
+    return {
+        url: source.url,
+        host: source.host,
+        type: type,
+        startTime: annotation.range1,
+        duration: annotation.duration,
+        data: annotation.annotationData
+    };
+}
 
 /**
  * Given a number of seconds as a float, return an array
@@ -184,8 +202,7 @@ export function pad2(number) {
 export function prepareMediaData(array) {
     let a = _.cloneDeep(array);
     for (let e of a) {
-        // We only need the Mediathread ID here.
-        e.media = e.id || e.media;
+        e.media = e.annotationId || e.media;
         delete e.host;
         delete e.source;
     }

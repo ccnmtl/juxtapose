@@ -103,7 +103,7 @@ export default class SpineVideo extends React.Component {
         let caller = {
             'type': 'spine',
         };
-        editAnnotationWidget(this.props.spineVideo.id,
+        editAnnotationWidget(this.props.spineVideo.assetId,
                              this.props.spineVideo.annotationId,
                              caller);
     }
