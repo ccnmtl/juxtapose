@@ -65,24 +65,6 @@ export function ellipsis(str, limit, append) {
     }
 };
 
-export function extractAssetData(s) {
-    let id = null;
-    let annotationId = null;
-    if (s) {
-        const matches = s.match(/\/asset\/(\d+)(\/annotations\/(\d+))?\/$/i);
-        if (matches[1]) {
-            id = parseInt(matches[1], 10);
-        }
-        if (matches[3]) {
-            annotationId = parseInt(matches[3], 10);
-        }
-    }
-    return {
-        'assetId': id,
-        'annotationId': annotationId
-    };
-}
-
 /**
  * extractAnnotation
  *

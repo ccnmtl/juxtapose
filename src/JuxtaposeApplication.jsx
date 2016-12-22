@@ -40,12 +40,11 @@ export default class JuxtaposeApplication extends React.Component {
             // This event will either set the spine video, or
             // trigger the insertion of a media element, depending
             // on what the user is doing.
-            const assetData = extractAssetData(e.detail.annotation);
             const xhr = new Xhr();
-            xhr.getAsset(assetData.assetId)
+            xhr.getAsset(e.detail.assetId)
                .then(function(json) {
                    const ctx = parseAsset(
-                       json, assetData.assetId, assetData.annotationId);
+                       json, e.detail.assetId, e.detail.annotationId);
                    
                    if (e.detail.caller.type === 'spine') {
                        // Set the spine video
@@ -53,8 +52,8 @@ export default class JuxtaposeApplication extends React.Component {
                            spineVideo: {
                                url: ctx.url,
                                host: ctx.host,
-                               assetId: assetData.assetId,
-                               annotationId: assetData.annotationId,
+                               assetId: e.detail.assetId,
+                               annotationId: e.detail.annotationId,
                                annotationStartTime: ctx.startTime,
                                annotationDuration: ctx.duration
                            },
@@ -70,8 +69,8 @@ export default class JuxtaposeApplication extends React.Component {
                            type: ctx.type,
                            host: ctx.host,
                            source: ctx.url,
-                           assetId: assetData.assetId,
-                           annotationId: assetData.annotationId,
+                           assetId: e.detail.assetId,
+                           annotationId: e.detail.annotationId,
                            annotationData: ctx.data,
                            annotationStartTime: ctx.startTime,
                            annotationDuration: ctx.duration
