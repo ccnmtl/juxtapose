@@ -2,7 +2,7 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {
-    collisionPresent, extractAssetData, parseAsset,
+    collisionPresent, parseAsset,
     formatTimecode, loadMediaData, loadTextData
 } from './utils.js';
 import MediaTrack from './MediaTrack.jsx';
