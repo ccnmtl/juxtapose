@@ -82,7 +82,7 @@ export default class JuxtaposeApplication extends React.Component {
                        });
                    }
                    jQuery(window).trigger('sequenceassignment.set_dirty',
-                                          {'dirty': true});
+                                          {dirty: true});
                });
         });
 
@@ -116,25 +116,6 @@ export default class JuxtaposeApplication extends React.Component {
                    return;
                }
 
-               xhr.getAsset(sequenceAsset.spine_asset)
-                   .then(function(json) {
-                       const ctx = parseAsset(
-                           json, sequenceAsset.spine_asset, sequenceAsset.spine);
-
-                       self.setState({
-                           spineVideo: {
-                               url: ctx.url,
-                               host: ctx.host,
-                               assetId: sequenceAsset.spine_asset,
-                               annotationId: sequenceAsset.spine,
-                               annotationStartTime: ctx.annotationStartTime,
-                               annotationDuration: ctx.annotationEndTime
-                           },
-                           isPlaying: false,
-                           time: 0
-                       });
-               });
-
                // Fetch each media element's actual media from Mediathread.
                sequenceAsset.media_elements.forEach(function(e) {
                    xhr.getAsset(e.media_asset).then(function(json) {
@@ -151,7 +132,33 @@ export default class JuxtaposeApplication extends React.Component {
                    mediaTrack: loadMediaData(sequenceAsset.media_elements),
                    textTrack: loadTextData(sequenceAsset.text_elements)
                });
-       });
+
+               let promises = [];
+               promises.push(
+                   xhr.getAsset(sequenceAsset.spine_asset)
+                   .then(function(json) {
+                       const ctx = parseAsset(
+                           json, sequenceAsset.spine_asset, sequenceAsset.spine);
+
+                       self.setState({
+                           spineVideo: {
+                               url: ctx.url,
+                               host: ctx.host,
+                               assetId: sequenceAsset.spine_asset,
+                               annotationId: sequenceAsset.spine,
+                               annotationStartTime: ctx.annotationStartTime,
+                               annotationDuration: ctx.annotationEndTime
+                           },
+                           isPlaying: false,
+                           time: 0
+                       });
+                   }));
+              return Promise.all(promises);
+           }).then(function() {
+               jQuery(window).trigger('sequenceassignment.set_submittable', {
+                   submittable: self.isBaselineWorkCompleted()
+               });
+           });
     }
     render() {
         const activeItem = this.getItem(this.state.activeItem);
@@ -224,6 +231,11 @@ export default class JuxtaposeApplication extends React.Component {
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
         </div>;
     }
+    isBaselineWorkCompleted() {
+        return !!this.state.spineVideo &&
+               (this.state.mediaTrack.length > 0 ||
+                this.state.textTrack.length > 0);
+    }
     /**
      * Update a track item, for TrackElementManager.
      */
@@ -274,7 +286,7 @@ export default class JuxtaposeApplication extends React.Component {
         }
 
         jQuery(window).trigger('sequenceassignment.set_dirty',
-                               {'dirty': true});
+                               {dirty: true});
     }
     onTextTrackElementAdd(txt, timestamp) {
         let newTrack = this.state.textTrack.slice();
@@ -287,7 +299,7 @@ export default class JuxtaposeApplication extends React.Component {
         });
         this.setState({textTrack: newTrack});
         jQuery(window).trigger('sequenceassignment.set_dirty',
-                               {'dirty': true});
+                               {dirty: true});
     }
     /**
      * This function handles the drag stop event for track items.
@@ -318,13 +330,13 @@ export default class JuxtaposeApplication extends React.Component {
         const newTrack = this.trackItemDragHandler(this.state.mediaTrack, item);
         this.setState({mediaTrack: newTrack});
         jQuery(window).trigger('sequenceassignment.set_dirty',
-                               {'dirty': true});
+                               {dirty: true});
     }
     onTextDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.textTrack, item);
         this.setState({textTrack: newTrack});
         jQuery(window).trigger('sequenceassignment.set_dirty',
-                               {'dirty': true});
+                               {dirty: true});
     }
     onPlayClick(e) {
         const newState = !this.state.isPlaying;
@@ -394,6 +406,7 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onSaveClick() {
         const xhr = new Xhr();
+        const self = this;
         xhr.createOrUpdateSequenceAsset(
             this.state.spineVideo.annotationId,
             window.MediaThread.current_course,
@@ -401,7 +414,10 @@ export default class JuxtaposeApplication extends React.Component {
             this.state.mediaTrack,
             this.state.textTrack
         ).then(function(e) {
-            jQuery(window).trigger('sequenceassignment.on_save_success', e);
+            jQuery(window).trigger(
+                'sequenceassignment.on_save_success', {
+                    submittable: self.isBaselineWorkCompleted()
+                });
         }).catch(function(e) {
             // Open Mediathread's error popup
             jQuery(window).trigger('sequenceassignment.on_save_error', e);

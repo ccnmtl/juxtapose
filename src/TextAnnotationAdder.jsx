@@ -1,4 +1,5 @@
 import React from 'react';
+import {Modal} from 'react-bootstrap';
 
 export default class TextAnnotationAdder extends React.Component {
     constructor(props) {
@@ -15,25 +16,27 @@ export default class TextAnnotationAdder extends React.Component {
     onTextChange(e) {
         this.setState({value: e.target.value});
     }
+    close() {
+        this.props.onCloseClick();
+    }
     render() {
-        let contents = '';
-        if (this.props.showing) {
-            contents = <div className="jux-add-item-popup">
-                <button className="jux-popup-close"
-                        onClick={this.props.onCloseClick}
-                        title="Close">×</button>
-                <h2>Add item</h2>
-                <form onSubmit={this.onSubmit.bind(this)}>
-                    <textarea className="form-control"
-                              maxLength={140}
-                              onChange={this.onTextChange.bind(this)}
-                              value={this.state.value} />
-                    <div>
-                        <button className="btn btn-primary right" type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>;
-        }
-        return <div>{contents}</div>;
+        return <Modal show={this.props.showing} onHide={this.close.bind(this)}>
+    <Modal.Header closeButton>
+        <Modal.Title>Add text annotation</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+        <form onSubmit={this.onSubmit.bind(this)}>
+            <textarea className="form-control"
+                      maxLength={140}
+                      onChange={this.onTextChange.bind(this)}
+                      value={this.state.value} />
+            <br />
+            <button className="btn btn-primary right" type="submit">
+                Submit
+            </button>
+        </form>
+        <div className="clearfix"></div>
+    </Modal.Body>
+        </Modal>;
     }
 }
