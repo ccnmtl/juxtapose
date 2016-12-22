@@ -126,6 +126,10 @@ export default class JuxtaposeApplication extends React.Component {
         const xhr = new Xhr();
         xhr.getSequenceAsset(currentProject)
            .then(function(sequenceAsset) {
+               if (!sequenceAsset) {
+                   return;
+               }
+
                // Fetch each media element's actual media from Mediathread.
                sequenceAsset.media_elements.forEach(function(e) {
                    xhr.getAsset(e.media).then(function(asset) {
