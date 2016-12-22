@@ -371,6 +371,7 @@ export default class JuxtaposeApplication extends React.Component {
                 activeItem: null
             });
         }
+        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
     }
     onPlayheadTimeChange(e) {
         const percentDone = e.target.value / 1000;
