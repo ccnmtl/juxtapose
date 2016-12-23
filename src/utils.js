@@ -85,7 +85,7 @@ export function extractAnnotation(assetCtx, annotationId) {
             }
         }
     }
-    return {duration: 30, range1: 0};
+    return {duration: undefined, range1: 0};
 }
 
 /**
