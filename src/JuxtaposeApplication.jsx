@@ -403,12 +403,12 @@ export default class JuxtaposeApplication extends React.Component {
     onPlayheadTimeChange(e) {
         const percentDone = e.target.value / 1000;
         const newTime = this.sequenceDuration() * percentDone;
-        console.log('newTime', newTime);
         this.setState({time: newTime});
     }
     onPlayheadMouseUp() {
-        const percentage = (
-            this.state.time + this.sequenceDuration()) / this.state.duration;
+        const x = this.state.time + (
+            this.state.spineVid.annotationStartTime || 0);
+        const percentage = x / this.state.duration;
         this._primaryVid.player.seekTo(percentage);
         this._secondaryVid.seekTo(percentage);
     }
@@ -420,9 +420,10 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onSpineProgress(state) {
         if (typeof state.played !== 'undefined') {
-            const seconds = this.sequenceDuration() * state.played;
-            // TODO
-            //this.setState({time: seconds});
+            const seconds = (
+                state.played * this.state.duration
+            ) - (this.state.spineVid.annotationStartTime || 0);
+            this.setState({time: seconds});
         }
     }
     onSpinePlay() {
