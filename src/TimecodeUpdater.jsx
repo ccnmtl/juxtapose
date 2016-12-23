@@ -12,18 +12,16 @@ export default class TimecodeUpdater extends React.Component {
         const minutes = units[0];
         const seconds = units[1];
         const centiseconds = units[2];
-        return <div className="input-group">
-    <input type="number" className="form-control"
-           size="2" min="0" required
+        return <div className="input-group jux-timecode-editor">
+    <input type="number" className="form-control input-sm"
+           min="0" required
            onChange={this.onMinutesChange.bind(this)}
            value={minutes} />
-    <div className="input-group-addon"><strong>:</strong></div>
-    <input type="number" className="form-control"
+    <input type="number" className="form-control input-sm"
            size="2" min="0" max="59" required
            onChange={this.onSecondsChange.bind(this)}
            value={seconds} />
-    <div className="input-group-addon"><strong>:</strong></div>
-    <input type="number" className="form-control"
+    <input type="number" className="form-control input-sm"
            size="2" min="0" max="99" required
            onChange={this.onCentisecondsChange.bind(this)}
            value={centiseconds} />
