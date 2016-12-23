@@ -2,8 +2,8 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {
-    collisionPresent, hasOutOfBoundsElement, parseAsset,
-    formatTimecode, loadMediaData, loadTextData
+    collisionPresent, hasOutOfBoundsElement, removeOutOfBoundsElements,
+    parseAsset, formatTimecode, loadMediaData, loadTextData
 } from './utils.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
@@ -458,9 +458,14 @@ export default class JuxtaposeApplication extends React.Component {
         this.setState({showOutOfBoundsModal: false});
     }
     onOutOfBoundsConfirmClick() {
+        const newDuration = this.state.tmpSpineVid.annotationDuration;
         this.setState({
             spineVid: this.state.tmpSpineVid,
-            showOutOfBoundsModal: false
+            showOutOfBoundsModal: false,
+            mediaTrack: removeOutOfBoundsElements(
+                newDuration, this.state.mediaTrack),
+            textTrack: removeOutOfBoundsElements(
+                newDuration, this.state.textTrack)
         });
         this.setState({tmpSpineVid: null});
     }

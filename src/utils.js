@@ -128,18 +128,29 @@ export function extractSource(o) {
 
 export function hasOutOfBoundsElement(duration, mediaTrack, textTrack) {
     for (let i = 0; i < mediaTrack.length; i++) {
-        let el = mediaTrack[i];
+        const el = mediaTrack[i];
         if (el.end_time > duration) {
             return true;
         }
     }
     for (let i = 0; i < textTrack.length; i++) {
-        let el = textTrack[i];
+        const el = textTrack[i];
         if (el.end_time > duration) {
             return true;
         }
     }
     return false;
+}
+
+export function removeOutOfBoundsElements(duration, track) {
+    let newTrack = [];
+    for (let i = 0; i < track.length; i++) {
+        const el = track[i];
+        if (el.end_time <= duration) {
+            newTrack.push(el);
+        }
+    }
+    return newTrack;
 }
 
 /**
