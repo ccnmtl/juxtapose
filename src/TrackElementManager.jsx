@@ -10,56 +10,69 @@ export default class TrackElementManager extends React.Component {
 
         if (activeItem) {
             let displayTextarea = 'none';
+            let displayEditSelection = 'block';
             let maxLength = Infinity;
             if (activeItem.type === 'txt') {
                 displayTextarea = 'block';
+                displayEditSelection = 'none';
                 maxLength = 140;
             }
-            return <div className="jux-track-element-manager">
-    <form className="form-inline">
+            return <div className="jux-track-container jux-track-element-manager">
+    <button className="jux-remove-track-element btn btn-default btn-danger right"
+            title="Delete element"
+            onClick={this.onDeleteClick.bind(this)}>
+        <span className="glyphicon glyphicon-trash"
+              aria-hidden="true"></span>
+    </button>
+    <div className="track-icon left"></div>
+    <div className="left">
+        <form className="form-inline">
         <div className="form-group">
             <label>
-                Start time: {formatTimecode(this.props.activeItem.start_time)}
-                <br />
-                <TimecodeUpdater
-                    timecode={this.props.activeItem.start_time}
-                    onMinutesChange={this.onStartTimeMinutesChange.bind(this)}
-                    onSecondsChange={this.onStartTimeSecondsChange.bind(this)}
-                    onCentisecondsChange={this.onStartTimeCentisecondsChange.bind(this)}
-                />
-            </label>
+                Start &nbsp;{formatTimecode(this.props.activeItem.start_time)}
+            </label><br />    
+            <TimecodeUpdater
+                timecode={this.props.activeItem.start_time}
+                onMinutesChange={this.onStartTimeMinutesChange.bind(this)}
+                onSecondsChange={this.onStartTimeSecondsChange.bind(this)}
+                onCentisecondsChange={this.onStartTimeCentisecondsChange.bind(this)}
+            />
+            <div className="helptext">MM:SS:CS</div>
         </div>
         <div className="form-group">
             <label>
-                Duration: {formatTimecode(this.props.activeItem.end_time)}
-                <br />
-                <TimecodeUpdater
-                    timecode={this.props.activeItem.end_time}
-                    onMinutesChange={this.onEndTimeMinutesChange.bind(this)}
-                    onSecondsChange={this.onEndTimeSecondsChange.bind(this)}
-                    onCentisecondsChange={this.onEndTimeCentisecondsChange.bind(this)}
-                />
-            </label>
+                Duration &nbsp;{formatTimecode(this.props.activeItem.end_time)}
+            </label><br />
+            <TimecodeUpdater
+                timecode={this.props.activeItem.end_time}
+                onMinutesChange={this.onEndTimeMinutesChange.bind(this)}
+                onSecondsChange={this.onEndTimeSecondsChange.bind(this)}
+                onCentisecondsChange={this.onEndTimeCentisecondsChange.bind(this)}
+            />
+            <div className="helptext">MM:SS:CS</div>
         </div>
-        <br />
         <div className="form-group">
+            <label>Content</label><br />
             <textarea style={{'display': displayTextarea}}
                       className="form-control"
                       value={this.props.activeItem.source}
                       maxLength={maxLength}
                       onChange={this.onTextChange.bind(this)} />
-        </div>
-        <br />
-        <div className="form-group">
-            <button className="jux-remove-track-element btn btn-danger"
-                    title="Delete Item"
-                    onClick={this.onDeleteClick.bind(this)}>
-                <span className="glyphicon glyphicon-trash"
-                      aria-hidden="true"></span>
+            <div style={{'display': displayTextarea}}
+                 className="helptext">140 character limit</div>
+            <button style={{'display': displayEditSelection}}
+                className="jux-edit-track-element btn btn-default btn-sm"
+                title="Edit Element"
+                onClick={this.onEditClick.bind(this)}>
+                <span className="glyphicon glyphicon-pencil"
+                      aria-hidden="true"></span> Edit Selection
             </button>
         </div>
         <div className="clearfix"></div>
     </form>
+    </div>
+    
+    <div className="clearfix"></div>
             </div>;
         } else {
             return <div></div>;
@@ -72,6 +85,11 @@ export default class TrackElementManager extends React.Component {
         e.stopPropagation();
         e.preventDefault();
         this.props.onDeleteClick();
+    }
+    onEditClick(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        // this.props.onDeleteClick();
     }
     onStartTimeMinutesChange(val) {
         const minutes = getMinutes(this.props.activeItem.start_time);
