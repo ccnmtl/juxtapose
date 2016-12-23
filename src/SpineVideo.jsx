@@ -69,7 +69,6 @@ export default class SpineVideo extends React.Component {
                     playing={this.props.playing}
                     onEnded={this.onEnded.bind(this)}
                     url={url}
-                    onReady={this.onReady}
                     onDuration={this.props.onDuration}
                     onProgress={this.props.onProgress}
                     onPlay={this.props.onPlay}

@@ -424,6 +424,7 @@ export default class JuxtaposeApplication extends React.Component {
             textTrack: removeOutOfBoundsElements(
                 duration, this.state.textTrack)
         });
+        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
     }
     onSpineProgress(state) {
         if (typeof state.played !== 'undefined') {
@@ -476,6 +477,7 @@ export default class JuxtaposeApplication extends React.Component {
                 newDuration, this.state.textTrack)
         });
         this.setState({tmpSpineVid: null});
+        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeItem
