@@ -52,10 +52,11 @@ export default class JuxtaposeApplication extends React.Component {
                        // track elements that aren't in this selection's range.
                        // If that's the case, warn the user and allow them to
                        // cancel the action.
-                       if (hasOutOfBoundsElement(
-                           ctx.duration,
-                           self.state.mediaTrack,
-                           self.state.textTrack)
+                       if (!ctx.duration ||
+                           hasOutOfBoundsElement(
+                               ctx.duration,
+                               self.state.mediaTrack,
+                               self.state.textTrack)
                        ) {
                            self.setState({
                                showOutOfBoundsModal: true,
@@ -217,7 +218,7 @@ export default class JuxtaposeApplication extends React.Component {
                     ref={(c) => this._primaryVid = c}
                     readOnly={this.props.readOnly}
                     onDuration={this.onSpineDuration.bind(this)}
-                    onVideoEnd={this.onSpineVideoEnd.bind(this)}
+                    onEnded={this.onSpineVideoEnded.bind(this)}
                     playing={this.state.isPlaying}
                     onProgress={this.onSpineProgress.bind(this)}
                     onPlay={this.onSpinePlay.bind(this)}
@@ -412,11 +413,17 @@ export default class JuxtaposeApplication extends React.Component {
         this._primaryVid.player.seekTo(percentage);
         this._secondaryVid.seekTo(percentage);
     }
-    onSpineVideoEnd() {
+    onSpineVideoEnded() {
         this.setState({isPlaying: false});
     }
     onSpineDuration(duration) {
-        this.setState({duration: duration});
+        this.setState({
+            duration: duration,
+            mediaTrack: removeOutOfBoundsElements(
+                duration, this.state.mediaTrack),
+            textTrack: removeOutOfBoundsElements(
+                duration, this.state.textTrack)
+        });
     }
     onSpineProgress(state) {
         if (typeof state.played !== 'undefined') {

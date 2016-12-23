@@ -67,9 +67,9 @@ export default class SpineVideo extends React.Component {
                     width={480}
                     height={360}
                     playing={this.props.playing}
-                    onLoadedMetadata={this.onLoadedMetadata.bind(this)}
                     onEnded={this.onEnded.bind(this)}
                     url={url}
+                    onReady={this.onReady}
                     onDuration={this.props.onDuration}
                     onProgress={this.props.onProgress}
                     onPlay={this.props.onPlay}
@@ -81,12 +81,8 @@ export default class SpineVideo extends React.Component {
                 {editSpineButton}
         </div>;
     }
-    onLoadedMetadata(e) {
-        const vid = e.target;
-        this.props.callbackParent(vid.currentTime, vid.duration);
-    }
     onEnded(e) {
-        this.props.onVideoEnd();
+        this.props.onEnded();
     }
     // TODO: handle playback finish event
     onClickReviseSpine() {
