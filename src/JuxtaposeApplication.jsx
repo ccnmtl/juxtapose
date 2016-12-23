@@ -22,7 +22,7 @@ export default class JuxtaposeApplication extends React.Component {
         super(props);
         let self = this;
         this.state = {
-            spineVideo: null,
+            spineVid: null,
             mediaTrack: [],
             textTrack: [],
 
@@ -49,7 +49,7 @@ export default class JuxtaposeApplication extends React.Component {
                    if (e.detail.caller.type === 'spine') {
                        // Set the spine video
                        self.setState({
-                           spineVideo: {
+                           spineVid: {
                                url: ctx.url,
                                host: ctx.host,
                                assetId: e.detail.assetId,
@@ -92,8 +92,8 @@ export default class JuxtaposeApplication extends React.Component {
         document.addEventListener('asset.save', function(e) {
             if (e.detail.caller.type === 'spine') {
                 let state = _.extend({}, self.state);
-                state.spineVideo.annotationStartTime = e.detail.startTime;
-                state.spineVideo.annotationDuration = e.detail.duration;
+                state.spineVid.annotationStartTime = e.detail.startTime;
+                state.spineVid.annotationDuration = e.detail.duration;
                 self.setState(state);
             } else {
                // TODO Find the TrackElement & update start & duration
@@ -141,16 +141,17 @@ export default class JuxtaposeApplication extends React.Component {
                            sequenceAsset.spine);
 
                        self.setState({
-                           spineVideo: {
+                           spineVid: {
                                url: ctx.url,
                                host: ctx.host,
                                assetId: sequenceAsset.spine_asset,
                                annotationId: sequenceAsset.spine,
-                               annotationStartTime: ctx.annotationStartTime,
-                               annotationDuration: ctx.annotationEndTime
+                               annotationStartTime: ctx.startTime,
+                               annotationDuration: ctx.duration
                            },
                            isPlaying: false,
-                           time: 0
+                           time: 0,
+                           duration: ctx.duration
                        });
                    })
                    .catch(function(error) {
@@ -168,13 +169,13 @@ export default class JuxtaposeApplication extends React.Component {
         if (!this.props.readOnly) {
             tracks = <span>
     <MediaTrack
-        duration={this.state.duration}
+        duration={this.sequenceDuration()}
         onDragStop={this.onMediaDragStop.bind(this)}
         onTrackEditButtonClick={this.onMediaTrackEditButtonClick.bind(this)}
         activeItem={this.state.activeItem}
         data={this.state.mediaTrack} />
     <TextTrack
-        duration={this.state.duration}
+        duration={this.sequenceDuration()}
         onDragStop={this.onTextDragStop.bind(this)}
         onTrackElementAdd={this.onTextTrackElementAdd.bind(this)}
         onTrackEditButtonClick={this.onTextTrackEditButtonClick.bind(this)}
@@ -189,7 +190,7 @@ export default class JuxtaposeApplication extends React.Component {
                      onChange={this.onGlobalAnnotationChange.bind(this)} />
            <div className="vid-container">
                 <SpineVideo
-                    spineVideo={this.state.spineVideo}
+                    spineVid={this.state.spineVid}
                     ref={(c) => this._primaryVid = c}
                     readOnly={this.props.readOnly}
                     onDuration={this.onSpineDuration.bind(this)}
@@ -202,7 +203,7 @@ export default class JuxtaposeApplication extends React.Component {
                 />
                 <MediaDisplay
                     time={this.state.time}
-                    duration={this.state.duration}
+                    duration={this.sequenceDuration()}
                     data={this.state.mediaTrack}
                     ref={(c) => this._secondaryVid = c}
                     playing={this.state.isPlaying}
@@ -210,19 +211,19 @@ export default class JuxtaposeApplication extends React.Component {
                 />
             </div>
             <TextDisplay time={this.state.time}
-                         duration={this.state.duration}
+                         duration={this.sequenceDuration()}
                          data={this.state.textTrack} />
             <PlayButton isPlaying={this.state.isPlaying}
                         onClick={this.onPlayClick.bind(this)} />
             <div className="jux-flex-horiz">
                 <div className="jux-time">
-                    {formatTimecode(this.state.time)} / {formatTimecode(this.state.duration)}
+                    {formatTimecode(this.state.time)} / {formatTimecode(this.sequenceDuration())}
                 </div>
             </div>
             <div className="jux-timeline">
-                <TimelineRuler duration={this.state.duration} />
+                <TimelineRuler duration={this.sequenceDuration()} />
                 <Playhead currentTime={this.state.time}
-                          duration={this.state.duration}
+                          duration={this.sequenceDuration()}
                           onMouseUp={this.onPlayheadMouseUp.bind(this)}
                           onChange={this.onPlayheadTimeChange.bind(this)} />
                 {tracks}
@@ -234,7 +235,7 @@ export default class JuxtaposeApplication extends React.Component {
         </div>;
     }
     isBaselineWorkCompleted() {
-        return !!this.state.spineVideo &&
+        return !!this.state.spineVid &&
                (this.state.mediaTrack.length > 0 ||
                 this.state.textTrack.length > 0);
     }
@@ -374,13 +375,15 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onPlayheadTimeChange(e) {
         const percentDone = e.target.value / 1000;
-        const newTime = this.state.duration * percentDone;
+        const newTime = this.sequenceDuration() * percentDone;
+        console.log('newTime', newTime);
         this.setState({time: newTime});
     }
     onPlayheadMouseUp() {
-        const percentage = this.state.time / this.state.duration;
-        this._primaryVid.updateVidPosition(percentage);
-        this._secondaryVid.updateVidPosition(percentage);
+        const percentage = (
+            this.state.time + this.sequenceDuration()) / this.state.duration;
+        this._primaryVid.player.seekTo(percentage);
+        this._secondaryVid.seekTo(percentage);
     }
     onSpineVideoEnd() {
         this.setState({isPlaying: false});
@@ -393,8 +396,9 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onSpineProgress(state) {
         if (typeof state.played !== 'undefined') {
-            const seconds = this.state.duration * state.played;
-            this.setState({time: seconds});
+            const seconds = this.sequenceDuration() * state.played;
+            // TODO
+            //this.setState({time: seconds});
         }
     }
     onSpinePlay() {
@@ -411,7 +415,7 @@ export default class JuxtaposeApplication extends React.Component {
         const xhr = new Xhr();
         const self = this;
         xhr.createOrUpdateSequenceAsset(
-            this.state.spineVideo.annotationId,
+            this.state.spineVid.annotationId,
             window.MediaThread.current_course,
             window.MediaThread.current_project,
             this.state.mediaTrack,
@@ -440,5 +444,11 @@ export default class JuxtaposeApplication extends React.Component {
         } else {
             return this.state.mediaTrack[a[1]];
         }
+    }
+    sequenceDuration() {
+        if (this.state.spineVid && this.state.spineVid.annotationDuration) {
+            return this.state.spineVid.annotationDuration;
+        }
+        return this.state.duration;
     }
 }

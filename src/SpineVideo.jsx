@@ -9,7 +9,7 @@ export default class SpineVideo extends React.Component {
         this.id = 'jux-spine-video';
     }
     render() {
-        if (!this.props.spineVideo) {
+        if (!this.props.spineVid) {
             return <div className="jux-spine-display">
               <div className="help-text">
               <button className="add-spine" onClick={this.onClickReviseSpine}></button>
@@ -20,13 +20,13 @@ export default class SpineVideo extends React.Component {
         }
 
         let url = null;
-        if (this.props.spineVideo.host === 'youtube') {
+        if (this.props.spineVid.host === 'youtube') {
             url = 'https://www.youtube.com/watch?v=' +
-                  this.props.spineVideo.url;
-        } else if (this.props.spineVideo.host === 'vimeo') {
-            url = 'https://www.vimeo.com/watch?v=' + this.props.spineVideo.url;
+                  this.props.spineVid.url;
+        } else if (this.props.spineVid.host === 'vimeo') {
+            url = 'https://www.vimeo.com/watch?v=' + this.props.spineVid.url;
         } else {
-            url = this.props.spineVideo.url;
+            url = this.props.spineVid.url;
         }
 
         let reviseButton = '';
@@ -81,9 +81,6 @@ export default class SpineVideo extends React.Component {
                 {editSpineButton}
         </div>;
     }
-    updateVidPosition(percentage) {
-        this.player.seekTo(percentage);
-    }
     onLoadedMetadata(e) {
         const vid = e.target;
         this.props.callbackParent(vid.currentTime, vid.duration);
@@ -103,8 +100,8 @@ export default class SpineVideo extends React.Component {
         let caller = {
             'type': 'spine',
         };
-        editAnnotationWidget(this.props.spineVideo.assetId,
-                             this.props.spineVideo.annotationId,
+        editAnnotationWidget(this.props.spineVid.assetId,
+                             this.props.spineVid.annotationId,
                              caller);
     }
 }
