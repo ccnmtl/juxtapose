@@ -192,6 +192,9 @@ export default class JuxtaposeApplication extends React.Component {
                jQuery(window).trigger('sequenceassignment.set_submittable', {
                    submittable: self.isBaselineWorkCompleted()
                });
+               jQuery('#jux-container').fadeIn();
+           }).catch(function() {
+               jQuery('#jux-container').fadeIn();
            });
     }
     render() {
