@@ -2,11 +2,12 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {
-    collisionPresent, parseAsset,
+    collisionPresent, hasOutOfBoundsElement, parseAsset,
     formatTimecode, loadMediaData, loadTextData
 } from './utils.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
+import OutOfBoundsModal from './OutOfBoundsModal.jsx';
 import TextTrack from './TextTrack.jsx';
 import TextDisplay from './TextDisplay.jsx';
 import TimelineRuler from './TimelineRuler.jsx';
@@ -31,7 +32,9 @@ export default class JuxtaposeApplication extends React.Component {
             duration: null,
 
             // The selected item that's managed in the TrackElementManager.
-            activeItem: null
+            activeItem: null,
+
+            showOutOfBoundsModal: false
         };
 
         document.addEventListener('asset.select', function(e) {
@@ -43,8 +46,33 @@ export default class JuxtaposeApplication extends React.Component {
                .then(function(json) {
                    const ctx = parseAsset(
                        json, e.detail.assetId, e.detail.annotationId);
-                   
+
                    if (e.detail.caller.type === 'spine') {
+                       // Revising the spine video could potentially remove
+                       // track elements that aren't in this selection's range.
+                       // If that's the case, warn the user and allow them to
+                       // cancel the action.
+                       if (hasOutOfBoundsElement(
+                           ctx.duration,
+                           self.state.mediaTrack,
+                           self.state.textTrack)
+                       ) {
+                           self.setState({
+                               showOutOfBoundsModal: true,
+                               tmpSpineVid: {
+                                   url: ctx.url,
+                                   host: ctx.host,
+                                   assetId: e.detail.assetId,
+                                   annotationId: e.detail.annotationId,
+                                   annotationStartTime: ctx.startTime,
+                                   annotationDuration: ctx.duration
+                               },
+                               isPlaying: false,
+                               time: 0
+                           });
+                           return;
+                       }
+
                        // Set the spine video
                        self.setState({
                            spineVid: {
@@ -227,6 +255,10 @@ export default class JuxtaposeApplication extends React.Component {
                 activeItem={activeItem}
                 onChange={this.onTrackElementUpdate.bind(this)}
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
+            <OutOfBoundsModal
+                showing={this.state.showOutOfBoundsModal}
+                onCloseClick={this.onOutOfBoundsCloseClick.bind(this)}
+                onConfirmClick={this.onOutOfBoundsConfirmClick.bind(this)} />
         </div>;
     }
     isBaselineWorkCompleted() {
@@ -421,6 +453,16 @@ export default class JuxtaposeApplication extends React.Component {
             // Open Mediathread's error popup
             jQuery(window).trigger('sequenceassignment.on_save_error', e);
         });
+    }
+    onOutOfBoundsCloseClick() {
+        this.setState({showOutOfBoundsModal: false});
+    }
+    onOutOfBoundsConfirmClick() {
+        this.setState({
+            spineVid: this.state.tmpSpineVid,
+            showOutOfBoundsModal: false
+        });
+        this.setState({tmpSpineVid: null});
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeItem

@@ -126,6 +126,22 @@ export function extractSource(o) {
     return null;
 }
 
+export function hasOutOfBoundsElement(duration, mediaTrack, textTrack) {
+    for (let i = 0; i < mediaTrack.length; i++) {
+        let el = mediaTrack[i];
+        if (el.end_time > duration) {
+            return true;
+        }
+    }
+    for (let i = 0; i < textTrack.length; i++) {
+        let el = textTrack[i];
+        if (el.end_time > duration) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * parseAsset
  * 
