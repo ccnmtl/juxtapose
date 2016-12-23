@@ -65,9 +65,6 @@ export default class MediaDisplay extends React.Component {
                       media and
                       <span className="text-track-icon"></span>
                       text elements.
-                      <br />
-                      There must be at least one media or text element
-                      in order for this response to be submitted.
                       <br /><br />
                       {this.props.instructions}
                   </p>
