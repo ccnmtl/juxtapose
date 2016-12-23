@@ -26,8 +26,6 @@ export default class JuxtaposeApplication extends React.Component {
             mediaTrack: [],
             textTrack: [],
 
-            globalAnnotation: '',
-
             isPlaying: false,
             time: null,
             duration: null,
@@ -185,9 +183,6 @@ export default class JuxtaposeApplication extends React.Component {
         }
 
         return <div className="jux-container">
-           <textarea className="jux-global-annotation"
-                     value={this.state.globalAnnotation}
-                     onChange={this.onGlobalAnnotationChange.bind(this)} />
            <div className="vid-container">
                 <SpineVideo
                     spineVid={this.state.spineVid}
@@ -387,9 +382,6 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onSpineVideoEnd() {
         this.setState({isPlaying: false});
-    }
-    onGlobalAnnotationChange(e) {
-        this.setState({globalAnnotation: e.target.value});
     }
     onSpineDuration(duration) {
         this.setState({duration: duration});
