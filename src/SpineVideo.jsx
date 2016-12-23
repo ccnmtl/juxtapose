@@ -95,8 +95,10 @@ export default class SpineVideo extends React.Component {
         let caller = {
             'type': 'spine',
         };
-        editAnnotationWidget(this.props.spineVid.assetId,
-                             this.props.spineVid.annotationId,
-                             caller);
+        editAnnotationWidget(
+            this.props.spineVid.assetId,
+            this.props.spineVid.annotationId,
+            this.props.spineVid.annotationDuration === undefined,
+            caller);
     }
 }
