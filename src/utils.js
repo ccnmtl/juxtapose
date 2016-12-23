@@ -143,6 +143,10 @@ export function hasOutOfBoundsElement(duration, mediaTrack, textTrack) {
 }
 
 export function removeOutOfBoundsElements(duration, track) {
+    if (!duration) {
+        // Can't remove anything if there's no duration.
+        return track;
+    }
     let newTrack = [];
     for (let i = 0; i < track.length; i++) {
         const el = track[i];

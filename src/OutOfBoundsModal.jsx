@@ -9,7 +9,7 @@ export default class OutOfBoundsModal extends React.Component {
         <Modal.Title>Warning</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-        Using this selection as the primary video will cause some
+        Using this selection as the primary video may cause some
         track elements to be removed.
     </Modal.Body>
     <Modal.Footer>
