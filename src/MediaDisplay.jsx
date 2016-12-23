@@ -78,7 +78,7 @@ export default class MediaDisplay extends React.Component {
         let c = this.nowDisplay(this.props.data, this.props.time);
         return <div className="jux-media-display">{c}</div>;
     }
-    updateVidPosition(percentage) {
+    seekTo(percentage) {
         const time = this.props.duration * percentage;
         const e = getCurrentItem(this.props.data, time);
         if (this.player && e && e.type === 'vid') {
