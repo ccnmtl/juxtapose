@@ -5,6 +5,7 @@ import {
     collisionPresent, hasOutOfBoundsElement, removeOutOfBoundsElements,
     parseAsset, formatTimecode, loadMediaData, loadTextData
 } from './utils.js';
+import {editAnnotationWidget} from './mediathreadCollection.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
 import OutOfBoundsModal from './OutOfBoundsModal.jsx';
@@ -99,8 +100,8 @@ export default class JuxtaposeApplication extends React.Component {
                            type: ctx.type,
                            host: ctx.host,
                            source: ctx.url,
-                           assetId: e.detail.assetId,
-                           annotationId: e.detail.annotationId,
+                           media_asset: e.detail.assetId,
+                           media: e.detail.annotationId,
                            annotationData: ctx.data,
                            annotationStartTime: ctx.startTime,
                            annotationDuration: ctx.duration
@@ -258,6 +259,7 @@ export default class JuxtaposeApplication extends React.Component {
             <TrackElementManager
                 activeItem={activeItem}
                 onChange={this.onTrackElementUpdate.bind(this)}
+                onEditClick={this.onTrackMediaElementEdit.bind(this)}
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
             <OutOfBoundsModal
                 showing={this.state.showOutOfBoundsModal}
@@ -403,6 +405,12 @@ export default class JuxtaposeApplication extends React.Component {
             });
         }
         jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
+    }
+    onTrackMediaElementEdit() {
+        const item = this.getItem(this.state.activeItem);
+
+        let caller = {'type': 'track'};
+        editAnnotationWidget(item.media_asset, item.media, caller);
     }
     onPlayheadTimeChange(e) {
         const percentDone = e.target.value / 1000;

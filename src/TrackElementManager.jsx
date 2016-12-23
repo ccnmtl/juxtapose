@@ -89,7 +89,7 @@ export default class TrackElementManager extends React.Component {
     onEditClick(e) {
         e.stopPropagation();
         e.preventDefault();
-        // this.props.onDeleteClick();
+        this.props.onEditClick();
     }
     onStartTimeMinutesChange(val) {
         const minutes = getMinutes(this.props.activeItem.start_time);
