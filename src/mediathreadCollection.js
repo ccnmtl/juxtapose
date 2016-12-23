@@ -16,10 +16,7 @@ export function createCollectionWidget(mediaType, caller) {
 }
 
 export function editAnnotationWidget(assetId, annotationId, caller) {
-    const eventName = annotationId ?
-        'collection.annotation.edit' : 'collection.asset.edit';
-
-    jQuery(window).trigger(eventName, [{
+    jQuery(window).trigger('collection.annotation.edit', [{
         'caller': caller,
         'assetId': assetId,
         'annotationId': annotationId
