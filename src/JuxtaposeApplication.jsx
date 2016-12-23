@@ -52,11 +52,14 @@ export default class JuxtaposeApplication extends React.Component {
                        // track elements that aren't in this selection's range.
                        // If that's the case, warn the user and allow them to
                        // cancel the action.
-                       if (!ctx.duration ||
-                           hasOutOfBoundsElement(
-                               ctx.duration,
-                               self.state.mediaTrack,
-                               self.state.textTrack)
+                       if (
+                           (!ctx.duration ||
+                            hasOutOfBoundsElement(
+                                ctx.duration,
+                                self.state.mediaTrack,
+                                self.state.textTrack)) &&
+                           (self.state.mediaTrack.length > 0 ||
+                            self.state.textTrack.length > 0)
                        ) {
                            self.setState({
                                showOutOfBoundsModal: true,
