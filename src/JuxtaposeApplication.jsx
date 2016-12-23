@@ -448,6 +448,14 @@ export default class JuxtaposeApplication extends React.Component {
         }
     }
     onSaveClick() {
+        if (!this.state.spineVid) {
+            // nothing to save yet
+            jQuery(window).trigger(
+                'sequenceassignment.on_save_success', {
+                    submittable: false});
+            return;
+        }
+        
         const xhr = new Xhr();
         const self = this;
         xhr.createOrUpdateSequenceAsset(
