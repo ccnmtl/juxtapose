@@ -203,6 +203,13 @@ export function getCentiseconds(totalSeconds) {
     return Math.round((totalSeconds - (minutes * 60) - seconds) * 100);
 }
 
+export function parseTimecode(str) {
+    const parts = str.split(':');
+    return (Number(parts[0]) * 60) +
+        Number(parts[1]) +
+        (Number(parts[2]) / 100);
+}
+
 export function formatTimecode(totalSeconds) {
     const units = getSeparatedTimeUnits(totalSeconds);
     return pad2(units[0]) + ':' + pad2(units[1]) + ':' + pad2(units[2]);

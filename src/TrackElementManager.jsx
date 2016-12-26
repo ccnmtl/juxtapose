@@ -2,7 +2,7 @@ import React from 'react';
 import {
     formatTimecode, getMinutes, getSeconds, getCentiseconds
 } from './utils.js';
-import TimecodeUpdater from './TimecodeUpdater.jsx';
+import TimecodeEditor from './TimecodeEditor.jsx';
 
 export default class TrackElementManager extends React.Component {
     render() {
@@ -17,6 +17,7 @@ export default class TrackElementManager extends React.Component {
                 displayEditSelection = 'none';
                 maxLength = 140;
             }
+            const duration = activeItem.end_time - activeItem.start_time;
             return <div className="jux-track-container jux-track-element-manager">
     <button className="jux-remove-track-element btn btn-default btn-danger right"
             title="Delete element"
@@ -29,25 +30,21 @@ export default class TrackElementManager extends React.Component {
         <form className="form-inline">
         <div className="form-group">
             <label>
-                Start &nbsp;{formatTimecode(this.props.activeItem.start_time)}
+                Start &nbsp;{formatTimecode(activeItem.start_time)}
             </label><br />    
-            <TimecodeUpdater
-                timecode={this.props.activeItem.start_time}
-                onMinutesChange={this.onStartTimeMinutesChange.bind(this)}
-                onSecondsChange={this.onStartTimeSecondsChange.bind(this)}
-                onCentisecondsChange={this.onStartTimeCentisecondsChange.bind(this)}
+            <TimecodeEditor
+                timecode={activeItem.start_time}
+                onChange={this.onStartTimeChange.bind(this)}
             />
             <div className="helptext">MM:SS:CS</div>
         </div>
         <div className="form-group">
             <label>
-                Duration &nbsp;{formatTimecode(this.props.activeItem.end_time)}
+                Duration &nbsp;{formatTimecode(duration)}
             </label><br />
-            <TimecodeUpdater
-                timecode={this.props.activeItem.end_time}
-                onMinutesChange={this.onEndTimeMinutesChange.bind(this)}
-                onSecondsChange={this.onEndTimeSecondsChange.bind(this)}
-                onCentisecondsChange={this.onEndTimeCentisecondsChange.bind(this)}
+            <TimecodeEditor
+                timecode={activeItem.end_time - activeItem.start_time}
+                onChange={this.onDurationChange.bind(this)}
             />
             <div className="helptext">MM:SS:CS</div>
         </div>
@@ -55,7 +52,7 @@ export default class TrackElementManager extends React.Component {
             <label>Content</label><br />
             <textarea style={{'display': displayTextarea}}
                       className="form-control"
-                      value={this.props.activeItem.source}
+                      value={activeItem.source}
                       maxLength={maxLength}
                       onChange={this.onTextChange.bind(this)} />
             <div style={{'display': displayTextarea}}
@@ -91,52 +88,16 @@ export default class TrackElementManager extends React.Component {
         e.preventDefault();
         this.props.onEditClick();
     }
-    onStartTimeMinutesChange(val) {
-        const minutes = getMinutes(this.props.activeItem.start_time);
-        const newStartTime = this.props.activeItem.start_time -
-                             (minutes * 60) + (val * 60);
-        const newEndTime = this.props.activeItem.end_time -
-                             (minutes * 60) + (val * 60);
+    onStartTimeChange(val) {
+        const newEndTime = this.props.activeItem.end_time +
+              (val - this.props.activeItem.start_time);
         this.props.onChange(this.props.activeItem, {
-            start_time: newStartTime,
+            start_time: val,
             end_time: newEndTime
         });
     }
-    onStartTimeSecondsChange(val) {
-        const seconds = getSeconds(this.props.activeItem.start_time);
-        const newStartTime = this.props.activeItem.start_time - seconds + val;
-        const newEndTime = this.props.activeItem.end_time - seconds + val;
-        this.props.onChange(this.props.activeItem, {
-            start_time: newStartTime,
-            end_time: newEndTime
-        });
-    }
-    onStartTimeCentisecondsChange(val) {
-        const centiseconds = getCentiseconds(this.props.activeItem.start_time);
-        const newStartTime = this.props.activeItem.start_time -
-                             (centiseconds / 100) + (val / 100);
-        const newEndTime = this.props.activeItem.end_time -
-                             (centiseconds / 100) + (val / 100);
-        this.props.onChange(this.props.activeItem, {
-            start_time: newStartTime,
-            end_time: newEndTime,
-        });
-    }
-    onEndTimeMinutesChange(val) {
-        const minutes = getMinutes(this.props.activeItem.end_time);
-        const newTime = this.props.activeItem.end_time -
-                        (minutes * 60) + (val * 60);
-        this.props.onChange(this.props.activeItem, {end_time: newTime});
-    }
-    onEndTimeSecondsChange(val) {
-        const seconds = getSeconds(this.props.activeItem.end_time);
-        const newTime = this.props.activeItem.end_time - seconds + val;
-        this.props.onChange(this.props.activeItem, {end_time: newTime});
-    }
-    onEndTimeCentisecondsChange(val) {
-        const centiseconds = getCentiseconds(this.props.activeItem.end_time);
-        const newTime = this.props.activeItem.end_time -
-                        (centiseconds / 100) + (val / 100);
+    onDurationChange(val) {
+        const newTime = this.props.activeItem.start_time + val;
         this.props.onChange(this.props.activeItem, {end_time: newTime});
     }
 }

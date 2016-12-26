@@ -6,6 +6,7 @@ import {
     parseAsset, formatTimecode, loadMediaData, loadTextData
 } from './utils.js';
 import {editAnnotationWidget} from './mediathreadCollection.js';
+import {defineTimecodeSpinner} from './timecodeSpinner.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
 import OutOfBoundsModal from './OutOfBoundsModal.jsx';
@@ -130,6 +131,8 @@ export default class JuxtaposeApplication extends React.Component {
                // TODO Find the TrackElement & update start & duration
             }
         });
+
+        defineTimecodeSpinner();
     }
     componentDidMount() {
         // Initialize existing SequenceAsset
