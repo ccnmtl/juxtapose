@@ -94,8 +94,7 @@ export function extractAnnotation(assetCtx, annotationId) {
  * Parse the Vimeo ID out of the vimeo URL
  */
 export function getVimeoID(url) {
-    let regExp =
-        /^.*vimeo\.com\/([0-9]+)/
+    let regExp = /^.*vimeo\.com\/([0-9]+)/;
     return regExp.exec(url)[1];
 }
 
