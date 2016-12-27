@@ -227,6 +227,7 @@ export default class JuxtaposeApplication extends React.Component {
                     spineVid={this.state.spineVid}
                     ref={(c) => this._primaryVid = c}
                     readOnly={this.props.readOnly}
+                    duration={this.state.duration}
                     onDuration={this.onSpineDuration.bind(this)}
                     onEnded={this.onSpineVideoEnded.bind(this)}
                     playing={this.state.isPlaying}
