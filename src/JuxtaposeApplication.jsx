@@ -416,7 +416,9 @@ export default class JuxtaposeApplication extends React.Component {
         const item = this.getItem(this.state.activeItem);
 
         let caller = {'type': 'track'};
-        editAnnotationWidget(item.media_asset, item.media, caller);
+        editAnnotationWidget(item.media_asset, item.media,
+                             item.annotationDuration === undefined,
+                             caller);
     }
     onPlayheadTimeChange(e) {
         const percentDone = e.target.value / 1000;
