@@ -67,8 +67,9 @@ export default class SpineVideo extends React.Component {
                     width={480}
                     height={360}
                     playing={this.props.playing}
-                    onEnded={this.onEnded.bind(this)}
+                    onEnded={this.props.onEnded}
                     url={url}
+                    onStart={this.onStart.bind(this)}
                     onDuration={this.props.onDuration}
                     onProgress={this.props.onProgress}
                     onPlay={this.props.onPlay}
@@ -80,8 +81,12 @@ export default class SpineVideo extends React.Component {
                 {editSpineButton}
         </div>;
     }
-    onEnded(e) {
-        this.props.onEnded();
+    onStart() {
+        if (this.props.spineVid.annotationStartTime && this.props.duration) {
+            const percentage = this.props.spineVid.annotationStartTime /
+                this.props.duration;
+            this.player.seekTo(percentage);
+        }
     }
     // TODO: handle playback finish event
     onClickReviseSpine() {
