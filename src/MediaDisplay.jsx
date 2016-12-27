@@ -60,7 +60,7 @@ export default class MediaDisplay extends React.Component {
               <div className="help-text">
                   <h1>Place secondary elements</h1>
                   <p className="instructions">
-                      Click the tracks below to add<br />
+                      Click the tracks below to place<br />
                       <span className="media-track-icon"></span>
                       media and
                       <span className="text-track-icon"></span>

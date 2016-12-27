@@ -29,4 +29,7 @@ export default class TextTrack extends Track {
         this.closeItemAdder();
         this.props.onTrackElementAdd(value, this.state.timecode);
     }
+    getHelpText() {
+        return "Click on this track to place text elements";
+    }
 }

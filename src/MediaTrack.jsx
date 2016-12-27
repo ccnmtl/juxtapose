@@ -14,4 +14,7 @@ export default class MediaTrack extends Track {
         }
         createCollectionWidget('all', caller);
     }
+    getHelpText() {
+        return "Click on this track to place video and audio elements";
+    }
 }
