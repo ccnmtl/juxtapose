@@ -15,8 +15,11 @@ export function createCollectionWidget(mediaType, caller) {
     }]);
 }
 
-export function editAnnotationWidget(assetId, annotationId, caller) {
-    jQuery(window).trigger('collection.annotation.edit', [{
+export function editAnnotationWidget(assetId, annotationId,
+                                     isGlobalAnnotation, caller) {
+    const eventName = isGlobalAnnotation ?
+        'collection.annotation.create' : 'collection.annotation.edit';
+    jQuery(window).trigger(eventName, [{
         'caller': caller,
         'assetId': assetId,
         'annotationId': annotationId
