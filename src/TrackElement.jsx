@@ -1,6 +1,7 @@
 import React from 'react';
 import VidItemThumb from './VidItemThumb.jsx';
 import {ellipsis} from './utils.js';
+import {getVimeoID} from './utils.js';
 
 export default class TrackElement extends React.Component {
     constructor(props) {
@@ -16,7 +17,8 @@ export default class TrackElement extends React.Component {
         this.setState({vimeoThumbnailUrl: url});
     }
     getVimeoThumbnailUrl(data) {
-        const url = 'https://vimeo.com/api/v2/video/' + data.source +
+        const vimeoID = getVimeoID(data.source);
+        const url = 'https://vimeo.com/api/v2/video/' + vimeoID +
                     '.json';
         let xhr = new XMLHttpRequest();
         xhr.addEventListener('load', this.vimeoThumbnailListener.bind(this));
