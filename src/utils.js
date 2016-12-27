@@ -89,6 +89,17 @@ export function extractAnnotation(assetCtx, annotationId) {
 }
 
 /**
+ * getVimeoId 
+ *
+ * Parse the Vimeo ID out of the vimeo URL
+ */
+export function getVimeoID(url) {
+    let regExp =
+        /^.*vimeo\.com\/([0-9]+)/
+    return regExp.exec(url)[1];
+}
+
+/**
  * extractSource
  *
  * Given a source object in Mediathread's asset api format,
@@ -100,6 +111,12 @@ export function extractSource(o) {
             url: getYouTubeID(o.youtube.url),
             host: 'youtube'
         };
+    }
+    if (o.vimeo && o.vimeo.url) {
+        return {
+            url: o.vimeo.url,
+            host: 'vimeo'
+        }
     }
     if (o.video && o.video.url) {
         return {
