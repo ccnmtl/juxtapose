@@ -28,7 +28,4 @@ export default class TimecodeEditor extends React.Component {
             }
         });
     }
-    componentWillUnmount() {
-        this.$node.spinner('destroy');
-    }
 }
