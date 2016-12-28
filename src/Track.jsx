@@ -85,9 +85,16 @@ export default class Track extends React.Component {
     render() {
         const duration = this.props.duration;
         const cssClasses = "jux-track-container jux-" + this.type;
+        const displayHelpTxt =
+            this.props.data.length === 0 ? 'block': 'none';
+        
         return <div className={cssClasses}>
                     <div className="track-icon"></div>
 	            <div className="jux-track">
+                    <div className="jux-track-instructions"
+                        style={{'display': displayHelpTxt}}>
+                        {this.getHelpText()}
+                    </div>
                     {this.renderItemAdder()}
                     {this.generateSnapColumns()}
                     <ReactGridLayout
