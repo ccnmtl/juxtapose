@@ -16,7 +16,7 @@ import TimelineRuler from './TimelineRuler.jsx';
 import TrackElementManager from './TrackElementManager.jsx';
 import PlayButton from './PlayButton.jsx';
 import Playhead from './Playhead.jsx';
-import SpineVideo from './SpineVideo.jsx';
+import SpineDisplay from './SpineDisplay.jsx';
 import Xhr from './Xhr.js';
 
 
@@ -206,7 +206,7 @@ export default class JuxtaposeApplication extends React.Component {
 
         return <div className="jux-container">
            <div className="vid-container">
-                <SpineVideo
+                <SpineDisplay
                     spineVid={this.state.spineVid}
                     ref={(c) => this._primaryVid = c}
                     readOnly={this.props.readOnly}

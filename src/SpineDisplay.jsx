@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player'
 import {createCollectionWidget} from './mediathreadCollection.js';
 import {editAnnotationWidget} from './mediathreadCollection.js';
 
-export default class SpineVideo extends React.Component {
+export default class SpineDisplay extends React.Component {
     constructor(props) {
         super(props);
         this.id = 'jux-spine-video';

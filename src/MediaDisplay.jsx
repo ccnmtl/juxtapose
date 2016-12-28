@@ -17,8 +17,9 @@ export function getCurrentItem(data, currentTime) {
 
 export default class MediaDisplay extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.className = 'jux-media-video';
+        this.state = {duration: null};
     }
     renderVideo(data) {
         let url = null;
@@ -37,10 +38,20 @@ export default class MediaDisplay extends React.Component {
             height={360}
             playing={this.props.playing}
             url={url}
-            onDuration={this.props.onDuration}
-            onProgress={this.props.onProgress}
+            onDuration={this.onDuration.bind(this)}
+            onStart={this.onVidStart.bind(this)}
             progressFrequency={100}
         />;
+    }
+    onVidStart() {
+        const vid = getCurrentItem(this.props.data, this.props.time);
+        if (vid.annotationStartTime && this.state.duration) {
+            const percentage = vid.annotationStartTime / this.state.duration;
+            this.player.seekTo(percentage);
+        }
+    }
+    onDuration(duration) {
+        this.setState({duration: duration});
     }
     renderImage(data) {
         return <img src={data.source} />;
@@ -79,7 +90,9 @@ export default class MediaDisplay extends React.Component {
         const time = this.props.duration * percentage;
         const e = getCurrentItem(this.props.data, time);
         if (this.player && e && e.type === 'vid') {
-            const newPercentage = (time - e.start_time) / this.props.duration;
+            const newPercentage = (
+                time - e.start_time + (e.annotationStartTime || 0)
+            ) / this.props.duration;
             this.player.seekTo(newPercentage);
         }
     }
