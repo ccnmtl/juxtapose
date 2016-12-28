@@ -442,8 +442,16 @@ export default class JuxtaposeApplication extends React.Component {
             const seconds = (
                 state.played * this.state.duration
             ) - (this.state.spineVid.annotationStartTime || 0);
-            const constrained = Math.max(0, seconds);
-            this.setState({time: constrained});
+
+            // Current time should never be negative,
+            let time = Math.max(0, seconds);
+            // and never greater than the sequence's duration.
+            if (time >= this.sequenceDuration()) {
+                this.setState({isPlaying: false});
+                time = Math.min(time, this.sequenceDuration());
+            }
+
+            this.setState({time: time});
         }
     }
     onSpinePlay() {

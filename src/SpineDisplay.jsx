@@ -90,7 +90,6 @@ export default class SpineDisplay extends React.Component {
             this.player.seekTo(0);
         }
     }
-    // TODO: handle playback finish event
     onClickReviseSpine() {
         let caller = {
             'type': 'spine',
