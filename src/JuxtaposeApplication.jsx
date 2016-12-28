@@ -2,7 +2,8 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {
-    collisionPresent, hasOutOfBoundsElement, removeOutOfBoundsElements,
+    collisionPresent, constrainEndTimeToAvailableSpace,
+    hasOutOfBoundsElement, removeOutOfBoundsElements,
     parseAsset, formatTimecode, loadMediaData, loadTextData
 } from './utils.js';
 import {editAnnotationWidget} from './mediathreadCollection.js';
@@ -87,10 +88,15 @@ export default class JuxtaposeApplication extends React.Component {
                    } else {
                        let newTrack = self.state.mediaTrack.slice(0);
                        const newItemKey = newTrack.length;
+                       const endTime =  constrainEndTimeToAvailableSpace(
+                           e.detail.caller.timecode,
+                           e.detail.caller.timecode + ctx.duration,
+                           self.sequenceDuration(),
+                           self.state.mediaTrack);
                        newTrack.push({
                            key: newItemKey,
                            start_time: e.detail.caller.timecode,
-                           end_time: e.detail.caller.timecode + ctx.duration,
+                           end_time: endTime,
                            type: ctx.type,
                            host: ctx.host,
                            source: ctx.url,
@@ -319,10 +325,14 @@ export default class JuxtaposeApplication extends React.Component {
     onTextTrackElementAdd(txt, timecode) {
         let newTrack = this.state.textTrack.slice();
         const newItemKey = newTrack.length;
+        const startTime = timecode;
+        const endTime =  constrainEndTimeToAvailableSpace(
+            startTime, startTime + 30,
+            this.sequenceDuration(), this.state.textTrack);
         newTrack.push({
             key: newItemKey,
-            start_time: timecode,
-            end_time: timecode + 30,
+            start_time: startTime,
+            end_time: endTime,
             type: 'txt',
             source: txt
         });
