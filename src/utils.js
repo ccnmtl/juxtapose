@@ -78,7 +78,7 @@ export function extractAnnotation(assetCtx, annotationId) {
             if (!annotation.is_global_annotation) {
                 let duration = (annotation.range2 - annotation.range1) || 30;
                 return {
-                    duration: Math.min(30, duration),
+                    duration: duration,
                     range1: annotation.range1,
                     annotationData: annotation.annotation_data
                 };
