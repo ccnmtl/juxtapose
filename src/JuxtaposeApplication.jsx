@@ -80,18 +80,10 @@ export default class JuxtaposeApplication extends React.Component {
                        }
 
                        // Set the spine video
-                       self.setState({
-                           spineVid: {
-                               url: ctx.url,
-                               host: ctx.host,
-                               assetId: e.detail.assetId,
-                               annotationId: e.detail.annotationId,
-                               annotationStartTime: ctx.startTime,
-                               annotationDuration: ctx.duration
-                           },
-                           isPlaying: false,
-                           time: 0
-                       });
+                       self.updateSpineVid(
+                           ctx.url, ctx.host, e.detail.assetId,
+                           e.detail.annotationId,
+                           ctx.startTime, ctx.duration);
                    } else {
                        let newTrack = self.state.mediaTrack.slice(0);
                        newTrack.push({
@@ -174,19 +166,10 @@ export default class JuxtaposeApplication extends React.Component {
                            sequenceAsset.spine_asset,
                            sequenceAsset.spine);
 
-                       self.setState({
-                           spineVid: {
-                               url: ctx.url,
-                               host: ctx.host,
-                               assetId: sequenceAsset.spine_asset,
-                               annotationId: sequenceAsset.spine,
-                               annotationStartTime: ctx.startTime,
-                               annotationDuration: ctx.duration
-                           },
-                           isPlaying: false,
-                           time: 0,
-                           duration: ctx.duration
-                       });
+                       self.updateSpineVid(
+                           ctx.url, ctx.host, sequenceAsset.spine_asset,
+                           sequenceAsset.spine,
+                           ctx.startTime, ctx.duration);
                    })
                    .catch(function(error) {
                        console.error('Sequence loading error:', error);
@@ -436,6 +419,14 @@ export default class JuxtaposeApplication extends React.Component {
     onSpineVideoEnded() {
         this.setState({isPlaying: false});
     }
+    /*
+     * This is called when the video's duration is loaded from
+     * whichever source it's at (YouTube / Vimeo / HTML5). We
+     * can't rely on this callback always being called - for example,
+     * it's not called when replacing the spine video with a different
+     * selection of the same video, for YouTube and Vimeo videos.
+     * PMT #109344
+     */
     onSpineDuration(duration) {
         this.setState({
             duration: duration,
@@ -451,7 +442,8 @@ export default class JuxtaposeApplication extends React.Component {
             const seconds = (
                 state.played * this.state.duration
             ) - (this.state.spineVid.annotationStartTime || 0);
-            this.setState({time: seconds});
+            const constrained = Math.max(0, seconds);
+            this.setState({time: constrained});
         }
     }
     onSpinePlay() {
@@ -472,7 +464,7 @@ export default class JuxtaposeApplication extends React.Component {
                     submittable: false});
             return;
         }
-        
+
         const xhr = new Xhr();
         const self = this;
         xhr.createOrUpdateSequenceAsset(
@@ -495,16 +487,21 @@ export default class JuxtaposeApplication extends React.Component {
         this.setState({showOutOfBoundsModal: false});
     }
     onOutOfBoundsConfirmClick() {
-        const newDuration = this.state.tmpSpineVid.annotationDuration;
+        const newSpine = this.state.tmpSpineVid;
         this.setState({
-            spineVid: this.state.tmpSpineVid,
             showOutOfBoundsModal: false,
             mediaTrack: removeOutOfBoundsElements(
-                newDuration, this.state.mediaTrack),
+                newSpine.annotationDuration, this.state.mediaTrack),
             textTrack: removeOutOfBoundsElements(
-                newDuration, this.state.textTrack)
+                newSpine.annotationDuration, this.state.textTrack)
         });
+
+        this.updateSpineVid(
+            newSpine.url, newSpine.host, newSpine.assetId,
+            newSpine.annotationId,
+            newSpine.annotationStartTime, newSpine.annotationDuration);
         this.setState({tmpSpineVid: null});
+
         jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
     }
     /**
@@ -527,5 +524,26 @@ export default class JuxtaposeApplication extends React.Component {
             return this.state.spineVid.annotationDuration;
         }
         return this.state.duration;
+    }
+    updateSpineVid(
+        url, host, assetId, annotationId,
+        annotationStartTime, annotationDuration
+    ) {
+        if (this.state.spineVid && this.state.spineVid.url !== url) {
+            this.setState({duration: null});
+        }
+        this.setState({
+            spineVid: {
+                url: url,
+                host: host,
+                assetId: assetId,
+                annotationId: annotationId,
+                annotationStartTime: annotationStartTime,
+                annotationDuration: annotationDuration
+            },
+            isPlaying: false,
+            time: 0
+        });
+        this._primaryVid.onStart();
     }
 }
