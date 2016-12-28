@@ -7,10 +7,7 @@ const getYouTubeID = require('get-youtube-id');
  * their start_time and end_time.
  */
 export function elementsCollide(e1, e2) {
-    if (e1.start_time <= e2.end_time && e1.end_time >= e2.start_time) {
-        return true;
-    }
-    return false;
+    return (e1.start_time <= e2.end_time) && (e1.end_time >= e2.start_time);
 }
 
 /**
