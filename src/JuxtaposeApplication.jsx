@@ -337,7 +337,7 @@ export default class JuxtaposeApplication extends React.Component {
         const track = _.find(origTrack, ['key', parseInt(item['i'], 10)]);
         const percent = (item.x / 1000);
         const len = track.end_time - track.start_time;
-        track.start_time = percent * this.state.duration;
+        track.start_time = percent * this.sequenceDuration();
         track.end_time = track.start_time + len;
 
         // TODO: can this be simplified?

@@ -33,27 +33,28 @@ export default class Track extends React.Component {
         let items = [];
         const me = this;
         trackData.map(function(data, i) {
-            if (me.props.duration) {
-                const width = percentToTrackCoords(
-                    ((data.end_time - data.start_time) / me.props.duration)
-                    * 100);
-                const percent = (data.start_time / me.props.duration) * 100;
-                const xPos = percentToTrackCoords(percent);
-                const active = isActive(me.props.activeItem, me.type, i);
-
-                const item = <TrackElement
-                                 onEditButtonClick={me.onEditButtonClick.bind(me)}
-                                 isActive={active}
-                                 key={i}
-                                 data={data}
-                                 data-grid={{
-                                     x: xPos,
-                                     y: 0,
-                                     w: width,
-                                     h: 48
-                                 }} />;
-                items.push(item);
+            if (!me.props.duration) {
+                return;
             }
+            const width = percentToTrackCoords(
+                ((data.end_time - data.start_time) / me.props.duration)
+                * 100);
+            const percent = (data.start_time / me.props.duration) * 100;
+            const xPos = percentToTrackCoords(percent);
+            const active = isActive(me.props.activeItem, me.type, i);
+
+            const item = <TrackElement
+                             onEditButtonClick={me.onEditButtonClick.bind(me)}
+                             isActive={active}
+                             key={i}
+                             data={data}
+                             data-grid={{
+                                 x: xPos,
+                                 y: 0,
+                                 w: width,
+                                 h: 48
+                             }} />;
+            items.push(item);
         });
         return items;
     }
