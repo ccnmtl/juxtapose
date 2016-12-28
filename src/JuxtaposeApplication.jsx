@@ -86,8 +86,9 @@ export default class JuxtaposeApplication extends React.Component {
                            ctx.startTime, ctx.duration);
                    } else {
                        let newTrack = self.state.mediaTrack.slice(0);
+                       const newItemKey = newTrack.length;
                        newTrack.push({
-                           key: newTrack.length,
+                           key: newItemKey,
                            start_time: e.detail.caller.timecode,
                            end_time: e.detail.caller.timecode + ctx.duration,
                            type: ctx.type,
@@ -101,7 +102,8 @@ export default class JuxtaposeApplication extends React.Component {
                        });
 
                        self.setState({
-                           mediaTrack: newTrack
+                           mediaTrack: newTrack,
+                           activeItem: ['media', newItemKey]
                        });
                    }
                    jQuery(window).trigger('sequenceassignment.set_dirty',
@@ -316,14 +318,18 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onTextTrackElementAdd(txt, timecode) {
         let newTrack = this.state.textTrack.slice();
+        const newItemKey = newTrack.length;
         newTrack.push({
-            key: newTrack.length,
+            key: newItemKey,
             start_time: timecode,
             end_time: timecode + 30,
             type: 'txt',
             source: txt
         });
-        this.setState({textTrack: newTrack});
+        this.setState({
+            textTrack: newTrack,
+            activeItem: ['txt', newItemKey]
+        });
         jQuery(window).trigger('sequenceassignment.set_dirty',
                                {dirty: true});
     }
