@@ -360,3 +360,16 @@ export function loadTextData(array) {
     }
     return array;
 }
+
+/**
+ * Derive the currently playing element given the current time
+ * and the track state.
+ */
+export function getElement(data, currentTime) {
+    for (let e of data) {
+        if (currentTime >= e.start_time && currentTime <= e.end_time) {
+            return e;
+        }
+    }
+    return null;
+}

@@ -74,7 +74,7 @@ export default class SpineDisplay extends React.Component {
                     onProgress={this.props.onProgress}
                     onPlay={this.props.onPlay}
                     onPause={this.props.onPause}
-                    progressFrequency={100}
+                    progressFrequency={20}
                     youtubeConfig={youtubeConfig}
                 />
                 {reviseButton}
