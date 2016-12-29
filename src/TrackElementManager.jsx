@@ -40,6 +40,7 @@ export default class TrackElementManager extends React.Component {
                 Start &nbsp;{formatTimecode(activeItem.start_time)}
             </label><br />    
             <TimecodeEditor
+                min={0}
                 timecode={activeItem.start_time}
                 onChange={this.onStartTimeChange.bind(this)}
             />
@@ -50,6 +51,7 @@ export default class TrackElementManager extends React.Component {
                 Duration &nbsp;{formatTimecode(duration)}
             </label><br />
             <TimecodeEditor
+                min={100}
                 timecode={activeItem.end_time - activeItem.start_time}
                 onChange={this.onDurationChange.bind(this)}
             />

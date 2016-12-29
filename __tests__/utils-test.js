@@ -163,6 +163,19 @@ describe('elementsCollide', () => {
         expect(elementsCollide(e1, e2)).toBe(false);
         expect(elementsCollide(e2, e1)).toBe(false);
     });
+    it('detects collision when one element completely surrounds the other',
+       () => {
+           let e1 = {
+               start_time: 1,
+               end_time: 2
+           };
+           let e2 = {
+               start_time: 0.5,
+               end_time: 3
+           };
+           expect(elementsCollide(e1, e2)).toBe(true);
+           expect(elementsCollide(e2, e1)).toBe(true);
+       });
 });
 
 describe('formatTimecode', () => {

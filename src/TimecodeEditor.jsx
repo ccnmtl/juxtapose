@@ -9,9 +9,17 @@ import {formatTimecode, parseTimecode} from './utils.js';
 export default class TimecodeEditor extends React.Component {
     render() {
         return <div className="jux-timecode-editor">
-    <input ref="spinner" min="0" required
+    <input ref="spinner" min={this.props.min} required
            defaultValue={formatTimecode(this.props.timecode)} />
         </div>;
+    }
+    componentWillReceiveProps(props) {
+        // Because this is an uncontrolled input, we need to manually
+        // update the value of the input when the active element is
+        // updated.
+        if (parseTimecode(this.refs.spinner.value) !== props.timecode) {
+            this.refs.spinner.value = formatTimecode(props.timecode);
+        }
     }
     componentDidMount() {
         const self = this;
