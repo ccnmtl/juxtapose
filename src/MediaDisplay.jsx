@@ -19,7 +19,6 @@ export default class MediaDisplay extends React.Component {
     constructor(props) {
         super(props);
         this.className = 'jux-media-video';
-        this.state = {duration: null};
     }
     componentDidUpdate(props, state) {
         this.generatePlayers(props.data);
@@ -35,13 +34,11 @@ export default class MediaDisplay extends React.Component {
                 <SecondaryPlayer
                     key={i}
                     data={e}
+                    time={self.props.time}
                     hidden={!showing}
                     playing={self.props.playing}
                 />);
         }
-    }
-    onDuration(duration) {
-        this.setState({duration: duration});
     }
     render() {
         if (this.props.data.length < 1) {
