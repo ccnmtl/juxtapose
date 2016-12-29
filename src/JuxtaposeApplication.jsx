@@ -44,92 +44,30 @@ export default class JuxtaposeApplication extends React.Component {
             // This event will either set the spine video, or
             // trigger the insertion of a media element, depending
             // on what the user is doing.
-            const xhr = new Xhr();
-            xhr.getAsset(e.detail.assetId)
-               .then(function(json) {
-                   const ctx = parseAsset(
-                       json, e.detail.assetId, e.detail.annotationId);
-
-                   if (e.detail.caller.type === 'spine') {
-                       // Revising the spine video could potentially remove
-                       // track elements that aren't in this selection's range.
-                       // If that's the case, warn the user and allow them to
-                       // cancel the action.
-                       if (
-                           (!ctx.duration ||
-                            hasOutOfBoundsElement(
-                                ctx.duration,
-                                self.state.mediaTrack,
-                                self.state.textTrack)) &&
-                           (self.state.mediaTrack.length > 0 ||
-                            self.state.textTrack.length > 0)
-                       ) {
-                           self.setState({
-                               showOutOfBoundsModal: true,
-                               tmpSpineVid: {
-                                   url: ctx.url,
-                                   host: ctx.host,
-                                   assetId: e.detail.assetId,
-                                   annotationId: e.detail.annotationId,
-                                   annotationStartTime: ctx.startTime,
-                                   annotationDuration: ctx.duration
-                               },
-                               isPlaying: false,
-                               time: 0
-                           });
-                           return;
-                       }
-
-                       // Set the spine video
-                       self.updateSpineVid(
-                           ctx.url, ctx.host, e.detail.assetId,
-                           e.detail.annotationId,
-                           ctx.startTime, ctx.duration);
-                   } else {
-                       let newTrack = self.state.mediaTrack.slice(0);
-                       const newItemKey = newTrack.length;
-                       const endTime =  constrainEndTimeToAvailableSpace(
-                           e.detail.caller.timecode,
-                           e.detail.caller.timecode + ctx.duration,
-                           self.sequenceDuration(),
-                           self.state.mediaTrack);
-                       newTrack.push({
-                           key: newItemKey,
-                           start_time: e.detail.caller.timecode,
-                           end_time: endTime,
-                           type: ctx.type,
-                           host: ctx.host,
-                           source: ctx.url,
-                           media_asset: e.detail.assetId,
-                           media: e.detail.annotationId,
-                           annotationData: ctx.data,
-                           annotationStartTime: ctx.startTime,
-                           annotationDuration: ctx.duration
-                       });
-
-                       self.setState({
-                           mediaTrack: newTrack,
-                           activeItem: ['media', newItemKey]
-                       });
-                   }
-                   jQuery(window).trigger('sequenceassignment.set_dirty',
-                                          {dirty: true});
-               });
-        });
-
-        document.addEventListener('sequenceassignment.save', function(e) {
-            self.onSaveClick();
+            if (e.detail.caller.type === 'spine') {
+                self.addOrEditSpineVideo(
+                    e.detail.assetId, e.detail.annotationId);
+            } else {
+                self.addMediaTrackElement(
+                    e.detail.assetId, e.detail.annotationId,
+                    e.detail.caller.timecode);
+            }
+            jQuery(window).trigger('sequenceassignment.set_dirty',
+                                   {dirty: true});
         });
 
         document.addEventListener('asset.save', function(e) {
             if (e.detail.caller.type === 'spine') {
-                let state = _.extend({}, self.state);
-                state.spineVid.annotationStartTime = e.detail.startTime;
-                state.spineVid.annotationDuration = e.detail.duration;
-                self.setState(state);
+                self.addOrEditSpineVideo(e.detail.assetId,
+                                         e.detail.annotationId);
             } else {
-               // TODO Find the TrackElement & update start & duration
+                self.editActiveMediaTrackElement(e.detail.assetId,
+                                                 e.detail.annotationId);
             }
+        });
+
+        document.addEventListener('sequenceassignment.save', function(e) {
+            self.onSaveClick();
         });
 
         defineTimecodeSpinner();
@@ -571,5 +509,104 @@ export default class JuxtaposeApplication extends React.Component {
             time: 0
         });
         this._primaryVid.onStart();
+    }
+    addOrEditSpineVideo(assetId, annotationId) {
+        // This event will either set the spine video, or
+        // trigger the insertion of a media element, depending
+        // on what the user is doing.
+        let self = this;
+        const xhr = new Xhr();
+        xhr.getAsset(assetId).then(function(json) {
+            const ctx = parseAsset(json, assetId, annotationId);
+
+            // Revising the spine video could potentially remove
+            // track elements that aren't in this selection's range.
+            // If that's the case, warn the user and allow them to
+            // cancel the action.
+            if ((!ctx.duration ||
+                 hasOutOfBoundsElement(
+                     ctx.duration,
+                     self.state.mediaTrack,
+                     self.state.textTrack)) &&
+                (self.state.mediaTrack.length > 0 ||
+                 self.state.textTrack.length > 0)) {
+                self.setState({
+                    showOutOfBoundsModal: true,
+                    tmpSpineVid: {
+                        url: ctx.url,
+                        host: ctx.host,
+                        assetId: assetId,
+                        annotationId: annotationId,
+                        annotationStartTime: ctx.startTime,
+                        annotationDuration: ctx.duration
+                    },
+                    isPlaying: false,
+                    time: 0
+                });
+                return;
+            }
+
+            // Set the spine video
+            self.updateSpineVid(
+                ctx.url, ctx.host, assetId,
+                annotationId, ctx.startTime, ctx.duration);
+        });
+    }
+    addMediaTrackElement(assetId, annotationId, timecode) {
+        let self = this;
+        const xhr = new Xhr();
+        xhr.getAsset(assetId).then(function(json) {
+            const ctx = parseAsset(json, assetId, annotationId);
+
+            let newTrack = self.state.mediaTrack.slice(0);
+            const newItemKey = newTrack.length;
+            const endTime =  constrainEndTimeToAvailableSpace(
+                timecode, timecode + ctx.duration,
+                self.sequenceDuration(),
+                self.state.mediaTrack);
+            newTrack.push({
+                key: newItemKey,
+                start_time: timecode,
+                end_time: endTime,
+                type: ctx.type,
+                host: ctx.host,
+                source: ctx.url,
+                media_asset: assetId,
+                media: annotationId,
+                annotationData: ctx.data,
+                annotationStartTime: ctx.startTime,
+                annotationDuration: ctx.duration
+            });
+        
+            self.setState({
+                mediaTrack: newTrack,
+                activeItem: ['media', newItemKey]
+            });
+        });
+    }
+    editActiveMediaTrackElement(assetId, annotationId) {
+        let self = this;
+        const xhr = new Xhr();
+        xhr.getAsset(assetId).then(function(json) {
+            let state = _.extend({}, self.state);
+            
+            const ctx = parseAsset(json, assetId, annotationId);
+            const idx = self.state.activeItem[1];
+            
+            state.mediaTrack[idx].media = annotationId;
+            state.mediaTrack[idx].annotationData = ctx.data;
+            state.mediaTrack[idx].annotationStartTime = ctx.startTime;
+
+            // TODO: integrate with constrainEndTimeToAvailableSpace
+            // the function needs to understand this item is being updated
+            // otherwise, it detects a collision with itself.
+            if (ctx.duration < state.mediaTrack[idx].annotationDuration) {
+                state.mediaTrack[idx].end_time =
+                    state.mediaTrack[idx].start_time + ctx.duration;
+            }
+            state.mediaTrack[idx].annotationDuration = ctx.duration;
+            
+            self.setState(state);
+        });
     }
 }
