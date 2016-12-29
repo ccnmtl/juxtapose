@@ -7,11 +7,12 @@ export function defineTimecodeSpinner() {
 
     jQuery.widget('ui.timecodespinner', jQuery.ui.spinner, {
         options: {
+            min: 0,
             // One 'step' is a second. This widget represents the
             // timecode in centiseconds.
             step: 100,
             // page-up / page-down will change the minute.
-            page: 60,
+            page: 60
         },
         _parse: function(value) {
             if (typeof value === 'string') {
@@ -25,7 +26,8 @@ export function defineTimecodeSpinner() {
             return value;
         },
         _format: function(value) {
-            return formatTimecode(value / 100);
+            const formatted = formatTimecode(value / 100);
+            return formatted;
         }
     });
 }

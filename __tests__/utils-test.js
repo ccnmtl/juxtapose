@@ -173,11 +173,12 @@ describe('formatTimecode', () => {
         expect(formatTimecode(9999)).toBe('166:39:00');
     });
     it('formats centiseconds correctly', () => {
-        expect(formatTimecode(0.2398572)).toBe('00:00:24');
-        expect(formatTimecode(55.1871)).toBe('00:55:19');
+        expect(formatTimecode(0.2398572)).toBe('00:00:23');
+        expect(formatTimecode(55.1871)).toBe('00:55:18');
         expect(formatTimecode(60.1241)).toBe('01:00:12');
-        expect(formatTimecode(81.3299)).toBe('01:21:33');
+        expect(formatTimecode(81.3299)).toBe('01:21:32');
         expect(formatTimecode(9999.114)).toBe('166:39:11');
+        expect(formatTimecode(1.999602)).toBe('00:01:99');
     });
 });
 
