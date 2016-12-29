@@ -234,19 +234,21 @@ export default class JuxtaposeApplication extends React.Component {
             collisionPresent(
                 newTrack,
                 this.state.duration,
-                newData.start_time || item.start_time,
-                newData.end_time || item.end_time)
+                (_.isNumber(newData.start_time) ?
+                 newData.start_time : item.start_time),
+                (_.isNumber(newData.end_time) ?
+                 newData.end_time : item.end_time))
         ) {
             return;
         }
 
-        if (typeof newData.source !== 'undefined') {
+        if (_.isString(newData.source)) {
             item.source = newData.source;
         }
-        if (typeof newData.start_time !== 'undefined') {
+        if (_.isNumber(newData.start_time)) {
             item.start_time = newData.start_time;
         }
-        if (typeof newData.end_time !== 'undefined') {
+        if (_.isNumber(newData.end_time)) {
             item.end_time = newData.end_time;
         }
 

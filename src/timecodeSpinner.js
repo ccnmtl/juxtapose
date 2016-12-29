@@ -7,7 +7,6 @@ export function defineTimecodeSpinner() {
 
     jQuery.widget('ui.timecodespinner', jQuery.ui.spinner, {
         options: {
-            min: 0,
             // One 'step' is a second. This widget represents the
             // timecode in centiseconds.
             step: 100,
