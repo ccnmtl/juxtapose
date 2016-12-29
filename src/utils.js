@@ -72,7 +72,7 @@ export function collisionPresent(track, duration, start_time, end_time) {
  *     sequence duration.
  */
 export function constrainEndTimeToAvailableSpace(
-    requestedStartTime, requestedEndTime, sequenceDuration, track
+    requestedStartTime, requestedEndTime, sequenceDuration, track, idx
 ) {
     if (requestedEndTime <= requestedStartTime) {
         throw new Error('end time must be greater than start time.');
@@ -86,9 +86,14 @@ export function constrainEndTimeToAvailableSpace(
         start_time: requestedStartTime,
         end_time: requestedEndTime
     };
-    for (let e of track) {
-        if (elementsCollide(requestedEl, e)) {
-            return e.start_time;
+    for (let i=0; i < track.length; i++) {
+        // ignore the element at idx
+        if (i === idx) {
+            continue;
+        }
+        
+        if (elementsCollide(requestedEl, track[i])) {
+            return track[i].start_time;
         }
     }
 
