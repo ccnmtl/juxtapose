@@ -240,13 +240,13 @@ export default class JuxtaposeApplication extends React.Component {
             return;
         }
 
-        if (newData.source) {
+        if (typeof newData.source !== 'undefined') {
             item.source = newData.source;
         }
-        if (newData.start_time) {
+        if (typeof newData.start_time !== 'undefined') {
             item.start_time = newData.start_time;
         }
-        if (newData.end_time) {
+        if (typeof newData.end_time !== 'undefined') {
             item.end_time = newData.end_time;
         }
 
