@@ -1,5 +1,5 @@
 import React from 'react';
-import {parseTimecode} from './utils.js';
+import {formatTimecode, parseTimecode} from './utils.js';
 
 /**
  * TimecodeEditor is a form widget that handles updating a
@@ -10,14 +10,12 @@ export default class TimecodeEditor extends React.Component {
     render() {
         return <div className="jux-timecode-editor">
     <input ref="spinner" min="0" required
-           onChange={this.props.onChange}
-           value={this.props.timecode * 100} />
+           defaultValue={formatTimecode(this.props.timecode)} />
         </div>;
     }
     componentDidMount() {
-        this.$node = jQuery(this.refs.spinner);
         const self = this;
-        this.$node.timecodespinner({
+        jQuery(this.refs.spinner).timecodespinner({
             change: function(e) {
                 const seconds = parseTimecode(e.target.value);
                 self.props.onChange(seconds);
@@ -27,5 +25,8 @@ export default class TimecodeEditor extends React.Component {
                 self.props.onChange(seconds);
             }
         });
+    }
+    componentWillUnmount() {
+        jQuery(this.refs.spinner).timecodespinner('destroy');
     }
 }
