@@ -12,7 +12,7 @@ export default class MediaTrack extends Track {
             'type': 'track',
             'timecode': absoluteTimecode
         }
-        createCollectionWidget('all', caller);
+        createCollectionWidget('all', false, caller);
     }
     getHelpText() {
         return "Click on this track to place video and audio elements";
