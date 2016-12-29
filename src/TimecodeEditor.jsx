@@ -10,7 +10,6 @@ export default class TimecodeEditor extends React.Component {
     render() {
         return <div className="jux-timecode-editor">
     <input ref="spinner" min="0" required
-           onChange={this.props.onChange}
            defaultValue={formatTimecode(this.props.timecode)} />
         </div>;
     }
