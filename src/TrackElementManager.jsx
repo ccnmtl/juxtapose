@@ -3,8 +3,15 @@ import {
     formatTimecode, getMinutes, getSeconds, getCentiseconds
 } from './utils.js';
 import TimecodeEditor from './TimecodeEditor.jsx';
+import DeleteElementModal from './DeleteElementModal.jsx';
 
 export default class TrackElementManager extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showDeleteElementModal: false
+        };
+    }
     render() {
         const activeItem = this.props.activeItem;
 
@@ -66,7 +73,11 @@ export default class TrackElementManager extends React.Component {
             </button>
         </div>
         <div className="clearfix"></div>
-    </form>
+        </form>
+        <DeleteElementModal
+            showing={this.state.showDeleteElementModal}
+            onCloseClick={this.onDeleteCloseClick.bind(this)}
+            onConfirmClick={this.onDeleteConfirmClick.bind(this)} />
     </div>
     
     <div className="clearfix"></div>
@@ -81,7 +92,14 @@ export default class TrackElementManager extends React.Component {
     onDeleteClick(e) {
         e.stopPropagation();
         e.preventDefault();
+        this.setState({showDeleteElementModal: true});
+    }
+    onDeleteCloseClick(e) {
+        this.setState({showDeleteElementModal: false});
+    }
+    onDeleteConfirmClick(e) {
         this.props.onDeleteClick();
+        this.setState({showDeleteElementModal: false});
     }
     onEditClick(e) {
         e.stopPropagation();
