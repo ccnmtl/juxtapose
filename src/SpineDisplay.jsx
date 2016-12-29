@@ -95,7 +95,7 @@ export default class SpineDisplay extends React.Component {
             'type': 'spine',
             'timecode': 0
         };
-        createCollectionWidget('video', caller);
+        createCollectionWidget('video', true, caller);
     }
     onClickEditSpine(e) {
         let caller = {
