@@ -3,6 +3,7 @@ import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {
     collisionPresent, constrainEndTimeToAvailableSpace,
+    getElement,
     hasOutOfBoundsElement, removeOutOfBoundsElements,
     parseAsset, formatTimecode, loadMediaData, loadTextData
 } from './utils.js';
@@ -30,12 +31,16 @@ export default class JuxtaposeApplication extends React.Component {
             mediaTrack: [],
             textTrack: [],
 
-            isPlaying: false,
+            playing: false,
             time: null,
             duration: null,
 
             // The selected item that's managed in the TrackElementManager.
+            // TODO: rename this to activeElement
             activeItem: null,
+
+            // The currently displaying secondary element
+            currentSecondaryElement: null,
 
             showOutOfBoundsModal: false
         };
@@ -161,7 +166,7 @@ export default class JuxtaposeApplication extends React.Component {
                     duration={this.state.duration}
                     onDuration={this.onSpineDuration.bind(this)}
                     onEnded={this.onSpineVideoEnded.bind(this)}
-                    playing={this.state.isPlaying}
+                    playing={this.state.playing}
                     onProgress={this.onSpineProgress.bind(this)}
                     onPlay={this.onSpinePlay.bind(this)}
                     onPause={this.onSpinePause.bind(this)}
@@ -171,15 +176,15 @@ export default class JuxtaposeApplication extends React.Component {
                     time={this.state.time}
                     duration={this.sequenceDuration()}
                     data={this.state.mediaTrack}
-                    ref={(c) => this._secondaryVid = c}
-                    playing={this.state.isPlaying}
+                    playing={this.state.playing}
+                    currentElement={this.state.currentSecondaryElement}
                     instructions={this.props.secondaryInstructions}
                 />
             </div>
             <TextDisplay time={this.state.time}
                          duration={this.sequenceDuration()}
                          data={this.state.textTrack} />
-            <PlayButton isPlaying={this.state.isPlaying}
+            <PlayButton playing={this.state.playing}
                         onClick={this.onPlayClick.bind(this)} />
             <div className="jux-flex-horiz">
                 <div className="jux-time">
@@ -321,8 +326,8 @@ export default class JuxtaposeApplication extends React.Component {
                                {dirty: true});
     }
     onPlayClick(e) {
-        const newState = !this.state.isPlaying;
-        this.setState({isPlaying: newState})
+        const newState = !this.state.playing;
+        this.setState({playing: newState})
     }
     /**
      * Remove the active track item.
@@ -370,10 +375,9 @@ export default class JuxtaposeApplication extends React.Component {
             this.state.spineVid.annotationStartTime || 0);
         const percentage = x / this.state.duration;
         this._primaryVid.player.seekTo(percentage);
-        this._secondaryVid.seekTo(percentage);
     }
     onSpineVideoEnded() {
-        this.setState({isPlaying: false});
+        this.setState({playing: false});
     }
     /*
      * This is called when the video's duration is loaded from
@@ -403,21 +407,25 @@ export default class JuxtaposeApplication extends React.Component {
             let time = Math.max(0, seconds);
             // and never greater than the sequence's duration.
             if (time >= this.sequenceDuration()) {
-                this.setState({isPlaying: false});
+                this.setState({playing: false});
                 time = Math.min(time, this.sequenceDuration());
             }
 
-            this.setState({time: time});
+            this.setState({
+                time: time,
+                currentSecondaryElement: getElement(
+                    this.state.mediaTrack, time)
+            });
         }
     }
     onSpinePlay() {
-        if (!this.state.isPlaying) {
-            this.setState({isPlaying: true});
+        if (!this.state.playing) {
+            this.setState({playing: true});
         }
     }
     onSpinePause() {
-        if (this.state.isPlaying) {
-            this.setState({isPlaying: false});
+        if (this.state.playing) {
+            this.setState({playing: false});
         }
     }
     onSaveClick() {
@@ -505,7 +513,7 @@ export default class JuxtaposeApplication extends React.Component {
                 annotationStartTime: annotationStartTime,
                 annotationDuration: annotationDuration
             },
-            isPlaying: false,
+            playing: false,
             time: 0
         });
         this._primaryVid.onStart();
@@ -540,7 +548,7 @@ export default class JuxtaposeApplication extends React.Component {
                         annotationStartTime: ctx.startTime,
                         annotationDuration: ctx.duration
                     },
-                    isPlaying: false,
+                    playing: false,
                     time: 0
                 });
                 return;
@@ -577,7 +585,7 @@ export default class JuxtaposeApplication extends React.Component {
                 annotationStartTime: ctx.startTime,
                 annotationDuration: ctx.duration
             });
-        
+
             self.setState({
                 mediaTrack: newTrack,
                 activeItem: ['media', newItemKey]
@@ -589,15 +597,15 @@ export default class JuxtaposeApplication extends React.Component {
         const xhr = new Xhr();
         xhr.getAsset(assetId).then(function(json) {
             let state = _.extend({}, self.state);
-            
+
             const ctx = parseAsset(json, assetId, annotationId);
             const idx = self.state.activeItem[1];
             const timecode = self.state.mediaTrack[idx].start_time;
-            
+
             state.mediaTrack[idx].media = annotationId;
             state.mediaTrack[idx].annotationData = ctx.data;
             state.mediaTrack[idx].annotationStartTime = ctx.startTime;
-            state.mediaTrack[idx].annotationDuration = ctx.duration;            
+            state.mediaTrack[idx].annotationDuration = ctx.duration;
             const endTime =  constrainEndTimeToAvailableSpace(
                 timecode, timecode + ctx.duration,
                 self.sequenceDuration(),

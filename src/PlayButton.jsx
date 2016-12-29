@@ -7,7 +7,7 @@ export default class PlayButton extends React.Component {
     render() {
         return <button className="jux-play"
                        onClick={this.onClick.bind(this)}>
-            {this.props.isPlaying ?
+            {this.props.playing ?
                 <span className="glyphicon glyphicon-pause"></span> :
                 <span className="glyphicon glyphicon-play"></span>}
         </button>;

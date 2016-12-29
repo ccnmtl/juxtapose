@@ -1,5 +1,6 @@
 import {
     collisionPresent, constrainEndTimeToAvailableSpace,
+    getElement,
     elementsCollide, formatTimecode, pad2,
     getSeparatedTimeUnits, parseTimecode
 } from '../src/utils.js';
@@ -223,5 +224,78 @@ describe('pad2', () => {
         expect(pad2(10)).toBe('10');
         expect(pad2(99)).toBe('99');
         expect(pad2(100)).toBe('100');
+    });
+});
+
+describe('getElement', () => {
+    it('handles empty data appropriately', () => {
+        expect(getElement([], 3.2)).toBeNull;
+        expect(getElement([], 0)).toBeNull;
+        expect(getElement([], -1)).toBeNull;
+    });
+    it('returns an accurate current item', () => {
+        let data = [{
+                key: 0,
+                start_time: 5,
+                end_time: 60,
+                type: 'vid',
+                source: 'video.mp4'
+        }];
+        expect(getElement(data, 3.2)).toBeNull;
+        expect(getElement(data, 55)).toEqual({
+            key: 0,
+            start_time: 5,
+            end_time: 60,
+            type: 'vid',
+            source: 'video.mp4'
+        });
+
+        data = [
+            {
+                key: 0,
+                start_time: 5,
+                end_time: 60,
+                type: 'vid',
+                source: 'video.mp4'
+            },
+            {
+                key: 1,
+                start_time: 63,
+                end_time: 64,
+                type: 'vid',
+                source: 'video.mp4'
+            },
+            {
+                key: 2,
+                start_time: 64,
+                end_time: 70,
+                type: 'vid',
+                source: 'video.mp4'
+            },
+        ];
+        expect(getElement(data, 3.2)).toBeNull;
+        expect(getElement(data, 55)).toEqual({
+            key: 0,
+            start_time: 5,
+            end_time: 60,
+            type: 'vid',
+            source: 'video.mp4'
+        });
+        expect(getElement(data, 60)).toEqual({
+            key: 0,
+            start_time: 5,
+            end_time: 60,
+            type: 'vid',
+            source: 'video.mp4'
+        });
+        expect(getElement(data, 60.5)).toBeNull;
+        expect(getElement(data, 63.88)).toEqual({
+            key: 1,
+            start_time: 63,
+            end_time: 64,
+            type: 'vid',
+            source: 'video.mp4'
+        });
+        expect(getElement(data, 75)).toBeNull;
     });
 });

@@ -7,9 +7,9 @@ describe('PlayButton', () => {
         let onClick = function() {};
 
         const playButton = TestUtils.renderIntoDocument(
-                <PlayButton isPlaying={false} onClick={onClick} />
+                <PlayButton playing={false} onClick={onClick} />
         );
-        expect(playButton.props.isPlaying).toBe(false);
+        expect(playButton.props.playing).toBe(false);
 
         // TODO: assert that onClick was called
     });

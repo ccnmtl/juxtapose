@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactPlayer from 'react-player'
+import SecondaryPlayer from './SecondaryPlayer.jsx';
 
 /**
  * Derive the currently playing item given the current time
@@ -21,49 +21,27 @@ export default class MediaDisplay extends React.Component {
         this.className = 'jux-media-video';
         this.state = {duration: null};
     }
-    renderVideo(data) {
-        let url = null;
-        if (data.host === 'youtube') {
-            url = 'https://www.youtube.com/watch?v=' + data.source;
-        } else if (data.host === 'vimeo') {
-            url = 'https://www.vimeo.com/watch?v=' + data.source;
-        } else {
-            url = data.source;
-        }
-
-        return <ReactPlayer
-            id={this.id}
-            ref={(ref) => this.player = ref}
-            width={480}
-            height={360}
-            playing={this.props.playing}
-            url={url}
-            onDuration={this.onDuration.bind(this)}
-            onStart={this.onVidStart.bind(this)}
-            progressFrequency={100}
-        />;
+    componentDidUpdate(props, state) {
+        this.generatePlayers(props.data);
     }
-    onVidStart() {
-        const vid = getCurrentItem(this.props.data, this.props.time);
-        if (vid.annotationStartTime && this.state.duration) {
-            const percentage = vid.annotationStartTime / this.state.duration;
-            this.player.seekTo(percentage);
+    generatePlayers(mediaTrack) {
+        this.players = [];
+        const self = this;
+        for (let i = 0; i < mediaTrack.length; i++) {
+            let e = mediaTrack[i];
+            let showing = self.props.time >= e.start_time &&
+                          self.props.time <= e.end_time;
+            self.players.push(
+                <SecondaryPlayer
+                    key={i}
+                    data={e}
+                    hidden={!showing}
+                    playing={self.props.playing}
+                />);
         }
     }
     onDuration(duration) {
         this.setState({duration: duration});
-    }
-    renderImage(data) {
-        return <img src={data.source} />;
-    }
-    nowDisplay(data, currentTime) {
-        const e = getCurrentItem(data, currentTime);
-        if (e && e.type === 'vid') {
-            return this.renderVideo(e);
-        } else if (e && e.type === 'img') {
-            return this.renderImage(e);
-        }
-        return '';
     }
     render() {
         if (this.props.data.length < 1) {
@@ -83,17 +61,9 @@ export default class MediaDisplay extends React.Component {
             </div>;
         }
 
-        let c = this.nowDisplay(this.props.data, this.props.time);
-        return <div className="jux-media-display">{c}</div>;
-    }
-    seekTo(percentage) {
-        const time = this.props.duration * percentage;
-        const e = getCurrentItem(this.props.data, time);
-        if (this.player && e && e.type === 'vid') {
-            const newPercentage = (
-                time - e.start_time + (e.annotationStartTime || 0)
-            ) / this.props.duration;
-            this.player.seekTo(newPercentage);
-        }
+        // TODO add image display area
+        return <div className="jux-media-display">
+                {this.players}
+        </div>;
     }
 }
