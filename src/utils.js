@@ -3,6 +3,14 @@ import _ from 'lodash';
 const getYouTubeID = require('get-youtube-id');
 
 /**
+ * Returns true if the given elements collide. Only looks at
+ * their start_time and end_time.
+ */
+export function elementsCollide(e1, e2) {
+    return (e1.start_time <= e2.end_time) && (e1.end_time >= e2.start_time);
+}
+
+/**
  * Returns true if there's a collision present given the
  * following input:
  *
@@ -31,12 +39,64 @@ export function collisionPresent(track, duration, start_time, end_time) {
     }
 
     for (let e of track) {
-        if (start_time <= e.end_time && end_time >= e.start_time) {
+        let e1 = {
+            start_time: start_time,
+            end_time: end_time
+        };
+        if (elementsCollide(e1, e)) {
             return true;
         }
     }
 
     return false;
+}
+
+/**
+ * This function is used when adding new elements.
+ *
+ * @param {Number} requestedStartTime
+ *     A requested start time for the new element.
+ *
+ * @param {Number} requestedEndTime
+ *     A requested end time for the new element (we default to 30
+ *     seconds after the new element's start time).
+ *
+ * @param {Number} sequenceDuration
+ *     The sequence duration.
+ *
+ * @param {Array} track
+ *     The existing data for this track.
+ *
+ * @return {Number}
+ *     The new end time, constrained based on the track data and
+ *     sequence duration.
+ */
+export function constrainEndTimeToAvailableSpace(
+    requestedStartTime, requestedEndTime, sequenceDuration, track
+) {
+    if (requestedEndTime <= requestedStartTime) {
+        throw new Error('end time must be greater than start time.');
+    }
+
+    if (!sequenceDuration) {
+        throw new Error('A sequence must have a duration.');
+    }
+
+    const requestedEl = {
+        start_time: requestedStartTime,
+        end_time: requestedEndTime
+    };
+    for (let e of track) {
+        if (elementsCollide(requestedEl, e)) {
+            return e.start_time;
+        }
+    }
+
+    if (requestedEndTime > sequenceDuration) {
+        return sequenceDuration;
+    }
+
+    return requestedEndTime;
 }
 
 /**
@@ -89,7 +149,7 @@ export function extractAnnotation(assetCtx, annotationId) {
 }
 
 /**
- * getVimeoId 
+ * getVimeoId
  *
  * Parse the Vimeo ID out of the vimeo URL
  */
@@ -175,7 +235,7 @@ export function removeOutOfBoundsElements(duration, track) {
 
 /**
  * parseAsset
- * 
+ *
  */
 export function parseAsset(json, assetId, annotationId) {
     const assetCtx = json.assets[assetId];

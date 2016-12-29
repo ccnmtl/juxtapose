@@ -1,5 +1,6 @@
 import {
-    collisionPresent, formatTimecode, pad2,
+    collisionPresent, constrainEndTimeToAvailableSpace,
+    elementsCollide, formatTimecode, pad2,
     getSeparatedTimeUnits
 } from '../src/utils.js';
 
@@ -49,6 +50,101 @@ describe('collisionPresent', () => {
                 end_time: 11
             }
         ], 30, 1.1, 1.15)).toBe(false);
+    });
+});
+
+describe('constrainEndTimeToAvailableSpace', () => {
+    it('handles empty track data', () => {
+        expect(
+            constrainEndTimeToAvailableSpace(0.22, 0.66, 10, [])
+        ).toBe(0.66);
+        expect(
+            constrainEndTimeToAvailableSpace(0.22, 11, 10, [])
+        ).toBe(10);
+        expect(
+            constrainEndTimeToAvailableSpace(5, 9, 10, [])
+        ).toBe(9);
+    });
+    it('correctly detects collisions', () => {
+        let track = [{
+            start_time: 0,
+            end_time: 0.23
+        }];
+        expect(
+            constrainEndTimeToAvailableSpace(0.22, 0.66, 10, track)
+        ).toBe(0);
+
+        track = [{
+            start_time: 0.5,
+            end_time: 5
+        }];
+        expect(
+            constrainEndTimeToAvailableSpace(0.22, 0.66, 10, track)
+        ).toBe(0.5);
+
+        track = [
+            {
+                start_time: 0.5,
+                end_time: 5
+            }, {
+                start_time: 6,
+                end_time: 8
+            }
+        ];
+        expect(
+            constrainEndTimeToAvailableSpace(5.5, 88, 10, track)
+        ).toBe(6);
+        expect(
+            constrainEndTimeToAvailableSpace(5.1, 6, 10, track)
+        ).toBe(6);
+    });
+});
+
+describe('elementsCollide', () => {
+    it('correctly detects collisions', () => {
+        let e1 = {
+            start_time: 0.22,
+            end_time: 0.66
+        };
+        let e2 = {
+            start_time: 0,
+            end_time: 0.23
+        };
+        expect(elementsCollide(e1, e2)).toBe(true);
+        expect(elementsCollide(e2, e1)).toBe(true);
+
+        e1 = {
+            start_time: 0.22,
+            end_time: 0.66
+        };
+        e2 = {
+            start_time: 0.5,
+            end_time: 0.6
+        };
+        expect(elementsCollide(e1, e2)).toBe(true);
+        expect(elementsCollide(e2, e1)).toBe(true);
+
+        e1 = {
+            start_time: 0.22,
+            end_time: 0.66
+        };
+        e2 = {
+            start_time: 0.5,
+            end_time: 1
+        };
+        expect(elementsCollide(e1, e2)).toBe(true);
+        expect(elementsCollide(e2, e1)).toBe(true);
+
+        e1 = {
+            start_time: 0.22,
+            end_time: 0.66
+        };
+        e2 = {
+            start_time: 0,
+            end_time: 0.2
+        };
+        expect(elementsCollide(e1, e2)).toBe(false);
+        expect(elementsCollide(e2, e1)).toBe(false);
     });
 });
 
