@@ -592,20 +592,17 @@ export default class JuxtaposeApplication extends React.Component {
             
             const ctx = parseAsset(json, assetId, annotationId);
             const idx = self.state.activeItem[1];
+            const timecode = self.state.mediaTrack[idx].start_time;
             
             state.mediaTrack[idx].media = annotationId;
             state.mediaTrack[idx].annotationData = ctx.data;
             state.mediaTrack[idx].annotationStartTime = ctx.startTime;
-
-            // TODO: integrate with constrainEndTimeToAvailableSpace
-            // the function needs to understand this item is being updated
-            // otherwise, it detects a collision with itself.
-            if (ctx.duration < state.mediaTrack[idx].annotationDuration) {
-                state.mediaTrack[idx].end_time =
-                    state.mediaTrack[idx].start_time + ctx.duration;
-            }
-            state.mediaTrack[idx].annotationDuration = ctx.duration;
-            
+            state.mediaTrack[idx].annotationDuration = ctx.duration;            
+            const endTime =  constrainEndTimeToAvailableSpace(
+                timecode, timecode + ctx.duration,
+                self.sequenceDuration(),
+                self.state.mediaTrack, idx);
+            state.mediaTrack[idx].end_time = endTime;
             self.setState(state);
         });
     }
