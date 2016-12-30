@@ -19,7 +19,14 @@ export default class AVPlayer extends React.Component {
         }
 
         const volume = (this.props.hidden) ? 0 : 0.8;
-        const playing = !this.props.hidden && this.props.playing;
+
+        // Start playing a few seconds before so everything is loaded in
+        // time.
+        const diff = this.props.data.start_time - this.props.time;
+        const isAboutToPlay = diff > 0 && diff < 2;
+        const playing = isAboutToPlay ||
+                        (!this.props.hidden && this.props.playing);
+
         return <ReactPlayer
             ref={(ref) => this.player = ref}
             width={480}
