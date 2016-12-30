@@ -10,16 +10,25 @@ export default class ImagePlayer extends React.Component {
         this.map = undefined;
         this.mapId = 'image-player-' + Math.random().toString(16).slice(2);
     }
-    object_proportioned() {
-        var dim = {w: 480, h: 360};
-        var w = this.props.width || 480;
-        var h = this.props.height || 360;
+    objectProportioned() {
+        var dim = {w: 180, h: 90};
+        var w = this.props.width || 180;
+        var h = this.props.height || 90;
         if (w / 2 > h) {
-            dim.h = Math.ceil(480 * h / w);
+            dim.h = Math.ceil(180 * h / w);
         } else {
-            dim.w = Math.ceil(360 * w / h);
+            dim.w = Math.ceil(90 * w / h);
         }
         return dim;
+    }
+    zoomToExtent(extent) {
+        this.map.getView().fit(extent, this.map.getSize());
+    }
+    center(x, y) {
+        this.map.getView().setCenter([x, y]);
+    }
+    zoom(level) {
+        this.map.getView().setZoom(level);
     }
     initializeMap() {
         if (this.map) {
@@ -27,9 +36,9 @@ export default class ImagePlayer extends React.Component {
         }
         
         let attrs = JSON.parse(this.props.annotationData);
-        let dim = this.object_proportioned();
+        let dim = this.objectProportioned();
         let extent = [-dim.w, -dim.h, dim.w, dim.h];
-
+        
         var projection = new ol.proj.Projection({
             units: 'pixels',
             extent: extent
@@ -49,11 +58,16 @@ export default class ImagePlayer extends React.Component {
             ],
             target: this.mapId,
             view: new ol.View({
-                projection: projection,
-                center: ol.extent.getCenter(extent),
-                zoom: attrs.zoom - 1
+                projection: projection
             })
         });
+
+        if (attrs.x !== undefined) {
+            this.center(attrs.x, attrs.y);
+            this.zoom(attrs.zoom - 1);
+        } else {
+            this.zoomToExtent(extent);
+        }
     }
     shouldComponentUpdate(nextProps, nextState){
         let shouldUpdate = this.props.annotationData !== nextProps.annotationData ||
