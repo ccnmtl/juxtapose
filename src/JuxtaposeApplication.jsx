@@ -130,10 +130,10 @@ export default class JuxtaposeApplication extends React.Component {
                    submittable: self.isBaselineWorkCompleted()
                });
                jQuery('#sequence>.loader').hide();
-               jQuery('#jux-container').fadeIn();
+               jQuery('#jux-container').fadeTo('fast', 1);
            }).catch(function() {
                jQuery('#sequence>.loader').hide();
-               jQuery('#jux-container').fadeIn();
+               jQuery('#jux-container').fadeTo('fast', 1);
            });
     }
     render() {
