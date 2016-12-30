@@ -195,6 +195,7 @@ export default class JuxtaposeApplication extends React.Component {
                 <TimelineRuler duration={this.sequenceDuration()} />
                 <Playhead currentTime={this.state.time}
                           duration={this.sequenceDuration()}
+                          onMouseDown={this.onPlayheadMouseDown.bind(this)}
                           onMouseUp={this.onPlayheadMouseUp.bind(this)}
                           onChange={this.onPlayheadTimeChange.bind(this)} />
                 {tracks}
@@ -371,6 +372,9 @@ export default class JuxtaposeApplication extends React.Component {
         const percentDone = e.target.value / 1000;
         const newTime = this.sequenceDuration() * percentDone;
         this.setState({time: newTime});
+    }
+    onPlayheadMouseDown() {
+        this.setState({playing: false});
     }
     onPlayheadMouseUp() {
         const x = this.state.time + (
