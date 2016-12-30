@@ -1,5 +1,6 @@
 import React from 'react';
 import SecondaryPlayer from './SecondaryPlayer.jsx';
+import ImagePlayer from './ImagePlayer.jsx';
 
 /**
  * Derive the currently playing item given the current time
@@ -30,14 +31,25 @@ export default class MediaDisplay extends React.Component {
             let e = mediaTrack[i];
             let showing = self.props.time >= e.start_time &&
                           self.props.time <= e.end_time;
-            self.players.push(
-                <SecondaryPlayer
-                    key={i}
-                    data={e}
-                    time={self.props.time}
-                    hidden={!showing}
-                    playing={self.props.playing}
-                />);
+            if (e.type === 'img') {
+                self.players.push(<ImagePlayer
+                           key={i}
+                           url={e.source}
+                           width={e.width}
+                           height={e.height}
+                           hidden={!showing}           
+                           annotationData={e.annotationData}
+                       />);
+            } else {
+                self.players.push(
+                    <SecondaryPlayer
+                        key={i}
+                        data={e}
+                        time={self.props.time}
+                        hidden={!showing}
+                        playing={self.props.playing}
+                    />);
+            }
         }
     }
     render() {
@@ -58,9 +70,8 @@ export default class MediaDisplay extends React.Component {
             </div>;
         }
 
-        // TODO add image display area
         return <div className="jux-media-display">
                 {this.players}
-        </div>;
+               </div>;
     }
 }
