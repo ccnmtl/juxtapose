@@ -3,11 +3,11 @@ import ReactPlayer from 'react-player';
 
 
 /**
- * Each video/audio element has its own SecondaryPlayer instance
+ * Each video/audio element has its own MediaPlayer instance
  * that's always rendered on the page, and displayed when the
  * sequence's time is at the right position.
  */
-export default class SecondaryPlayer extends React.Component {
+export default class AVPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {duration: null};
@@ -28,10 +28,32 @@ export default class SecondaryPlayer extends React.Component {
             volume={volume}
             hidden={this.props.hidden}
             onDuration={this.onDuration.bind(this)}
+            onStart={this.onStart.bind(this)}
             playing={playing}
         />;
     }
     onDuration(duration) {
         this.setState({duration: duration});
+    }
+    onStart() {
+        const vid = this.props.data;
+        if (vid.annotationStartTime && this.state.duration) {
+            const percentage = vid.annotationStartTime / this.state.duration;
+            this.player.seekTo(percentage);
+        }
+    }
+    seekTo(percentage) {
+        if (!this.player) {
+            return;
+        }
+
+        const time = this.props.sequenceDuration * percentage;
+        const e = this.props.data;
+        const newPercentage = (
+            time - e.start_time + (e.annotationStartTime || 0)
+        ) / this.state.duration;
+        if (newPercentage >= 0 && newPercentage <= 100) {
+            this.player.seekTo(newPercentage);
+        }
     }
 }

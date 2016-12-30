@@ -1,38 +1,27 @@
 import React from 'react';
-import SecondaryPlayer from './SecondaryPlayer.jsx';
+import AVPlayer from './AVPlayer.jsx';
 import ImagePlayer from './ImagePlayer.jsx';
-
-/**
- * Derive the currently playing item given the current time
- * and the track state.
- */
-export function getCurrentItem(data, currentTime) {
-    for (let e of data) {
-        if (currentTime >= e.start_time && currentTime <= e.end_time) {
-            return e;
-        }
-    }
-    return null;
-}
 
 
 export default class MediaDisplay extends React.Component {
     constructor(props) {
         super(props);
         this.className = 'jux-media-video';
+        this.players = [];
+        this.mediaPlayerNodes = [];
     }
-    componentDidUpdate(props, state) {
-        this.generatePlayers(props.data);
+    componentWillUpdate(nextProps, nextState) {
+        this.generatePlayers(this.props.data);
     }
     generatePlayers(mediaTrack) {
         this.players = [];
-        const self = this;
+        this.mediaPlayerNodes = [];
         for (let i = 0; i < mediaTrack.length; i++) {
             let e = mediaTrack[i];
-            let showing = self.props.time >= e.start_time &&
-                          self.props.time <= e.end_time;
+            let showing = this.props.time >= e.start_time &&
+                          this.props.time <= e.end_time;
             if (e.type === 'img') {
-                self.players.push(<ImagePlayer
+                this.players.push(<ImagePlayer
                            key={i}
                            url={e.source}
                            width={e.width}
@@ -41,13 +30,15 @@ export default class MediaDisplay extends React.Component {
                            annotationData={e.annotationData}
                        />);
             } else {
-                self.players.push(
-                    <SecondaryPlayer
+                this.players.push(
+                    <AVPlayer
+                        ref={(c) => this.mediaPlayerNodes.push(c)}
                         key={i}
                         data={e}
-                        time={self.props.time}
+                        sequenceDuration={this.props.duration}
+                        time={this.props.time}
                         hidden={!showing}
-                        playing={self.props.playing}
+                        playing={this.props.playing}
                     />);
             }
         }
@@ -73,5 +64,12 @@ export default class MediaDisplay extends React.Component {
         return <div className="jux-media-display">
                 {this.players}
                </div>;
+    }
+    seekTo(percentage) {
+        this.mediaPlayerNodes.forEach(function(player) {
+            if (player && player.seekTo) {
+                player.seekTo(percentage);
+            }
+        });
     }
 }

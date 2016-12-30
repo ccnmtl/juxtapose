@@ -175,6 +175,7 @@ export default class JuxtaposeApplication extends React.Component {
                     instructions={this.props.primaryInstructions}
                 />
                 <MediaDisplay
+                    ref={(c) => this._mediaDisplay = c}
                     time={this.state.time}
                     duration={this.sequenceDuration()}
                     data={this.state.mediaTrack}
@@ -379,6 +380,7 @@ export default class JuxtaposeApplication extends React.Component {
             this.state.spineVid.annotationStartTime || 0);
         const percentage = x / this.state.duration;
         this._primaryVid.player.seekTo(percentage);
+        this._mediaDisplay.seekTo(percentage);
     }
     onSpineVideoEnded() {
         this.setState({playing: false});
