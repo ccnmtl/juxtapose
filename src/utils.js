@@ -377,3 +377,9 @@ export function getElement(data, currentTime) {
     }
     return null;
 }
+
+export function reassignKeys(track) {
+    for (let i = 0; i < track.length; i++) {
+        track[i].key = i;
+    }
+}

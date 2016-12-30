@@ -5,7 +5,8 @@ import {
     collisionPresent, constrainEndTimeToAvailableSpace,
     getElement,
     hasOutOfBoundsElement, removeOutOfBoundsElements,
-    parseAsset, formatTimecode, loadMediaData, loadTextData
+    parseAsset, formatTimecode, loadMediaData, loadTextData,
+    reassignKeys
 } from './utils.js';
 import {editAnnotationWidget} from './mediathreadCollection.js';
 import {defineTimecodeSpinner} from './timecodeSpinner.js';
@@ -347,6 +348,7 @@ export default class JuxtaposeApplication extends React.Component {
         if (track === 'txt') {
             let newTrack = this.state.textTrack.slice();
             newTrack.splice(i, 1);
+            reassignKeys(newTrack);
             this.setState({
                 textTrack: newTrack,
                 activeItem: null
@@ -354,6 +356,7 @@ export default class JuxtaposeApplication extends React.Component {
         } else {
             let newTrack = this.state.mediaTrack.slice();
             newTrack.splice(i, 1);
+            reassignKeys(newTrack);
             this.setState({
                 mediaTrack: newTrack,
                 activeItem: null
