@@ -253,7 +253,9 @@ export function parseAsset(json, assetId, annotationId) {
         type: type,
         startTime: annotation.range1,
         duration: annotation.duration,
-        data: annotation.annotationData
+        data: annotation.annotationData,
+        width: source.width,
+        height: source.height
     };
 }
 

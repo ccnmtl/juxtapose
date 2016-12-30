@@ -102,6 +102,8 @@ export default class JuxtaposeApplication extends React.Component {
                        e.annotationStartTime = ctx.startTime;
                        e.annotationDuration = ctx.duration;
                        e.annotationData = ctx.data;
+                       e.width = ctx.width;
+                       e.height = ctx.height;
                    });
                });
                self.setState({
@@ -585,7 +587,9 @@ export default class JuxtaposeApplication extends React.Component {
                 media: annotationId,
                 annotationData: ctx.data,
                 annotationStartTime: ctx.startTime,
-                annotationDuration: ctx.duration
+                annotationDuration: ctx.duration,
+                width: ctx.width,
+                height: ctx.height
             });
 
             self.setState({

@@ -1,5 +1,6 @@
 import React from 'react';
 import SecondaryPlayer from './SecondaryPlayer.jsx';
+import ImagePlayer from './ImagePlayer.jsx';
 
 /**
  * Derive the currently playing item given the current time
