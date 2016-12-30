@@ -10,14 +10,32 @@ export default class ImagePlayer extends React.Component {
         super(props);
         this.map = undefined;
     }
+    object_proportioned() {
+        var dim = {w: 180, h: 90};
+        var w = this.props.width || 180;
+        var h = this.props.height || 90;
+        if (w / 2 > h) {
+            dim.h = Math.ceil(180 * h / w);
+        } else {
+            dim.w = Math.ceil(90 * w / h);
+        }
+        return dim;
+    }
     componentDidMount() {
-        var extent = [0, 0, 480, 360];
+        let attrs = JSON.parse(this.props.annotationData);
+        console.log(attrs);
+
+        let dim = this.object_proportioned();
+        let extent = [-dim.w, -dim.h, dim.w, dim.h];
+
         var projection = new ol.proj.Projection({
+            code: 'Flatland:1',
             units: 'pixels',
             extent: extent
         });
 
         var map = new ol.Map({
+            interactions: ol.interaction.defaults({mouseWheelZoom:false}),
             controls: [],
             layers: [
                 new ol.layer.Image({
@@ -32,14 +50,13 @@ export default class ImagePlayer extends React.Component {
             view: new ol.View({
                 projection: projection,
                 center: ol.extent.getCenter(extent),
-                zoom: 2
+                zoom: attrs.zoom - 1
             })
         });
     }
-    componentWillUnmount() {
-        console.log('component unmount');
-    }
     shouldComponentUpdate(nextProps, nextState){
+        // if the annotationData has changed, then
+        // probably re-render
         return false; // render only once
     }
     render() {

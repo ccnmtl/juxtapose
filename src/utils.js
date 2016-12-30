@@ -247,12 +247,14 @@ export function parseAsset(json, assetId, annotationId) {
     const source = extractSource(assetCtx.sources);
     const annotation = extractAnnotation(assetCtx, annotationId);
     const type = assetCtx.primary_type === 'image' ? 'img' : 'vid';
+    const duration = type === 'img' ? 30 : annotation.duration;
+    
     return {
         url: source.url,
         host: source.host,
         type: type,
         startTime: annotation.range1,
-        duration: annotation.duration,
+        duration: duration,
         data: annotation.annotationData,
         width: source.width,
         height: source.height
