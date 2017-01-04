@@ -30,6 +30,7 @@ export default class TextAnnotationAdder extends React.Component {
                       maxLength={140}
                       onChange={this.onTextChange.bind(this)}
                       value={this.state.value} />
+            <div className="helptext">140 character limit</div>
             <br />
             <button className="btn btn-primary right" type="submit">
                 Submit
