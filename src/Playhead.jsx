@@ -9,7 +9,7 @@ export default class Playhead extends React.Component {
     render() {
         if (!this.props.duration) {
             return <div className="jux-playhead-container">
-    <div className="jux-playhead-line"></div>
+    <div className="jux-playhead-line" style={{opacity: 0}}></div>
             </div>;
         }
 
