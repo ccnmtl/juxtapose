@@ -13,10 +13,10 @@ function percentToTrackCoords(n) {
 /**
  * Returns true if the item at the given track type and index is active.
  */
-function isActive(activeItem, type, i) {
-    if (activeItem &&
-        activeItem[0] === type &&
-        parseInt(activeItem[1], 10) === i
+function isActive(activeElement, type, i) {
+    if (activeElement &&
+        activeElement[0] === type &&
+        parseInt(activeElement[1], 10) === i
     ) {
         return true;
     }
@@ -41,7 +41,7 @@ export default class Track extends React.Component {
                 * 100);
             const percent = (data.start_time / me.props.duration) * 100;
             const xPos = percentToTrackCoords(percent);
-            const active = isActive(me.props.activeItem, me.type, i);
+            const active = isActive(me.props.activeElement, me.type, i);
 
             const item = <TrackElement
                              onEditButtonClick={me.onEditButtonClick.bind(me)}

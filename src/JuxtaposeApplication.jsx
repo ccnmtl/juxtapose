@@ -36,9 +36,8 @@ export default class JuxtaposeApplication extends React.Component {
             time: null,
             duration: null,
 
-            // The selected item that's managed in the TrackElementManager.
-            // TODO: rename this to activeElement
-            activeItem: null,
+            // The selected element that's managed in the TrackElementManager.
+            activeElement: null,
 
             // The currently displaying secondary element
             currentSecondaryElement: null,
@@ -140,7 +139,7 @@ export default class JuxtaposeApplication extends React.Component {
            });
     }
     render() {
-        const activeItem = this.getItem(this.state.activeItem);
+        const activeElement = this.getItem(this.state.activeElement);
         let tracks = '';
         if (!this.props.readOnly) {
             tracks = <span>
@@ -148,14 +147,14 @@ export default class JuxtaposeApplication extends React.Component {
         duration={this.sequenceDuration()}
         onDragStop={this.onMediaDragStop.bind(this)}
         onTrackEditButtonClick={this.onMediaTrackEditButtonClick.bind(this)}
-        activeItem={this.state.activeItem}
+        activeElement={this.state.activeElement}
         data={this.state.mediaTrack} />
     <TextTrack
         duration={this.sequenceDuration()}
         onDragStop={this.onTextDragStop.bind(this)}
         onTrackElementAdd={this.onTextTrackElementAdd.bind(this)}
         onTrackEditButtonClick={this.onTextTrackEditButtonClick.bind(this)}
-        activeItem={this.state.activeItem}
+        activeElement={this.state.activeElement}
         data={this.state.textTrack} />
             </span>;
         }
@@ -205,7 +204,7 @@ export default class JuxtaposeApplication extends React.Component {
                 {tracks}
             </div>
             <TrackElementManager
-                activeItem={activeItem}
+                activeElement={activeElement}
                 onChange={this.onTrackElementUpdate.bind(this)}
                 onEditClick={this.onTrackMediaElementEdit.bind(this)}
                 onDeleteClick={this.onTrackElementRemove.bind(this)} />
@@ -223,19 +222,19 @@ export default class JuxtaposeApplication extends React.Component {
     /**
      * Update a track item, for TrackElementManager.
      */
-    onTrackElementUpdate(activeItem, newData) {
-        if (!activeItem) {
+    onTrackElementUpdate(activeElement, newData) {
+        if (!activeElement) {
             return;
         }
 
         let track = null;
-        if (activeItem.type === 'txt') {
+        if (activeElement.type === 'txt') {
             track = this.state.textTrack;
         } else {
             track = this.state.mediaTrack;
         }
 
-        const item = _.find(track, ['key', activeItem.key, 10]);
+        const item = _.find(track, ['key', activeElement.key, 10]);
         let newTrack = _.reject(track, ['key', item.key]);
 
         // If there's a collision present given the new start_time and
@@ -265,7 +264,7 @@ export default class JuxtaposeApplication extends React.Component {
         newTrack.push(item);
         newTrack = _.sortBy(newTrack, 'key');
 
-        if (activeItem.type === 'txt') {
+        if (activeElement.type === 'txt') {
             this.setState({textTrack: newTrack});
         } else {
             this.setState({mediaTrack: newTrack});
@@ -290,7 +289,7 @@ export default class JuxtaposeApplication extends React.Component {
         });
         this.setState({
             textTrack: newTrack,
-            activeItem: ['txt', newItemKey]
+            activeElement: ['txt', newItemKey]
         });
         jQuery(window).trigger('sequenceassignment.set_dirty',
                                {dirty: true});
@@ -315,10 +314,10 @@ export default class JuxtaposeApplication extends React.Component {
         return newTrack;
     }
     onMediaTrackEditButtonClick(event, item) {
-        this.setState({activeItem: ['media', item.props.data.key]});
+        this.setState({activeElement: ['media', item.props.data.key]});
     }
     onTextTrackEditButtonClick(event, item) {
-        this.setState({activeItem: ['txt', item.props.data.key]});
+        this.setState({activeElement: ['txt', item.props.data.key]});
     }
     onMediaDragStop(items, event, item) {
         const newTrack = this.trackItemDragHandler(this.state.mediaTrack, item);
@@ -340,12 +339,12 @@ export default class JuxtaposeApplication extends React.Component {
      * Remove the active track item.
      */
     onTrackElementRemove() {
-        if (!this.state.activeItem) {
+        if (!this.state.activeElement) {
             return;
         }
 
-        const track = this.state.activeItem[0];
-        const i = this.state.activeItem[1];
+        const track = this.state.activeElement[0];
+        const i = this.state.activeElement[1];
 
         if (track === 'txt') {
             let newTrack = this.state.textTrack.slice();
@@ -353,7 +352,7 @@ export default class JuxtaposeApplication extends React.Component {
             reassignKeys(newTrack);
             this.setState({
                 textTrack: newTrack,
-                activeItem: null
+                activeElement: null
             });
         } else {
             let newTrack = this.state.mediaTrack.slice();
@@ -361,13 +360,13 @@ export default class JuxtaposeApplication extends React.Component {
             reassignKeys(newTrack);
             this.setState({
                 mediaTrack: newTrack,
-                activeItem: null
+                activeElement: null
             });
         }
         jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
     }
     onTrackMediaElementEdit() {
-        const item = this.getItem(this.state.activeItem);
+        const item = this.getItem(this.state.activeElement);
 
         let caller = {'type': 'track'};
         editAnnotationWidget(item.media_asset, item.media,
@@ -490,7 +489,7 @@ export default class JuxtaposeApplication extends React.Component {
         jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
     }
     /**
-     * Get the item in textTrack or mediaTrack, based on the activeItem
+     * Get the item in textTrack or mediaTrack, based on the activeElement
      * format: [track type, index]
      */
     getItem(a) {
@@ -603,7 +602,7 @@ export default class JuxtaposeApplication extends React.Component {
 
             self.setState({
                 mediaTrack: newTrack,
-                activeItem: ['media', newItemKey]
+                activeElement: ['media', newItemKey]
             });
         });
     }
@@ -614,7 +613,7 @@ export default class JuxtaposeApplication extends React.Component {
             let state = _.extend({}, self.state);
 
             const ctx = parseAsset(json, assetId, annotationId);
-            const idx = self.state.activeItem[1];
+            const idx = self.state.activeElement[1];
             const timecode = self.state.mediaTrack[idx].start_time;
 
             state.mediaTrack[idx].media = annotationId;

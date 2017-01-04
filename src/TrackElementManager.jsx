@@ -13,18 +13,18 @@ export default class TrackElementManager extends React.Component {
         };
     }
     render() {
-        const activeItem = this.props.activeItem;
+        const activeElement = this.props.activeElement;
 
-        if (activeItem) {
+        if (activeElement) {
             let displayTextarea = 'none';
             let displayEditSelection = 'block';
             let maxLength = Infinity;
-            if (activeItem.type === 'txt') {
+            if (activeElement.type === 'txt') {
                 displayTextarea = 'block';
                 displayEditSelection = 'none';
                 maxLength = 140;
             }
-            const duration = activeItem.end_time - activeItem.start_time;
+            const duration = activeElement.end_time - activeElement.start_time;
             return <div className="jux-track-container jux-track-element-manager">
     <button className="jux-remove-track-element btn btn-default btn-danger right"
             title="Delete element"
@@ -37,11 +37,11 @@ export default class TrackElementManager extends React.Component {
         <form className="form-inline">
         <div className="form-group">
             <label>
-                Start &nbsp;{formatTimecode(activeItem.start_time)}
+                Start &nbsp;{formatTimecode(activeElement.start_time)}
             </label><br />    
             <TimecodeEditor
                 min={0}
-                timecode={activeItem.start_time}
+                timecode={activeElement.start_time}
                 onChange={this.onStartTimeChange.bind(this)}
             />
             <div className="helptext">MM:SS:CS</div>
@@ -52,7 +52,7 @@ export default class TrackElementManager extends React.Component {
             </label><br />
             <TimecodeEditor
                 min={100}
-                timecode={activeItem.end_time - activeItem.start_time}
+                timecode={activeElement.end_time - activeElement.start_time}
                 onChange={this.onDurationChange.bind(this)}
             />
             <div className="helptext">MM:SS:CS</div>
@@ -61,7 +61,7 @@ export default class TrackElementManager extends React.Component {
             <label>Content</label><br />
             <textarea style={{'display': displayTextarea}}
                       className="form-control"
-                      value={activeItem.source}
+                      value={activeElement.source}
                       maxLength={maxLength}
                       onChange={this.onTextChange.bind(this)} />
             <div style={{'display': displayTextarea}}
@@ -89,7 +89,7 @@ export default class TrackElementManager extends React.Component {
         }
     }
     onTextChange(e) {
-        this.props.onChange(this.props.activeItem, {source: e.target.value});
+        this.props.onChange(this.props.activeElement, {source: e.target.value});
     }
     onDeleteClick(e) {
         e.stopPropagation();
@@ -109,15 +109,15 @@ export default class TrackElementManager extends React.Component {
         this.props.onEditClick();
     }
     onStartTimeChange(val) {
-        const newEndTime = this.props.activeItem.end_time +
-              (val - this.props.activeItem.start_time);
-        this.props.onChange(this.props.activeItem, {
+        const newEndTime = this.props.activeElement.end_time +
+              (val - this.props.activeElement.start_time);
+        this.props.onChange(this.props.activeElement, {
             start_time: val,
             end_time: newEndTime
         });
     }
     onDurationChange(val) {
-        const newTime = this.props.activeItem.start_time + val;
-        this.props.onChange(this.props.activeItem, {end_time: newTime});
+        const newTime = this.props.activeElement.start_time + val;
+        this.props.onChange(this.props.activeElement, {end_time: newTime});
     }
 }
