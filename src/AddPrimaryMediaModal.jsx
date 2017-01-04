@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import Modal from 'react-bootstrap/lib/Modal';
 
 export default class AddPrimaryMediaModal extends React.Component {
     render() {
