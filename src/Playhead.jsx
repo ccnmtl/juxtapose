@@ -28,11 +28,7 @@ export default class Playhead extends React.Component {
                    onMouseDown={this.props.onMouseDown}
                    onMouseUp={this.props.onMouseUp}
                    value={currentPos * 1000} />
-            <div className="jux-playhead-line"
-                 style={lineStyle}>
-                <div className="jux-playhead-top-cutpoint"></div>
-                <div className="jux-playhead-bottom-cutpoint"></div>
-            </div>
+            <div className="jux-playhead-line" style={lineStyle}></div>
         </div>;
     }
 }
