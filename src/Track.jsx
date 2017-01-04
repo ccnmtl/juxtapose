@@ -94,7 +94,7 @@ export default class Track extends React.Component {
 	            <div className="jux-track">
                     <div className="jux-track-instructions"
                         style={{'display': displayHelpTxt}}>
-                        {this.getHelpText()}
+                        {this.helpText}
                     </div>
                     {this.renderItemAdder()}
                     {this.generateSnapColumns()}
@@ -114,5 +114,8 @@ export default class Track extends React.Component {
                     </ReactGridLayout>
 		    </div>
         </div>;
+    }
+    onAddWithoutPrimaryVid() {
+        this.props.onAddWithoutPrimaryVid();
     }
 }

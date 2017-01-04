@@ -6,12 +6,18 @@ export default class MediaTrack extends Track {
     constructor(props) {
         super(props);
         this.type = 'media';
+        this.helpText = "Click on this track to place video and " +
+                        "audio elements";
     }
     onAddTrackElementClick(e, absoluteTimecode) {
-        let caller = {
+        if (!this.props.primaryVid) {
+            this.onAddWithoutPrimaryVid();
+            return;
+        }
+        const caller = {
             'type': 'track',
             'timecode': absoluteTimecode
-        }
+        };
         createCollectionWidget('all', false, caller);
     }
     getHelpText() {

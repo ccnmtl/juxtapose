@@ -10,6 +10,7 @@ export default class TextTrack extends Track {
             adding: false,
             timecode: 0
         };
+        this.helpText = "Click on this track to place text elements";
     }
     renderItemAdder() {
         return <TextAnnotationAdder
@@ -19,6 +20,10 @@ export default class TextTrack extends Track {
     }
     // When the add button is clicked (open modal)
     onAddTrackElementClick(e, absoluteTimecode) {
+        if (!this.props.primaryVid) {
+            this.onAddWithoutPrimaryVid();
+            return;
+        }
         this.setState({
             adding: true,
             timecode: absoluteTimecode
@@ -28,8 +33,5 @@ export default class TextTrack extends Track {
     onTrackElementAdd(value) {
         this.closeItemAdder();
         this.props.onTrackElementAdd(value, this.state.timecode);
-    }
-    getHelpText() {
-        return "Click on this track to place text elements";
     }
 }

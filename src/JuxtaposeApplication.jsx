@@ -13,6 +13,7 @@ import {defineTimecodeSpinner} from './timecodeSpinner.js';
 import MediaTrack from './MediaTrack.jsx';
 import MediaDisplay from './MediaDisplay.jsx';
 import OutOfBoundsModal from './OutOfBoundsModal.jsx';
+import AddPrimaryMediaModal from './AddPrimaryMediaModal.jsx';
 import TextTrack from './TextTrack.jsx';
 import TextDisplay from './TextDisplay.jsx';
 import TimelineRuler from './TimelineRuler.jsx';
@@ -42,7 +43,8 @@ export default class JuxtaposeApplication extends React.Component {
             // The currently displaying secondary element
             currentSecondaryElement: null,
 
-            showOutOfBoundsModal: false
+            showOutOfBoundsModal: false,
+            showAddPrimaryMediaModal: false
         };
 
         document.addEventListener('asset.select', function(e) {
@@ -145,12 +147,16 @@ export default class JuxtaposeApplication extends React.Component {
             tracks = <span>
     <MediaTrack
         duration={this.sequenceDuration()}
+        primaryVid={this.state.spineVid}
+        onAddWithoutPrimaryVid={this.onAddWithoutPrimaryVid.bind(this)}
         onDragStop={this.onMediaDragStop.bind(this)}
         onTrackEditButtonClick={this.onMediaTrackEditButtonClick.bind(this)}
         activeElement={this.state.activeElement}
         data={this.state.mediaTrack} />
     <TextTrack
         duration={this.sequenceDuration()}
+        primaryVid={this.state.spineVid}
+        onAddWithoutPrimaryVid={this.onAddWithoutPrimaryVid.bind(this)}
         onDragStop={this.onTextDragStop.bind(this)}
         onTrackElementAdd={this.onTextTrackElementAdd.bind(this)}
         onTrackEditButtonClick={this.onTextTrackEditButtonClick.bind(this)}
@@ -212,6 +218,9 @@ export default class JuxtaposeApplication extends React.Component {
                 showing={this.state.showOutOfBoundsModal}
                 onCloseClick={this.onOutOfBoundsCloseClick.bind(this)}
                 onConfirmClick={this.onOutOfBoundsConfirmClick.bind(this)} />
+            <AddPrimaryMediaModal
+                showing={this.state.showAddPrimaryMediaModal}
+                onCloseClick={this.onAddPrimaryCloseClick.bind(this)} />
         </div>;
     }
     isBaselineWorkCompleted() {
@@ -487,6 +496,12 @@ export default class JuxtaposeApplication extends React.Component {
         this.setState({tmpSpineVid: null});
 
         jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
+    }
+    onAddWithoutPrimaryVid() {
+        this.setState({showAddPrimaryMediaModal: true});
+    }
+    onAddPrimaryCloseClick() {
+        this.setState({showAddPrimaryMediaModal: false});
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeElement
