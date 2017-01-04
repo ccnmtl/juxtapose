@@ -409,12 +409,14 @@ export default class JuxtaposeApplication extends React.Component {
      * PMT #109344
      */
     onSpineDuration(duration) {
-        this.setState({
-            duration: duration,
-            mediaTrack: removeOutOfBoundsElements(
-                duration, this.state.mediaTrack),
-            textTrack: removeOutOfBoundsElements(
-                duration, this.state.textTrack)
+        this.setState((prevState, props) => {
+            return {
+                duration: duration,
+                mediaTrack: removeOutOfBoundsElements(
+                    duration, prevState.mediaTrack),
+                textTrack: removeOutOfBoundsElements(
+                    duration, prevState.textTrack)
+            };
         });
     }
     onSpineProgress(state) {
@@ -431,10 +433,12 @@ export default class JuxtaposeApplication extends React.Component {
                 time = Math.min(time, this.sequenceDuration());
             }
 
-            this.setState({
-                time: time,
-                currentSecondaryElement: getElement(
-                    this.state.mediaTrack, time)
+            this.setState((prevState, props) => {
+                return {
+                    time: time,
+                    currentSecondaryElement: getElement(
+                        prevState.mediaTrack, time)
+                };
             });
         }
     }
@@ -480,12 +484,14 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onOutOfBoundsConfirmClick() {
         const newSpine = this.state.tmpSpineVid;
-        this.setState({
-            showOutOfBoundsModal: false,
-            mediaTrack: removeOutOfBoundsElements(
-                newSpine.annotationDuration, this.state.mediaTrack),
-            textTrack: removeOutOfBoundsElements(
-                newSpine.annotationDuration, this.state.textTrack)
+        this.setState((prevState, props) => {
+            return {
+                showOutOfBoundsModal: false,
+                mediaTrack: removeOutOfBoundsElements(
+                    newSpine.annotationDuration, prevState.mediaTrack),
+                textTrack: removeOutOfBoundsElements(
+                    newSpine.annotationDuration, prevState.textTrack)
+            };
         });
 
         this.updateSpineVid(
@@ -624,22 +630,24 @@ export default class JuxtaposeApplication extends React.Component {
         let self = this;
         const xhr = new Xhr();
         xhr.getAsset(assetId).then(function(json) {
-            let state = _.extend({}, self.state);
+            let newMediaTrack = self.state.mediaTrack.slice();
 
             const ctx = parseAsset(json, assetId, annotationId);
             const idx = self.state.activeElement[1];
             const timecode = self.state.mediaTrack[idx].start_time;
 
-            state.mediaTrack[idx].media = annotationId;
-            state.mediaTrack[idx].annotationData = ctx.data;
-            state.mediaTrack[idx].annotationStartTime = ctx.startTime;
-            state.mediaTrack[idx].annotationDuration = ctx.duration;
+            newMediaTrack[idx].media = annotationId;
+            newMediaTrack[idx].annotationData = ctx.data;
+            newMediaTrack[idx].annotationStartTime = ctx.startTime;
+            newMediaTrack[idx].annotationDuration = ctx.duration;
             const endTime =  constrainEndTimeToAvailableSpace(
                 timecode, timecode + ctx.duration,
                 self.sequenceDuration(),
                 self.state.mediaTrack, idx);
-            state.mediaTrack[idx].end_time = endTime;
-            self.setState(state);
+            newMediaTrack[idx].end_time = endTime;
+            self.setState({
+                mediaTrack: newMediaTrack
+            });
         });
     }
 }
