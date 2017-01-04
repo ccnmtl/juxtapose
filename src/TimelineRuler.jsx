@@ -10,11 +10,16 @@ export default class TimelineRuler extends React.Component {
      *
      * Returns an array containing the label and the tick.
      */
-    generateTick(visualOffset, position) {
+    generateTick(visualOffset, position, final) {
+        let labelStyle = {left: visualOffset + '%'};
+        if (final) {
+            labelStyle = {right: 0};
+        }
+
         return [
             <div key={position + '-label'}
                  className="jux-timeline-ticklabel"
-                 style={{left: visualOffset + '%'}}>
+                 style={labelStyle}>
                 {formatTimecode(position)}
             </div>,
             <div key={position}
@@ -34,15 +39,15 @@ export default class TimelineRuler extends React.Component {
 
         let ticks = [];
         let i = 0;
-        for (; i < duration; i += tickOffset) {
+        // Generate ticks up until we're within 8% of the end
+        for (; i < (duration - (duration * 0.08)); i += tickOffset) {
             let visualOffset = (i / duration) * 100;
-            ticks = ticks.concat(this.generateTick(visualOffset, i));
+            ticks = ticks.concat(this.generateTick(visualOffset, i, false));
         }
-        // If the last tick is more than 5 seconds before the end, generate
-        // one for the end.
-        if (duration - (i - tickOffset) > 5) {
-            ticks = ticks.concat(this.generateTick(100, duration));
-        }
+
+        // Generate final tick
+        ticks = ticks.concat(this.generateTick(100, duration, true));
+
         return ticks;
     }
     render() {
