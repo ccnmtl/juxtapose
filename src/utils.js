@@ -408,9 +408,9 @@ export function trackItemDragHandler(origTrack, item, sequenceDuration) {
 
     // Check that the value actually needs to be updated.
     if (startTime === origElem.start_time ||
-        // Allow just over a hundredth of a second margin of
-        // error. This can occur when clicking the track elements.
-        Math.abs(startTime - origElem.start_time) <= 0.015
+        // Allow a small margin of error. This can occur when clicking
+        // the track elements.
+        Math.abs(startTime - origElem.start_time) <= (sequenceDuration * 0.001)
        ) {
         return null;
     }
