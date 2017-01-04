@@ -416,7 +416,6 @@ export default class JuxtaposeApplication extends React.Component {
             textTrack: removeOutOfBoundsElements(
                 duration, this.state.textTrack)
         });
-        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
     }
     onSpineProgress(state) {
         if (typeof state.played !== 'undefined') {
