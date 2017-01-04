@@ -3,6 +3,12 @@ import React from 'react';
 
 export default class Playhead extends React.Component {
     render() {
+        if (!this.props.duration) {
+            return <div className="jux-playhead-container">
+    <div className="jux-playhead-line"></div>
+            </div>;
+        }
+
         let currentPos = 0;
         if (this.props.duration !== 0) {
             currentPos = (this.props.currentTime / this.props.duration);
