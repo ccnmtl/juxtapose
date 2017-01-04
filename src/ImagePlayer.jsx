@@ -30,12 +30,45 @@ export default class ImagePlayer extends React.Component {
     zoom(level) {
         this.map.getView().setZoom(level);
     }
+    hasFeature(attrs) {
+        return attrs.hasOwnProperty('feature') ||
+               attrs.hasOwnProperty('geometry') ||
+               attrs.hasOwnProperty('xywh');
+    }
+    addVectorLayer(props, projection, attrs) {
+        var formatter = new ol.format.GeoJSON({
+            dataProjection: projection,
+            featureProjection: projection});
+
+        var feature = formatter.readFeature(attrs);
+        var layer = new ol.layer.Vector({
+            title: 'annotation',
+            source: new ol.source.Vector({
+                features: [feature]
+            })//,
+            //style: styleFunction
+        });
+
+        this.map.addLayer(layer);
+    }
+    addImageLayer(props, projection, extent) {
+        var layer = new ol.layer.Image({
+            source: new ol.source.ImageStatic({
+                url: this.props.url,
+                projection: projection,
+                imageExtent: extent
+            })
+        });
+        this.map.addLayer(layer);
+    }
     initializeMap() {
         if (this.map) {
             return;
         }
-        
+
         let attrs = JSON.parse(this.props.annotationData);
+        attrs.type = 'Feature';
+        
         let dim = this.objectProportioned();
         let extent = [-dim.w, -dim.h, dim.w, dim.h];
         
@@ -47,24 +80,21 @@ export default class ImagePlayer extends React.Component {
         this.map = new ol.Map({
             interactions: ol.interaction.defaults({mouseWheelZoom:false}),
             controls: [],
-            layers: [
-                new ol.layer.Image({
-                    source: new ol.source.ImageStatic({
-                        url: this.props.url,
-                        projection: projection,
-                        imageExtent: extent
-                    })
-                })
-            ],
             target: this.mapId,
             view: new ol.View({
                 projection: projection
             })
         });
 
-        if (attrs.x !== undefined) {
+        this.addImageLayer(this.props, projection, extent);
+
+        if (this.hasFeature(attrs)) {
+            this.addVectorLayer(this.props, projection, attrs);
             this.center(attrs.x, attrs.y);
-            this.zoom(attrs.zoom - 1);
+            this.zoom(attrs.zoom - 1.4);
+        } else if (attrs.x !== undefined) {
+            this.center(attrs.x, attrs.y);
+            this.zoom(attrs.zoom - 1.2);
         } else {
             this.zoomToExtent(extent);
         }
