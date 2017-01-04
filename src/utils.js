@@ -91,7 +91,7 @@ export function constrainEndTimeToAvailableSpace(
         if (i === idx) {
             continue;
         }
-        
+
         if (elementsCollide(requestedEl, track[i])) {
             return track[i].start_time;
         }
@@ -248,7 +248,7 @@ export function parseAsset(json, assetId, annotationId) {
     const annotation = extractAnnotation(assetCtx, annotationId);
     const type = assetCtx.primary_type === 'image' ? 'img' : 'vid';
     const duration = type === 'img' ? 30 : annotation.duration;
-    
+
     return {
         url: source.url,
         host: source.host,
@@ -382,4 +382,45 @@ export function reassignKeys(track) {
     for (let i = 0; i < track.length; i++) {
         track[i].key = i;
     }
+}
+
+/**
+ * This function handles the drag stop event for track items.
+ *
+ * It takes a track array, the dragged grid item, and the sequence
+ * duration.
+ *
+ * It returns the new state of the track, which the caller can save
+ * with setState. If there are no necessary changes to the track,
+ * this function returns null.
+ */
+export function trackItemDragHandler(origTrack, item, sequenceDuration) {
+    // react-grid-layout sets a 'moved' flag on the dragged item.
+    if (item.moved === false) {
+        return null;
+    }
+
+    const origElem = _.find(origTrack, ['key', parseInt(item['i'], 10)]);
+    let newTrack = origTrack.slice();
+    const elem = _.find(newTrack, ['key', parseInt(item['i'], 10)]);
+    const percent = item.x / 1000;
+    const startTime = percent * sequenceDuration;
+
+    // Check that the value actually needs to be updated.
+    if (startTime === origElem.start_time ||
+        // Allow a small margin of error. This can occur when clicking
+        // the track elements.
+        Math.abs(startTime - origElem.start_time) <= (sequenceDuration * 0.001)
+       ) {
+        return null;
+    }
+
+    const len = elem.end_time - elem.start_time;
+    elem.start_time = startTime;
+    elem.end_time = elem.start_time + len;
+
+    newTrack = _.reject(newTrack, ['key', elem.key]);
+    newTrack.push(elem);
+    newTrack = _.sortBy(newTrack, 'key');
+    return newTrack;
 }

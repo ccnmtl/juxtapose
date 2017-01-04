@@ -6,7 +6,7 @@ import {
     getElement,
     hasOutOfBoundsElement, removeOutOfBoundsElements,
     parseAsset, formatTimecode, loadMediaData, loadTextData,
-    reassignKeys
+    reassignKeys, trackItemDragHandler
 } from './utils.js';
 import {editAnnotationWidget} from './mediathreadCollection.js';
 import {defineTimecodeSpinner} from './timecodeSpinner.js';
@@ -303,25 +303,7 @@ export default class JuxtaposeApplication extends React.Component {
         jQuery(window).trigger('sequenceassignment.set_dirty',
                                {dirty: true});
     }
-    /**
-     * This function handles the drag stop event for track items.
-     *
-     * It returns the new state of the track, which the caller can save
-     * with setState.
-     */
-    trackItemDragHandler(origTrack, item) {
-        const track = _.find(origTrack, ['key', parseInt(item['i'], 10)]);
-        const percent = (item.x / 1000);
-        const len = track.end_time - track.start_time;
-        track.start_time = percent * this.sequenceDuration();
-        track.end_time = track.start_time + len;
 
-        // TODO: can this be simplified?
-        let newTrack = _.reject(origTrack, ['key', track.key]);
-        newTrack.push(track);
-        newTrack = _.sortBy(newTrack, 'key');
-        return newTrack;
-    }
     onMediaTrackEditButtonClick(event, item) {
         this.setState({activeElement: ['media', item.props.data.key]});
     }
@@ -329,13 +311,23 @@ export default class JuxtaposeApplication extends React.Component {
         this.setState({activeElement: ['txt', item.props.data.key]});
     }
     onMediaDragStop(items, event, item) {
-        const newTrack = this.trackItemDragHandler(this.state.mediaTrack, item);
+        const newTrack = trackItemDragHandler(
+            this.state.mediaTrack, item, this.sequenceDuration());
+        if (newTrack === null) {
+            return;
+        }
+
         this.setState({mediaTrack: newTrack});
         jQuery(window).trigger('sequenceassignment.set_dirty',
                                {dirty: true});
     }
     onTextDragStop(items, event, item) {
-        const newTrack = this.trackItemDragHandler(this.state.textTrack, item);
+        const newTrack = trackItemDragHandler(
+            this.state.textTrack, item, this.sequenceDuration());
+        if (newTrack === null) {
+            return;
+        }
+
         this.setState({textTrack: newTrack});
         jQuery(window).trigger('sequenceassignment.set_dirty',
                                {dirty: true});

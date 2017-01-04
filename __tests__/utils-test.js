@@ -2,7 +2,8 @@ import {
     collisionPresent, constrainEndTimeToAvailableSpace,
     getElement,
     elementsCollide, formatTimecode, pad2,
-    getSeparatedTimeUnits, parseTimecode
+    getSeparatedTimeUnits, parseTimecode,
+    trackItemDragHandler
 } from '../src/utils.js';
 
 describe('collisionPresent', () => {
@@ -242,9 +243,9 @@ describe('pad2', () => {
 
 describe('getElement', () => {
     it('handles empty data appropriately', () => {
-        expect(getElement([], 3.2)).toBeNull;
-        expect(getElement([], 0)).toBeNull;
-        expect(getElement([], -1)).toBeNull;
+        expect(getElement([], 3.2)).toBeNull();
+        expect(getElement([], 0)).toBeNull();
+        expect(getElement([], -1)).toBeNull();
     });
     it('returns an accurate current item', () => {
         let data = [{
@@ -254,7 +255,7 @@ describe('getElement', () => {
                 type: 'vid',
                 source: 'video.mp4'
         }];
-        expect(getElement(data, 3.2)).toBeNull;
+        expect(getElement(data, 3.2)).toBeNull();
         expect(getElement(data, 55)).toEqual({
             key: 0,
             start_time: 5,
@@ -286,7 +287,7 @@ describe('getElement', () => {
                 source: 'video.mp4'
             },
         ];
-        expect(getElement(data, 3.2)).toBeNull;
+        expect(getElement(data, 3.2)).toBeNull();
         expect(getElement(data, 55)).toEqual({
             key: 0,
             start_time: 5,
@@ -301,7 +302,7 @@ describe('getElement', () => {
             type: 'vid',
             source: 'video.mp4'
         });
-        expect(getElement(data, 60.5)).toBeNull;
+        expect(getElement(data, 60.5)).toBeNull();
         expect(getElement(data, 63.88)).toEqual({
             key: 1,
             start_time: 63,
@@ -309,6 +310,95 @@ describe('getElement', () => {
             type: 'vid',
             source: 'video.mp4'
         });
-        expect(getElement(data, 75)).toBeNull;
+        expect(getElement(data, 75)).toBeNull();
+    });
+});
+
+describe('trackItemDragHandler', () => {
+    it('returns null when there\'s no change', () => {
+        const textTrack = [
+            {
+                end_time: 2,
+                key: 0,
+                source: 'a',
+                start_time: 0,
+                type: 'txt'
+            },
+            {
+                end_time: 4,
+                key: 1,
+                source: 'b',
+                start_time: 3,
+                type: 'txt'
+            }
+        ];
+        let draggedItem = {
+            'static': false,
+            moved: true,
+            h: 48,
+            i: '1',
+            w: 33.333333333333336,
+            x: 100,
+            y: 0
+        }
+        expect(trackItemDragHandler(textTrack, draggedItem, 30)).toBeNull();
+
+        draggedItem = {
+            'static': false,
+            moved: false,
+            h: 48,
+            i: '1',
+            w: 33.333333333333336,
+            x: 100,
+            y: 0
+        }
+        expect(trackItemDragHandler(textTrack, draggedItem, 30)).toBeNull();
+    });
+
+    it('returns the new track when there is a change', () => {
+        const textTrack = [
+            {
+                end_time: 2,
+                key: 0,
+                source: 'a',
+                start_time: 0,
+                type: 'txt'
+            },
+            {
+                end_time: 4,
+                key: 1,
+                source: 'b',
+                start_time: 3,
+                type: 'txt'
+            }
+        ];
+        let draggedItem = {
+            'static': false,
+            moved: true,
+            h: 48,
+            i: '1',
+            w: 33.333333333333336,
+            x: 148,
+            y: 0
+        }
+
+        const newTrack = [
+            {
+                end_time: 2,
+                key: 0,
+                source: 'a',
+                start_time: 0,
+                type: 'txt'
+            },
+            {
+                end_time: 5.4399999999999995,
+                key: 1,
+                source: 'b',
+                start_time: 4.4399999999999995,
+                type: 'txt'
+            }
+        ];
+        expect(trackItemDragHandler(textTrack, draggedItem, 30)).toEqual(
+            newTrack);
     });
 });
