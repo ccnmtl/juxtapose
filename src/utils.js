@@ -297,9 +297,14 @@ export function getCentiseconds(totalSeconds) {
 
 export function parseTimecode(str) {
     const parts = str.split(':');
-    return (Number(parts[0]) * 60) +
-        Number(parts[1]) +
-        (Number(parts[2]) / 100);
+    const col1 = Number(parts[0]);
+    const col2 = Number(parts[1]);
+    const col3 = Number(parts[2]);
+    if (_.isFinite(col1) && _.isFinite(col2) && _.isFinite(col3)) {
+        return (col1 * 60) + col2 + (col3 / 100);
+    } else {
+        return null;
+    }
 }
 
 export function formatTimecode(totalSeconds) {

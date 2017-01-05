@@ -26,11 +26,22 @@ export default class TimecodeEditor extends React.Component {
         jQuery(this.refs.spinner).timecodespinner({
             change: function(e) {
                 const seconds = parseTimecode(e.target.value);
-                self.props.onChange(seconds);
+                if (seconds) {
+                    self.props.onChange(seconds);
+                }
+
+                if (self.props.timecode !== self.refs.spinner.value) {
+                    // Update the input value from the application state
+                    // when the user puts it in an invalid state.
+                    self.refs.spinner.value = formatTimecode(
+                        self.props.timecode);
+                }
             },
             spin: function(e) {
                 const seconds = parseTimecode(e.target.value);
-                self.props.onChange(seconds);
+                if (seconds) {
+                    self.props.onChange(seconds);
+                }
             }
         });
     }

@@ -219,6 +219,14 @@ describe('parseTimecode', () => {
         expect(parseTimecode('0:55:00')).toBe(55);
         expect(parseTimecode('00:0:12')).toBe(0.12);
     });
+    it('returns null on invalid input', () => {
+        expect(parseTimecode('00:aa:0')).toBeNull();
+        expect(parseTimecode('00:0')).toBeNull();
+        expect(parseTimecode('0:00gfw0')).toBeNull();
+        expect(parseTimecode('0:00:f0')).toBeNull();
+        expect(parseTimecode('0:55:w0')).toBeNull();
+        expect(parseTimecode('x0:0:12')).toBeNull();
+    });
 });
 
 describe('getSeparatedTimeUnits', () => {
