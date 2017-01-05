@@ -252,9 +252,9 @@ export default class JuxtaposeApplication extends React.Component {
             collisionPresent(
                 newTrack,
                 this.sequenceDuration(),
-                (_.isNumber(newData.start_time) ?
+                (_.isFinite(newData.start_time) ?
                  newData.start_time : item.start_time),
-                (_.isNumber(newData.end_time) ?
+                (_.isFinite(newData.end_time) ?
                  newData.end_time : item.end_time))
         ) {
             return;
@@ -263,10 +263,10 @@ export default class JuxtaposeApplication extends React.Component {
         if (_.isString(newData.source)) {
             item.source = newData.source;
         }
-        if (_.isNumber(newData.start_time)) {
+        if (_.isFinite(newData.start_time)) {
             item.start_time = newData.start_time;
         }
-        if (_.isNumber(newData.end_time)) {
+        if (_.isFinite(newData.end_time)) {
             item.end_time = newData.end_time;
         }
 
