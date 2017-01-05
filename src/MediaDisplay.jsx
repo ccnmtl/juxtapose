@@ -11,7 +11,7 @@ export default class MediaDisplay extends React.Component {
         this.mediaPlayerNodes = [];
     }
     componentWillUpdate(nextProps, nextState) {
-        this.generatePlayers(this.props.data);
+        this.generatePlayers(nextProps.data);
     }
     generatePlayers(mediaTrack) {
         this.players = [];
