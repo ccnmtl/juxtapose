@@ -34,13 +34,15 @@ export default class SpineDisplay extends React.Component {
         if (!this.props.readOnly) {
             reviseButton =
                 <button className="btn btn-default jux-spine-revise"
-                    onClick={this.onClickReviseSpine}>
+                        title="Revise primary video"
+                        onClick={this.onClickReviseSpine}>
                 <span className="glyphicon glyphicon-refresh"
                     aria-hidden="true"></span>
                 </button>;
             editSpineButton =
                 <button className="btn btn-default jux-spine-edit"
-                    onClick={this.onClickEditSpine.bind(this)}>
+                        title="Edit primary video"
+                        onClick={this.onClickEditSpine.bind(this)}>
                 <span className="glyphicon glyphicon-pencil"
                     aria-hidden="true"></span>
                 </button>;
