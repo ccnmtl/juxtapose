@@ -164,6 +164,18 @@ describe('elementsCollide', () => {
         expect(elementsCollide(e1, e2)).toBe(false);
         expect(elementsCollide(e2, e1)).toBe(false);
     });
+    it('lets an element start right as the previous one finished', () => {
+        let e1 = {
+            start_time: 0,
+            end_time: 0.23
+        };
+        let e2 = {
+            start_time: 0.23,
+            end_time: 0.66
+        };
+        expect(elementsCollide(e1, e2)).toBe(false);
+        expect(elementsCollide(e2, e1)).toBe(false);
+    });
     it('detects collision when one element completely surrounds the other',
        () => {
            let e1 = {
