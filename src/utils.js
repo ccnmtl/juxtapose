@@ -131,12 +131,26 @@ export function ellipsis(str, limit, append) {
 };
 
 /**
- * extractAnnotation
+ * extractDuration
+ *
+ */
+function extractDuration(annotation) {
+    if (annotation.asset.media_type === 'image') {
+        return 30;
+    }
+    if (annotation.is_global_annotation) {
+        return undefined;
+    }
+    return (annotation.range2 - annotation.range1) || 30;
+}
+
+/**
+ * extractRange
  *
  * Given a source object in Mediathread's asset api format,
- * return a annotation properties
+ * return annotation properties
  */
-export function extractAnnotation(assetCtx, annotationId) {
+function extractRange(assetCtx, annotationId) {
     for (var i = 0; i < assetCtx.annotations.length && annotationId; i++) {
         let annotation = assetCtx.annotations[i];
         if (annotation.id === annotationId) {
@@ -169,7 +183,7 @@ export function getVimeoID(url) {
  * Given a source object in Mediathread's asset api format,
  * return a juxtapose media object.
  */
-export function extractSource(o) {
+function extractSource(o) {
     if (o.youtube && o.youtube.url) {
         return {
             url: getYouTubeID(o.youtube.url),
@@ -245,7 +259,7 @@ export function removeOutOfBoundsElements(duration, track) {
 export function parseAsset(json, assetId, annotationId) {
     const assetCtx = json.assets[assetId];
     const source = extractSource(assetCtx.sources);
-    const annotation = extractAnnotation(assetCtx, annotationId);
+    const annotation = extractRange(assetCtx, annotationId);
     const type = assetCtx.primary_type === 'image' ? 'img' : 'vid';
     const duration = type === 'img' ? 30 : annotation.duration;
 
@@ -260,6 +274,34 @@ export function parseAsset(json, assetId, annotationId) {
         height: source.height
     };
 }
+
+/**
+ * parseAnnotation
+ *
+ */
+export function parseAnnotation(annotation) {
+    const type = annotation.asset.media_type === 'image' ? 'img' : 'vid';
+    const duration = extractDuration(annotation);
+
+    let url = annotation.asset.primary_source.url;
+    if (annotation.asset.primary_source.label === 'youtube') {
+        url = getYouTubeID(url);
+    }
+
+    return {
+        id: annotation.id,
+        assetId: annotation.asset.id,
+        url: url,
+        host: annotation.asset.primary_source.label,
+        type: type,
+        startTime: annotation.range1 || 0,
+        duration: duration,
+        data: annotation.annotation_data,
+        width: annotation.asset.primary_source.width,
+        height: annotation.asset.primary_source.height,
+    };
+}
+
 
 /**
  * Given a number of seconds as a float, return an array

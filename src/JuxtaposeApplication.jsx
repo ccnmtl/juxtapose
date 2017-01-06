@@ -5,7 +5,7 @@ import {
     collisionPresent, constrainEndTimeToAvailableSpace,
     getElement,
     hasOutOfBoundsElement, removeOutOfBoundsElements,
-    parseAsset, formatTimecode, loadMediaData, loadTextData,
+    parseAsset, parseAnnotation, formatTimecode, loadMediaData, loadTextData,
     reassignKeys, trackItemDragHandler
 } from './utils.js';
 import {editAnnotationWidget} from './mediathreadCollection.js';
@@ -96,40 +96,28 @@ export default class JuxtaposeApplication extends React.Component {
 
                // Fetch each media element's actual media from Mediathread.
                sequenceAsset.media_elements.forEach(function(e) {
-                   xhr.getAsset(e.media_asset).then(function(json) {
-                       const ctx = parseAsset(json, e.media_asset, e.media);
-                       e.host = ctx.host;
-                       e.source = ctx.url;
-                       e.type = ctx.type;
-                       e.annotationStartTime = ctx.startTime;
-                       e.annotationDuration = ctx.duration;
-                       e.annotationData = ctx.data;
-                       e.width = ctx.width;
-                       e.height = ctx.height;
-                   });
+                   const ctx = parseAnnotation(e.media);
+                   e.media = ctx.id;
+                   e.media_asset = ctx.assetId;
+                   e.host = ctx.host;
+                   e.source = ctx.url;
+                   e.type = ctx.type;
+                   e.annotationStartTime = ctx.startTime;
+                   e.annotationDuration = ctx.duration;
+                   e.annotationData = ctx.data;
+                   e.width = ctx.width;
+                   e.height = ctx.height;
                });
                self.setState({
                    mediaTrack: loadMediaData(sequenceAsset.media_elements),
                    textTrack: loadTextData(sequenceAsset.text_elements)
                });
 
-               return xhr
-                   .getAsset(sequenceAsset.spine_asset)
-                   .then(function(json) {
-                       const ctx = parseAsset(
-                           json,
-                           sequenceAsset.spine_asset,
-                           sequenceAsset.spine);
+               const spine = parseAnnotation(sequenceAsset.spine);
+               self.updateSpineVid(
+                   spine.url, spine.host, spine.assetId,
+                   spine.id, spine.startTime, spine.duration);
 
-                       self.updateSpineVid(
-                           ctx.url, ctx.host, sequenceAsset.spine_asset,
-                           sequenceAsset.spine,
-                           ctx.startTime, ctx.duration);
-                   })
-                   .catch(function(error) {
-                       console.error('Sequence loading error:', error);
-                   });
-           }).then(function() {
                jQuery(window).trigger('sequenceassignment.set_submittable', {
                    submittable: self.isBaselineWorkCompleted()
                });
