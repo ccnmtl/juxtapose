@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import {
     formatTimecode, getMinutes, getSeconds, getCentiseconds
 } from './utils.js';
@@ -11,6 +12,8 @@ export default class TrackElementManager extends React.Component {
         this.state = {
             showDeleteElementModal: false
         };
+        this.debouncedDisplayUpdatedTextNotice = _.debounce(
+            this.displayUpdatedTextNotice, 1000);
     }
     render() {
         const activeElement = this.props.activeElement;
@@ -59,7 +62,7 @@ export default class TrackElementManager extends React.Component {
                       onChange={this.onTextChange.bind(this)} />
             <div style={{'display': isTextActive ? 'block' : 'none'}}
                  className="helptext pull-left">140 character limit</div>
-            <div className="helptext pull-right jux-updated-text">
+            <div className="pull-right jux-updated-text">
                 Updated
             </div>
             <button style={{'display': isTextActive ? 'none' : 'block'}}
@@ -84,15 +87,18 @@ export default class TrackElementManager extends React.Component {
             return <div></div>;
         }
     }
-    onTextChange(e) {
-        this.props.onChange(this.props.activeElement, {
-            source: e.target.value
-        });
+    displayUpdatedTextNotice() {
         jQuery('.jux-updated-text').show(0, function() {
             setTimeout(function() {
                 jQuery('.jux-updated-text').fadeOut('slow');
             }, 1000);
         });
+    }
+    onTextChange(e) {
+        this.props.onChange(this.props.activeElement, {
+            source: e.target.value
+        });
+        this.debouncedDisplayUpdatedTextNotice();
     }
     onDeleteClick(e) {
         e.stopPropagation();
