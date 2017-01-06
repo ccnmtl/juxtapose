@@ -16,14 +16,7 @@ export default class TrackElementManager extends React.Component {
         const activeElement = this.props.activeElement;
 
         if (activeElement) {
-            let displayTextarea = 'none';
-            let displayEditSelection = 'block';
-            let maxLength = Infinity;
-            if (activeElement.type === 'txt') {
-                displayTextarea = 'block';
-                displayEditSelection = 'none';
-                maxLength = 140;
-            }
+            const isTextActive = activeElement.type === 'txt';
             const duration = activeElement.end_time - activeElement.start_time;
             return <div className="jux-track-container jux-track-element-manager">
     <button className="jux-remove-track-element btn btn-default btn-danger right"
@@ -38,7 +31,7 @@ export default class TrackElementManager extends React.Component {
         <div className="form-group">
             <label>
                 Start &nbsp;{formatTimecode(activeElement.start_time)}
-            </label><br />    
+            </label><br />
             <TimecodeEditor
                 min={0}
                 timecode={activeElement.start_time}
@@ -59,14 +52,17 @@ export default class TrackElementManager extends React.Component {
         </div>
         <div className="form-group">
             <label>Content</label><br />
-            <textarea style={{'display': displayTextarea}}
+            <textarea style={{'display': isTextActive ? 'block' : 'none'}}
                       className="form-control"
                       value={activeElement.source}
-                      maxLength={maxLength}
+                      maxLength={140}
                       onChange={this.onTextChange.bind(this)} />
-            <div style={{'display': displayTextarea}}
-                 className="helptext">140 character limit</div>
-            <button style={{'display': displayEditSelection}}
+            <div style={{'display': isTextActive ? 'block' : 'none'}}
+                 className="helptext pull-left">140 character limit</div>
+            <div className="helptext pull-right jux-updated-text">
+                Updated
+            </div>
+            <button style={{'display': isTextActive ? 'none' : 'block'}}
                 className="jux-edit-track-element btn btn-default btn-sm"
                 title="Edit Element"
                 onClick={this.onEditClick.bind(this)}>
@@ -81,7 +77,7 @@ export default class TrackElementManager extends React.Component {
             onCloseClick={this.onDeleteCloseClick.bind(this)}
             onConfirmClick={this.onDeleteConfirmClick.bind(this)} />
     </div>
-    
+
     <div className="clearfix"></div>
             </div>;
         } else {
@@ -89,7 +85,14 @@ export default class TrackElementManager extends React.Component {
         }
     }
     onTextChange(e) {
-        this.props.onChange(this.props.activeElement, {source: e.target.value});
+        this.props.onChange(this.props.activeElement, {
+            source: e.target.value
+        });
+        jQuery('.jux-updated-text').show(0, function() {
+            setTimeout(function() {
+                jQuery('.jux-updated-text').fadeOut('slow');
+            }, 1000);
+        });
     }
     onDeleteClick(e) {
         e.stopPropagation();
