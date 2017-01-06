@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import {formatTimecode, parseTimecode} from './utils.js';
 
 /**
@@ -24,9 +25,9 @@ export default class TimecodeEditor extends React.Component {
     componentDidMount() {
         const self = this;
         jQuery(this.refs.spinner).timecodespinner({
-            change: function(e) {
+            change: function(e, ui) {
                 const seconds = parseTimecode(e.target.value);
-                if (seconds) {
+                if (_.isFinite(seconds)) {
                     self.props.onChange(seconds);
                 }
 
@@ -37,9 +38,9 @@ export default class TimecodeEditor extends React.Component {
                         self.props.timecode);
                 }
             },
-            spin: function(e) {
-                const seconds = parseTimecode(e.target.value);
-                if (seconds) {
+            spin: function(e, ui) {
+                const seconds = ui.value / 100;
+                if (_.isFinite(seconds)) {
                     self.props.onChange(seconds);
                 }
             }
