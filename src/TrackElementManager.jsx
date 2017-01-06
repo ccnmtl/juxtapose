@@ -34,7 +34,7 @@ export default class TrackElementManager extends React.Component {
     </button>
     <div className="track-icon left"></div>
     <div className="left">
-        <form className="form-inline">
+        <div className="form-inline">
         <div className="form-group">
             <label>
                 Start &nbsp;{formatTimecode(activeElement.start_time)}
@@ -75,7 +75,7 @@ export default class TrackElementManager extends React.Component {
             </button>
         </div>
         <div className="clearfix"></div>
-        </form>
+        </div>
         <DeleteElementModal
             showing={this.state.showDeleteElementModal}
             onCloseClick={this.onDeleteCloseClick.bind(this)}
