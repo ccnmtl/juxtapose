@@ -43,6 +43,12 @@ export default class TimecodeEditor extends React.Component {
                 if (_.isFinite(seconds)) {
                     self.props.onChange(seconds);
                 }
+                if (self.props.timecode !== self.refs.spinner.value) {
+                    // Lock down the value on spin as well.
+                    self.refs.spinner.value = formatTimecode(
+                        self.props.timecode);
+                    return false;
+                }
             }
         });
     }
