@@ -99,7 +99,7 @@ export default class ImagePlayer extends React.Component {
             this.center(coord[0], coord[1]);
             this.zoom(attrs.zoom);
         } else {
-            this.zoomToExtent(projection.extent);
+            this.zoomToExtent(projection.getExtent());
         }
     }
     addImageLayer(props, projection, extent) {
@@ -142,7 +142,7 @@ export default class ImagePlayer extends React.Component {
             this.addVectorLayer(this.props, projection, attrs);
         } else if (attrs.x !== undefined) {
             this.center(attrs.x, attrs.y);
-            this.zoom(attrs.zoom - 1);
+            this.zoom(attrs.zoom - .5);
         } else {
             this.zoomToExtent(extent);
         }
