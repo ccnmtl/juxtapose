@@ -88,8 +88,6 @@ export default class SpineDisplay extends React.Component {
             const percentage = this.props.spineVid.annotationStartTime /
                 this.props.duration;
             this.player.seekTo(percentage);
-        } else {
-            this.player.seekTo(0);
         }
     }
     onClickReviseSpine() {

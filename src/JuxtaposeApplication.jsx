@@ -424,8 +424,10 @@ export default class JuxtaposeApplication extends React.Component {
         }
     }
     onSpinePlay() {
+        // Make sure the spine video stays paused
         if (!this.state.playing) {
             this.setState({playing: true});
+            this.setState({playing: false});
         }
     }
     onSpinePause() {
