@@ -9,43 +9,48 @@ export default class ImagePlayer extends React.Component {
         super(props);
         this.map = undefined;
         this.mapId = 'image-player-' + Math.random().toString(16).slice(2);
-        
-        this.styles = {
-            'Polygon': [
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        color: '#ffffff',
-                        width: 4
+    }
+    styleFunction(feature) {
+        if (!this.styles) {
+            this.styles = {
+                'Polygon': [
+                    new ol.style.Style({
+                        stroke: new ol.style.Stroke({
+                            color: '#ffffff',
+                            width: 4
+                        }),
+                        fill: new ol.style.Fill({
+                            color: 'rgba(255,255,255,0)'
+                        })
                     }),
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255,255,255,0)'
-                    })
-                }),
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        color: '#905050', width: 2
-                    })
-                })
-            ],
-            'Point': [
-                new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 6,
-                        fill: null,
+                    new ol.style.Style({
                         stroke: new ol.style.Stroke({
-                            color: '#ffffff', width: 4})
+                            color: '#905050', width: 2
+                        })
                     })
-                }),
-                new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 6,
-                        fill: null,
-                        stroke: new ol.style.Stroke({
-                            color: '#905050', width: 2})
+                ],
+                'Point': [
+                    new ol.style.Style({
+                        image: new ol.style.Circle({
+                            radius: 6,
+                            fill: null,
+                            stroke: new ol.style.Stroke({
+                                color: '#ffffff', width: 4})
+                        })
+                    }),
+                    new ol.style.Style({
+                        image: new ol.style.Circle({
+                            radius: 6,
+                            fill: null,
+                            stroke: new ol.style.Stroke({
+                                color: '#905050', width: 2})
+                        })
                     })
-                })
-            ]
-        };
+                ]
+            };
+        }
+        const gtype = feature.getGeometry().getType();
+        return this.styles[gtype];
     }
     objectProportioned() {
         let dim = {w: 180, h: 90};
@@ -72,10 +77,6 @@ export default class ImagePlayer extends React.Component {
                attrs.hasOwnProperty('geometry') ||
                attrs.hasOwnProperty('xywh');
     }
-    styleFunction(feature) {
-        const gtype = feature.getGeometry().getType();
-        return this.styles[gtype];
-    }
     addVectorLayer(props, projection, attrs) {
         const formatter = new ol.format.GeoJSON({
             dataProjection: projection,
@@ -98,7 +99,7 @@ export default class ImagePlayer extends React.Component {
             this.center(coord[0], coord[1]);
             this.zoom(attrs.zoom);
         } else {
-            this.zoomToExtent(attrs.zoom);
+            this.zoomToExtent(projection.extent);
         }
     }
     addImageLayer(props, projection, extent) {
@@ -141,7 +142,7 @@ export default class ImagePlayer extends React.Component {
             this.addVectorLayer(this.props, projection, attrs);
         } else if (attrs.x !== undefined) {
             this.center(attrs.x, attrs.y);
-            this.zoom(attrs.zoom);
+            this.zoom(attrs.zoom - 1);
         } else {
             this.zoomToExtent(extent);
         }
