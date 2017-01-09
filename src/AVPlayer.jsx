@@ -27,17 +27,43 @@ export default class AVPlayer extends React.Component {
         const playing = isAboutToPlay ||
                         (!this.props.hidden && this.props.playing);
 
+        const youtubeConfig = {
+            playerVars: {
+                // Disable fullscreen
+                fs: 0,
+                // Disable keyboard controls
+                disablekb: 1,
+                // Hide video annotations
+                iv_load_policy: 3,
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0
+            }
+        };
+        const vimeoConfig = {
+            iframeParams: {
+                autopause: 0,
+                badge: 0,
+                byline: 0,
+                fullscreen: 0,
+                portrait: 0,
+                title: 0
+            }
+        };
+
         return <ReactPlayer
-            ref={(ref) => this.player = ref}
-            width={480}
-            height={360}
-            url={url}
-            volume={volume}
-            hidden={this.props.hidden}
-            onDuration={this.onDuration.bind(this)}
-            onStart={this.onStart.bind(this)}
-            playing={playing}
-        />;
+                   ref={(ref) => this.player = ref}
+                   width={480}
+                   height={360}
+                   url={url}
+                   volume={volume}
+                   hidden={this.props.hidden}
+                   onDuration={this.onDuration.bind(this)}
+                   onStart={this.onStart.bind(this)}
+                   playing={playing}
+                   youtubeConfig={youtubeConfig}
+                   vimeoConfig={vimeoConfig}
+               />;
     }
     onDuration(duration) {
         this.setState({duration: duration});
