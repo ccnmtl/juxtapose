@@ -61,6 +61,16 @@ export default class SpineDisplay extends React.Component {
                 showinfo: 0
             }
         };
+        const vimeoConfig = {
+            iframeParams: {
+                autopause: 0,
+                badge: 0,
+                byline: 0,
+                fullscreen: 0,
+                portrait: 0,
+                title: 0
+            }
+        };
 
         return <div className="jux-spine-display">
                 <ReactPlayer
@@ -78,6 +88,7 @@ export default class SpineDisplay extends React.Component {
                     onPause={this.props.onPause}
                     progressFrequency={50}
                     youtubeConfig={youtubeConfig}
+                    vimeoConfig={vimeoConfig}
                 />
                 {reviseButton}
                 {editSpineButton}
