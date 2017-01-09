@@ -76,7 +76,7 @@ export default class AVPlayer extends React.Component {
         }
     }
     seekTo(percentage) {
-        if (!this.player) {
+        if (!this.player || this.props.hidden) {
             return;
         }
 
