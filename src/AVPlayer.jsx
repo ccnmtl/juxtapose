@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import _ from 'lodash';
 
 
 /**
@@ -11,6 +12,7 @@ export default class AVPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {duration: null};
+        this.debouncedSeek = _.debounce(this.seekTo, 200);
     }
     render() {
         let url = this.props.data.source;
@@ -24,6 +26,9 @@ export default class AVPlayer extends React.Component {
         // time.
         const diff = this.props.data.start_time - this.props.time;
         const isAboutToPlay = diff > 0 && diff < 2;
+        if (isAboutToPlay) {
+            this.debouncedSeek(this.props.time / this.props.sequenceDuration);
+        }
         const playing = isAboutToPlay ||
                         (!this.props.hidden && this.props.playing);
 
