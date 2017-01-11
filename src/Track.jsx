@@ -52,7 +52,7 @@ export default class Track extends React.Component {
                                  x: xPos,
                                  y: 0,
                                  w: width,
-                                 h: 48
+                                 h: 49
                              }} />;
             items.push(item);
         });
