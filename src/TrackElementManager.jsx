@@ -1,7 +1,7 @@
 /* global jQuery */
 
 import React from 'react';
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 import {formatTimecode} from './utils.js';
 import TimecodeEditor from './TimecodeEditor.jsx';
 import DeleteElementModal from './DeleteElementModal.jsx';
@@ -12,7 +12,7 @@ export default class TrackElementManager extends React.Component {
         this.state = {
             showDeleteElementModal: false
         };
-        this.debouncedDisplayUpdatedTextNotice = _.debounce(
+        this.debouncedDisplayUpdatedTextNotice = debounce(
             this.displayUpdatedTextNotice, 1000);
     }
     render() {

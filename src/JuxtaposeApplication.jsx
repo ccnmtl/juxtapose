@@ -1,7 +1,11 @@
 /* global jQuery */
 
 import React from 'react';
-import _ from 'lodash';
+import isFinite from 'lodash/isFinite';
+import isString from 'lodash/isString';
+import find from 'lodash/find';
+import reject from 'lodash/reject';
+import sortBy from 'lodash/sortBy';
 import {
     collisionPresent, constrainEndTimeToAvailableSpace,
     getElement,
@@ -233,8 +237,8 @@ export default class JuxtaposeApplication extends React.Component {
             track = this.state.mediaTrack;
         }
 
-        const item = _.find(track, ['key', activeElement.key, 10]);
-        let newTrack = _.reject(track, ['key', item.key]);
+        const item = find(track, ['key', activeElement.key, 10]);
+        let newTrack = reject(track, ['key', item.key]);
 
         // If there's a collision present given the new start_time and
         // end_time, cancel this action.
@@ -242,26 +246,26 @@ export default class JuxtaposeApplication extends React.Component {
             collisionPresent(
                 newTrack,
                 this.sequenceDuration(),
-                (_.isFinite(newData.start_time) ?
+                (isFinite(newData.start_time) ?
                  newData.start_time : item.start_time),
-                (_.isFinite(newData.end_time) ?
+                (isFinite(newData.end_time) ?
                  newData.end_time : item.end_time))
         ) {
             return;
         }
 
-        if (_.isString(newData.source)) {
+        if (isString(newData.source)) {
             item.source = newData.source;
         }
-        if (_.isFinite(newData.start_time)) {
+        if (isFinite(newData.start_time)) {
             item.start_time = newData.start_time;
         }
-        if (_.isFinite(newData.end_time)) {
+        if (isFinite(newData.end_time)) {
             item.end_time = newData.end_time;
         }
 
         newTrack.push(item);
-        newTrack = _.sortBy(newTrack, 'key');
+        newTrack = sortBy(newTrack, 'key');
 
         if (activeElement.type === 'txt') {
             this.setState({textTrack: newTrack});
@@ -280,7 +284,7 @@ export default class JuxtaposeApplication extends React.Component {
             startTime, startTime + 30,
             this.sequenceDuration(), this.state.textTrack);
 
-        if (!_.isFinite(endTime)) {
+        if (!isFinite(endTime)) {
             return;
         }
 
@@ -594,7 +598,7 @@ export default class JuxtaposeApplication extends React.Component {
                 self.sequenceDuration(),
                 self.state.mediaTrack);
 
-            if (!_.isFinite(endTime)) {
+            if (!isFinite(endTime)) {
                 return;
             }
 

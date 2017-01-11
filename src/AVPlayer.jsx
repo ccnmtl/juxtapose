@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 import BasePlayer from './BasePlayer.jsx';
 
 
@@ -13,7 +13,7 @@ export default class AVPlayer extends BasePlayer {
     constructor(props) {
         super(props);
         this.state = {duration: null};
-        this.debouncedSeek = _.debounce(this.seekTo, 200, {
+        this.debouncedSeek = debounce(this.seekTo, 200, {
             leading: true,
             trailing: false
         });
