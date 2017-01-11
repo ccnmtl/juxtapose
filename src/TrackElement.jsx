@@ -90,3 +90,15 @@ export default class TrackElement extends React.Component {
         this.props.onEditButtonClick(e, this);
     }
 }
+
+TrackElement.propTypes = {
+    className: React.PropTypes.string.isRequired,
+    data: React.PropTypes.object.isRequired,
+    dragging: React.PropTypes.bool.isRequired,
+    isActive: React.PropTypes.bool.isRequired,
+    style: React.PropTypes.object,
+    onEditButtonClick: React.PropTypes.func,
+    onMouseDown: React.PropTypes.func,
+    onTouchEnd: React.PropTypes.func,
+    onTouchStart: React.PropTypes.func
+};

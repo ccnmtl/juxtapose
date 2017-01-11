@@ -1,8 +1,8 @@
+/* global jQuery */
+
 import React from 'react';
 import _ from 'lodash';
-import {
-    formatTimecode, getMinutes, getSeconds, getCentiseconds
-} from './utils.js';
+import {formatTimecode} from './utils.js';
 import TimecodeEditor from './TimecodeEditor.jsx';
 import DeleteElementModal from './DeleteElementModal.jsx';
 
@@ -105,10 +105,10 @@ export default class TrackElementManager extends React.Component {
         e.preventDefault();
         this.setState({showDeleteElementModal: true});
     }
-    onDeleteCloseClick(e) {
+    onDeleteCloseClick() {
         this.setState({showDeleteElementModal: false});
     }
-    onDeleteConfirmClick(e) {
+    onDeleteConfirmClick() {
         this.props.onDeleteClick();
         this.setState({showDeleteElementModal: false});
     }
@@ -130,3 +130,10 @@ export default class TrackElementManager extends React.Component {
         this.props.onChange(this.props.activeElement, {end_time: newTime});
     }
 }
+
+TrackElementManager.propTypes = {
+    activeElement: React.PropTypes.array.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    onDeleteClick: React.PropTypes.func.isRequired,
+    onEditClick: React.PropTypes.func.isRequired
+};

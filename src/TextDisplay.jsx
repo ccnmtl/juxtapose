@@ -15,3 +15,8 @@ export default class TextDisplay extends React.Component {
         return <div className="jux-text-display-container"><div className="jux-text-display">{txt}</div></div>;
     }
 }
+
+TextDisplay.propTypes = {
+    data: React.PropTypes.object.isRequired,
+    time: React.PropTypes.number.isRequired
+};

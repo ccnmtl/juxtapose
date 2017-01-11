@@ -7,3 +7,7 @@ export default class VidItemThumb extends React.Component {
         }}></div>;
     }
 }
+
+VidItemThumb.propTypes = {
+    url: React.PropTypes.string.isRequired
+};

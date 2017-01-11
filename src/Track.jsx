@@ -84,14 +84,13 @@ export default class Track extends React.Component {
         return null;
     }
     render() {
-        const duration = this.props.duration;
         const cssClasses = "jux-track-container jux-" + this.type;
         const displayHelpTxt =
             this.props.data.length === 0 ? 'block': 'none';
-        
+
         return <div className={cssClasses}>
                     <div className="track-icon"></div>
-	            <div className="jux-track">
+                <div className="jux-track">
                     <div className="jux-track-instructions"
                         style={{'display': displayHelpTxt}}>
                         {this.helpText}
@@ -112,10 +111,18 @@ export default class Track extends React.Component {
                         preventCollision={true}>
                         {this.generateItems(this.props.data)}
                     </ReactGridLayout>
-		    </div>
+            </div>
         </div>;
     }
     onAddWithoutPrimaryVid() {
         this.props.onAddWithoutPrimaryVid();
     }
 }
+
+Track.propTypes = {
+    data: React.PropTypes.object.isRequired,
+    duration: React.PropTypes.number.isRequired,
+    onAddWithoutPrimaryVid: React.PropTypes.func,
+    onDragStop: React.PropTypes.func.isRequired,
+    onTrackEditButtonClick: React.PropTypes.func.isRequired
+};

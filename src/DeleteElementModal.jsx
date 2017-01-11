@@ -24,3 +24,9 @@ export default class DeleteElementModal extends React.Component {
         </Modal>;
     }
 }
+
+DeleteElementModal.propTypes = {
+    onCloseClick: React.PropTypes.func.isRequired,
+    onConfirmClick: React.PropTypes.func.isRequired,
+    showing: React.PropTypes.bool.isRequired
+};

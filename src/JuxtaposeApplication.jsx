@@ -1,5 +1,6 @@
+/* global jQuery */
+
 import React from 'react';
-import ReactGridLayout from 'react-grid-layout';
 import _ from 'lodash';
 import {
     collisionPresent, constrainEndTimeToAvailableSpace,
@@ -73,7 +74,7 @@ export default class JuxtaposeApplication extends React.Component {
             }
         });
 
-        document.addEventListener('sequenceassignment.save', function(e) {
+        document.addEventListener('sequenceassignment.save', function() {
             self.onSaveClick();
         });
 
@@ -321,7 +322,7 @@ export default class JuxtaposeApplication extends React.Component {
         jQuery(window).trigger('sequenceassignment.set_dirty',
                                {dirty: true});
     }
-    onPlayClick(e) {
+    onPlayClick() {
         const newState = !this.state.playing;
         this.setState({playing: newState})
     }
@@ -390,7 +391,7 @@ export default class JuxtaposeApplication extends React.Component {
      * PMT #109344
      */
     onSpineDuration(duration) {
-        this.setState((prevState, props) => {
+        this.setState((prevState) => {
             return {
                 duration: duration,
                 mediaTrack: removeOutOfBoundsElements(
@@ -414,7 +415,7 @@ export default class JuxtaposeApplication extends React.Component {
                 time = Math.min(time, this.sequenceDuration());
             }
 
-            this.setState((prevState, props) => {
+            this.setState((prevState) => {
                 return {
                     time: time,
                     currentSecondaryElement: getElement(
@@ -452,7 +453,7 @@ export default class JuxtaposeApplication extends React.Component {
             window.MediaThread.current_project,
             this.state.mediaTrack,
             this.state.textTrack
-        ).then(function(e) {
+        ).then(function() {
             jQuery(window).trigger(
                 'sequenceassignment.on_save_success', {
                     submittable: self.isBaselineWorkCompleted()
@@ -467,7 +468,7 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onOutOfBoundsConfirmClick() {
         const newSpine = this.state.tmpSpineVid;
-        this.setState((prevState, props) => {
+        this.setState((prevState) => {
             return {
                 showOutOfBoundsModal: false,
                 mediaTrack: removeOutOfBoundsElements(
@@ -634,3 +635,9 @@ export default class JuxtaposeApplication extends React.Component {
         });
     }
 }
+
+JuxtaposeApplication.propTypes = {
+    primaryInstructions: React.PropTypes.string.isRequired,
+    readOnly: React.PropTypes.bool.isRequired,
+    secondaryInstructions: React.PropTypes.string.isRequired
+};

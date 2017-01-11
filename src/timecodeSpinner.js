@@ -1,3 +1,5 @@
+/* global jQuery */
+
 import {formatTimecode, parseTimecode} from './utils.js';
 
 export function defineTimecodeSpinner() {

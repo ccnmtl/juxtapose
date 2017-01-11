@@ -41,3 +41,10 @@ export default class TextAnnotationAdder extends React.Component {
         </Modal>;
     }
 }
+
+TextAnnotationAdder.propTypes = {
+    onCloseClick: React.PropTypes.func.isRequired,
+    onSubmit: React.PropTypes.func.isRequired,
+    showing: React.PropTypes.bool.isRequired,
+    timestamp: React.PropTypes.number.isRequired
+};

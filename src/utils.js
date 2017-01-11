@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const getYouTubeID = require('get-youtube-id');
+import getYouTubeID from 'get-youtube-id';
 
 /**
  * Returns true if the given elements collide. Only looks at
@@ -128,7 +128,7 @@ export function ellipsis(str, limit, append) {
     } else {
         return sanitized;
     }
-};
+}
 
 /**
  * extractDuration

@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 import {
     collisionPresent, constrainEndTimeToAvailableSpace,
     getElement,

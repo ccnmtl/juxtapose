@@ -13,3 +13,8 @@ export default class PlayButton extends React.Component {
         </button>;
     }
 }
+
+PlayButton.propTypes = {
+    onClick: React.PropTypes.func.isRequired,
+    playing: React.PropTypes.bool.isRequired
+};
