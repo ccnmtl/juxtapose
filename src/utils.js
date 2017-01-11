@@ -1,4 +1,8 @@
-import _ from 'lodash';
+import isFinite from 'lodash/isFinite';
+import cloneDeep from 'lodash/cloneDeep';
+import find from 'lodash/find';
+import reject from 'lodash/reject';
+import sortBy from 'lodash/sortBy';
 
 import getYouTubeID from 'get-youtube-id';
 
@@ -350,7 +354,7 @@ export function parseTimecode(str) {
     const col1 = Number(parts[0]);
     const col2 = Number(parts[1]);
     const col3 = Number(parts[2]);
-    if (_.isFinite(col1) && _.isFinite(col2) && _.isFinite(col3)) {
+    if (isFinite(col1) && isFinite(col2) && isFinite(col3)) {
         return (col1 * 60) + col2 + (col3 / 100);
     } else {
         return null;
@@ -367,7 +371,7 @@ export function pad2(number) {
 }
 
 export function prepareMediaData(array) {
-    let a = _.cloneDeep(array);
+    let a = cloneDeep(array);
     for (let e of a) {
         e.media = e.media;
         delete e.host;
@@ -377,7 +381,7 @@ export function prepareMediaData(array) {
 }
 
 export function prepareTextData(array) {
-    let a = _.cloneDeep(array);
+    let a = cloneDeep(array);
     for (let e of a) {
         e.text = e.source;
         delete e.source;
@@ -455,9 +459,9 @@ export function trackItemDragHandler(origTrack, item, sequenceDuration) {
         return null;
     }
 
-    const origElem = _.find(origTrack, ['key', parseInt(item['i'], 10)]);
+    const origElem = find(origTrack, ['key', parseInt(item['i'], 10)]);
     let newTrack = origTrack.slice();
-    const elem = _.find(newTrack, ['key', parseInt(item['i'], 10)]);
+    const elem = find(newTrack, ['key', parseInt(item['i'], 10)]);
     const percent = item.x / 1000;
     const startTime = percent * sequenceDuration;
 
@@ -474,8 +478,8 @@ export function trackItemDragHandler(origTrack, item, sequenceDuration) {
     elem.start_time = startTime;
     elem.end_time = elem.start_time + len;
 
-    newTrack = _.reject(newTrack, ['key', elem.key]);
+    newTrack = reject(newTrack, ['key', elem.key]);
     newTrack.push(elem);
-    newTrack = _.sortBy(newTrack, 'key');
+    newTrack = sortBy(newTrack, 'key');
     return newTrack;
 }

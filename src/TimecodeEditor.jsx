@@ -1,7 +1,7 @@
 /* global jQuery */
 
 import React from 'react';
-import _ from 'lodash';
+import isFinite from 'lodash/isFinite';
 import {formatTimecode, parseTimecode} from './utils.js';
 
 /**
@@ -29,7 +29,7 @@ export default class TimecodeEditor extends React.Component {
         jQuery(this.refs.spinner).timecodespinner({
             change: function(e) {
                 const seconds = parseTimecode(e.target.value);
-                if (_.isFinite(seconds)) {
+                if (isFinite(seconds)) {
                     self.props.onChange(seconds);
                 }
 
@@ -42,7 +42,7 @@ export default class TimecodeEditor extends React.Component {
             },
             spin: function(e, ui) {
                 const seconds = ui.value / 100;
-                if (_.isFinite(seconds)) {
+                if (isFinite(seconds)) {
                     self.props.onChange(seconds);
                 }
                 if (self.props.timecode !== self.refs.spinner.value) {
