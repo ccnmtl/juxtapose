@@ -13,7 +13,10 @@ export default class AVPlayer extends BasePlayer {
     constructor(props) {
         super(props);
         this.state = {duration: null};
-        this.debouncedSeek = _.debounce(this.seekTo, 200);
+        this.debouncedSeek = _.debounce(this.seekTo, 200, {
+            leading: true,
+            trailing: false
+        });
     }
     render() {
         let url = this.props.data.source;
@@ -78,7 +81,12 @@ export default class AVPlayer extends BasePlayer {
         const newPercentage = (
             time - e.start_time + (e.annotationStartTime || 0)
         ) / this.state.duration;
-        if (newPercentage >= 0 && newPercentage <= 100) {
+
+        // The percentage may be less than 0 if the selection starts
+        // at point 0 of the video asset.
+        // A value of 1 would mean the entire length of the video, so
+        // ignore anything greater than 1.
+        if (newPercentage > -1 && newPercentage <= 1) {
             this.player.seekTo(newPercentage);
         }
     }
