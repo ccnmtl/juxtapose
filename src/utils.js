@@ -69,7 +69,8 @@ export function collisionPresent(track, duration, start_time, end_time) {
  *
  * @return {Number}
  *     The new end time, constrained based on the track data and
- *     sequence duration.
+ *     sequence duration. Returns null if a valid end time isn't
+ *     possible, based on the requested start time and track state.
  */
 export function constrainEndTimeToAvailableSpace(
     requestedStartTime, requestedEndTime, sequenceDuration, track, idx
@@ -93,7 +94,14 @@ export function constrainEndTimeToAvailableSpace(
         }
 
         if (elementsCollide(requestedEl, track[i])) {
-            return track[i].start_time;
+            // If we're going to use another element's start time as
+            // the end time, make sure it's greater than the
+            // requestedStartTime.
+            if (track[i].start_time > requestedStartTime) {
+                return track[i].start_time;
+            } else {
+                return null;
+            }
         }
     }
 

@@ -276,9 +276,14 @@ export default class JuxtaposeApplication extends React.Component {
         let newTrack = this.state.textTrack.slice();
         const newItemKey = newTrack.length;
         const startTime = timecode;
-        const endTime =  constrainEndTimeToAvailableSpace(
+        const endTime = constrainEndTimeToAvailableSpace(
             startTime, startTime + 30,
             this.sequenceDuration(), this.state.textTrack);
+
+        if (!_.isFinite(endTime)) {
+            return;
+        }
+
         newTrack.push({
             key: newItemKey,
             start_time: startTime,
@@ -588,6 +593,11 @@ export default class JuxtaposeApplication extends React.Component {
                 timecode, timecode + ctx.duration,
                 self.sequenceDuration(),
                 self.state.mediaTrack);
+
+            if (!_.isFinite(endTime)) {
+                return;
+            }
+
             newTrack.push({
                 key: newItemKey,
                 start_time: timecode,
