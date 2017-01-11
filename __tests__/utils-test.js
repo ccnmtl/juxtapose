@@ -74,7 +74,7 @@ describe('constrainEndTimeToAvailableSpace', () => {
         }];
         expect(
             constrainEndTimeToAvailableSpace(0.22, 0.66, 10, track)
-        ).toBe(0);
+        ).toBeNull();
 
         track = [{
             start_time: 0.5,
@@ -98,6 +98,26 @@ describe('constrainEndTimeToAvailableSpace', () => {
         ).toBe(6);
         expect(
             constrainEndTimeToAvailableSpace(5.1, 6, 10, track)
+        ).toBe(6);
+
+        track = [
+            {
+                start_time: 0.5,
+                end_time: 5
+            }, {
+                start_time: 6,
+                end_time: 8
+            },
+            {
+                start_time: 8,
+                end_time: 100
+            }
+        ];
+        expect(
+            constrainEndTimeToAvailableSpace(9, 20, 100, track)
+        ).toBeNull();
+        expect(
+            constrainEndTimeToAvailableSpace(5.1, 6, 100, track)
         ).toBe(6);
     });
     it('ignore element at passed index', () => {
