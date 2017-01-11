@@ -33,7 +33,7 @@ export default class MediaDisplay extends React.Component {
                            url={e.source}
                            width={e.width}
                            height={e.height}
-                           hidden={!showing}           
+                           hidden={!showing}
                            annotationData={e.annotationData}
                        />);
             } else {
@@ -82,9 +82,9 @@ export default class MediaDisplay extends React.Component {
 }
 
 MediaDisplay.propTypes = {
-    data: React.PropTypes.object.isRequired,
-    duration: React.PropTypes.number.isRequired,    
+    data: React.PropTypes.array.isRequired,
+    duration: React.PropTypes.number,
     instructions: React.PropTypes.string.isRequired,
     playing: React.PropTypes.bool.isRequired,
-    time: React.PropTypes.number.isRequired    
+    time: React.PropTypes.number
 };

@@ -120,8 +120,8 @@ export default class Track extends React.Component {
 }
 
 Track.propTypes = {
-    data: React.PropTypes.object.isRequired,
-    duration: React.PropTypes.number.isRequired,
+    data: React.PropTypes.array.isRequired,
+    duration: React.PropTypes.number,
     onAddWithoutPrimaryVid: React.PropTypes.func,
     onDragStop: React.PropTypes.func.isRequired,
     onTrackEditButtonClick: React.PropTypes.func.isRequired
