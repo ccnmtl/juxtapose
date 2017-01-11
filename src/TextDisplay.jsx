@@ -17,6 +17,6 @@ export default class TextDisplay extends React.Component {
 }
 
 TextDisplay.propTypes = {
-    data: React.PropTypes.object.isRequired,
-    time: React.PropTypes.number.isRequired
+    data: React.PropTypes.array.isRequired,
+    time: React.PropTypes.number
 };

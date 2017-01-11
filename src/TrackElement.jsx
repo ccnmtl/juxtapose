@@ -92,9 +92,9 @@ export default class TrackElement extends React.Component {
 }
 
 TrackElement.propTypes = {
-    className: React.PropTypes.string.isRequired,
+    className: React.PropTypes.string,
     data: React.PropTypes.object.isRequired,
-    dragging: React.PropTypes.bool.isRequired,
+    dragging: React.PropTypes.bool,
     isActive: React.PropTypes.bool.isRequired,
     style: React.PropTypes.object,
     onEditButtonClick: React.PropTypes.func,

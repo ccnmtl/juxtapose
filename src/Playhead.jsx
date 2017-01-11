@@ -34,8 +34,8 @@ export default class Playhead extends React.Component {
 }
 
 Playhead.propTypes = {
-    currentTime: React.PropTypes.number.isRequired,
-    duration: React.PropTypes.number.isRequired,
+    currentTime: React.PropTypes.number,
+    duration: React.PropTypes.number,
     onChange: React.PropTypes.func.isRequired,
     onMouseDown: React.PropTypes.func.isRequired,
     onMouseUp: React.PropTypes.func.isRequired

@@ -132,7 +132,7 @@ export default class TrackElementManager extends React.Component {
 }
 
 TrackElementManager.propTypes = {
-    activeElement: React.PropTypes.array.isRequired,
+    activeElement: React.PropTypes.object,
     onChange: React.PropTypes.func.isRequired,
     onDeleteClick: React.PropTypes.func.isRequired,
     onEditClick: React.PropTypes.func.isRequired

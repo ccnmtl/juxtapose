@@ -59,5 +59,5 @@ export default class TimelineRuler extends React.Component {
 }
 
 TimelineRuler.propTypes = {
-    duration: React.PropTypes.number.isRequired
+    duration: React.PropTypes.number
 };

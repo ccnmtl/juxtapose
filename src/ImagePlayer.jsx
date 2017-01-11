@@ -173,7 +173,7 @@ export default class ImagePlayer extends React.Component {
 }
 
 ImagePlayer.propTypes = {
-    annotationData: React.PropTypes.object.isRequired,
+    annotationData: React.PropTypes.string.isRequired,
     height: React.PropTypes.number.isRequired,
     hidden: React.PropTypes.bool.isRequired,
     url: React.PropTypes.string.isRequired,
