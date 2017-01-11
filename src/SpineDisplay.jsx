@@ -1,9 +1,10 @@
 import React from 'react';
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player';
+import BasePlayer from './BasePlayer.jsx';
 import {createCollectionWidget} from './mediathreadCollection.js';
 import {editAnnotationWidget} from './mediathreadCollection.js';
 
-export default class SpineDisplay extends React.Component {
+export default class SpineDisplay extends BasePlayer {
     constructor(props) {
         super(props);
         this.id = 'jux-spine-video';
@@ -48,30 +49,6 @@ export default class SpineDisplay extends React.Component {
                 </button>;
         }
 
-        const youtubeConfig = {
-            playerVars: {
-                // Disable fullscreen
-                fs: 0,
-                // Disable keyboard controls
-                disablekb: 1,
-                // Hide video annotations
-                iv_load_policy: 3,
-                modestbranding: 1,
-                rel: 0,
-                showinfo: 0
-            }
-        };
-        const vimeoConfig = {
-            iframeParams: {
-                autopause: 0,
-                badge: 0,
-                byline: 0,
-                fullscreen: 0,
-                portrait: 0,
-                title: 0
-            }
-        };
-
         return <div className="jux-spine-display">
                 <ReactPlayer
                     id={this.id}
@@ -87,8 +64,8 @@ export default class SpineDisplay extends React.Component {
                     onPlay={this.props.onPlay}
                     onPause={this.props.onPause}
                     progressFrequency={50}
-                    youtubeConfig={youtubeConfig}
-                    vimeoConfig={vimeoConfig}
+                    youtubeConfig={this.youtubeConfig}
+                    vimeoConfig={this.vimeoConfig}
                 />
                 {reviseButton}
                 {editSpineButton}
