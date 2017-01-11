@@ -13,13 +13,20 @@ export default class MediaDisplay extends React.Component {
     componentWillUpdate(nextProps) {
         this.generatePlayers(nextProps.data);
     }
+    /**
+     * Returns true if the element should be shown based on the
+     * current timeframe.
+     */
+    isElementShowing(e) {
+       return this.props.time >= e.start_time &&
+              this.props.time <= e.end_time;
+    }
     generatePlayers(mediaTrack) {
         this.players = [];
         this.mediaPlayerNodes = [];
         for (let i = 0; i < mediaTrack.length; i++) {
             let e = mediaTrack[i];
-            let showing = this.props.time >= e.start_time &&
-                          this.props.time <= e.end_time;
+            let showing = this.isElementShowing(e);
             if (e.type === 'img') {
                 this.players.push(<ImagePlayer
                            key={i}
