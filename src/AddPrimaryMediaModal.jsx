@@ -20,3 +20,8 @@ export default class AddPrimaryMediaModal extends React.Component {
         </Modal>;
     }
 }
+
+AddPrimaryMediaModal.propTypes = {
+    onCloseClick: React.PropTypes.func.isRequired,
+    showing: React.PropTypes.bool.isRequired
+};

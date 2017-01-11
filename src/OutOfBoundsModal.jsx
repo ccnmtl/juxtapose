@@ -25,3 +25,9 @@ export default class OutOfBoundsModal extends React.Component {
         </Modal>;
     }
 }
+
+OutOfBoundsModal.propTypes = {
+    onCloseClick: React.PropTypes.func.isRequired,
+    onConfirmClick: React.PropTypes.func.isRequired,
+    showing: React.PropTypes.bool.isRequired
+};

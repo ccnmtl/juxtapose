@@ -10,7 +10,7 @@ export default class MediaDisplay extends React.Component {
         this.players = [];
         this.mediaPlayerNodes = [];
     }
-    componentWillUpdate(nextProps, nextState) {
+    componentWillUpdate(nextProps) {
         this.generatePlayers(nextProps.data);
     }
     generatePlayers(mediaTrack) {
@@ -73,3 +73,11 @@ export default class MediaDisplay extends React.Component {
         });
     }
 }
+
+MediaDisplay.propTypes = {
+    data: React.PropTypes.object.isRequired,
+    duration: React.PropTypes.number.isRequired,    
+    instructions: React.PropTypes.string.isRequired,
+    playing: React.PropTypes.bool.isRequired,
+    time: React.PropTypes.number.isRequired    
+};

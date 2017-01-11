@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import JuxtaposeApplication from '../src/JuxtaposeApplication.jsx';

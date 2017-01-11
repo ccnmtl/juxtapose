@@ -10,3 +10,8 @@ export default class TrackElementAddColumn extends React.Component {
                ></div>;
     }
 }
+
+TrackElementAddColumn.propTypes = {
+    absoluteTimecode: React.PropTypes.number.isRequired,
+    callbackParent: React.PropTypes.func.isRequired
+};

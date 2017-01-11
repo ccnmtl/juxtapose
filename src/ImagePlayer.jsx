@@ -1,5 +1,5 @@
 import React from 'react';
-const ol = require('openlayers');
+import ol from 'openlayers';
 
 // http://stackoverflow.com/questions/35454014/clicks-on-reactjs-components-not-firing-on-an-openlayers-overlay
 // https://github.com/openlayers/ol3/issues/6087
@@ -118,10 +118,10 @@ export default class ImagePlayer extends React.Component {
         }
 
         let attrs = JSON.parse(this.props.annotationData);
-        attrs.type = 'Feature'; // required for ol2 > ol3 migration 
-        
+        attrs.type = 'Feature'; // required for ol2 > ol3 migration
+
         const extent = this.objectProportioned();
-        
+
         const projection = new ol.proj.Projection({
             units: 'pixels',
             extent: extent
@@ -147,18 +147,18 @@ export default class ImagePlayer extends React.Component {
             this.zoomToExtent(extent);
         }
     }
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         const shouldUpdate = (this.map === undefined && !nextProps.hidden) ||
                               this.props.annotationData !== nextProps.annotationData ||
                               this.props.hidden !== nextProps.hidden;
-        
+
         // destroy the map if annotation data is changing
         if (this.map &&
                 this.props.annotationData !== nextProps.annotationData) {
             this.map.setTarget(null);
             delete this.map;
         }
-        
+
         return shouldUpdate;
     }
     render() {
@@ -171,3 +171,11 @@ export default class ImagePlayer extends React.Component {
         this.initializeMap();
     }
 }
+
+ImagePlayer.propTypes = {
+    annotationData: React.PropTypes.object.isRequired,
+    height: React.PropTypes.number.isRequired,
+    hidden: React.PropTypes.bool.isRequired,
+    url: React.PropTypes.string.isRequired,
+    width: React.PropTypes.number.isRequired
+};

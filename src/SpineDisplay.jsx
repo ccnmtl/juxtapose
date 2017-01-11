@@ -85,7 +85,7 @@ export default class SpineDisplay extends BasePlayer {
         };
         createCollectionWidget('video', true, caller);
     }
-    onClickEditSpine(e) {
+    onClickEditSpine() {
         let caller = {
             'type': 'spine',
         };

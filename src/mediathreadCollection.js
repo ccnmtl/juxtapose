@@ -1,3 +1,5 @@
+/* global jQuery */
+
 /**
  * Functions for managing Mediathread's CollectionWidget.
  *
