@@ -32,7 +32,7 @@ export default class SpineDisplay extends BasePlayer {
 
         let reviseButton = '';
         let editSpineButton = '';
-        if (!this.props.readOnly) {
+        if (!this.props.submitted) {
             reviseButton =
                 <button className="btn btn-default jux-spine-revise"
                         title="Revise primary video"

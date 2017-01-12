@@ -137,7 +137,7 @@ export default class JuxtaposeApplication extends React.Component {
     render() {
         const activeElement = this.getItem(this.state.activeElement);
         let tracks = '';
-        if (!this.props.readOnly) {
+        if (!this.props.submitted) {
             tracks = <span>
     <MediaTrack
         duration={this.sequenceDuration()}
@@ -159,12 +159,28 @@ export default class JuxtaposeApplication extends React.Component {
             </span>;
         }
 
+        let mediaDisplay = '';
+
+        const centerPrimary =  !(this.hasMediaElements() || !this.props.submitted);
+        if (!centerPrimary) {
+            mediaDisplay =
+                <MediaDisplay
+                    ref={(c) => this._mediaDisplay = c}
+                    time={this.state.time}
+                    duration={this.sequenceDuration()}
+                    data={this.state.mediaTrack}
+                    playing={this.state.playing}
+                    currentElement={this.state.currentSecondaryElement}
+                    instructions={this.props.secondaryInstructions}
+                />;
+        }
+
         return <div className="jux-container">
-           <div className="vid-container">
+           <div className="jux-vid-container">
                 <SpineDisplay
                     spineVid={this.state.spineVid}
                     ref={(c) => this._primaryVid = c}
-                    readOnly={this.props.readOnly}
+                    submitted={this.props.submitted}
                     duration={this.state.duration}
                     onDuration={this.onSpineDuration.bind(this)}
                     onEnded={this.onSpineVideoEnded.bind(this)}
@@ -174,15 +190,10 @@ export default class JuxtaposeApplication extends React.Component {
                     onPause={this.onSpinePause.bind(this)}
                     instructions={this.props.primaryInstructions}
                 />
-                <MediaDisplay
-                    ref={(c) => this._mediaDisplay = c}
-                    time={this.state.time}
-                    duration={this.sequenceDuration()}
-                    data={this.state.mediaTrack}
-                    playing={this.state.playing}
-                    currentElement={this.state.currentSecondaryElement}
-                    instructions={this.props.secondaryInstructions}
-                />
+                <div style={{
+                    'display': centerPrimary ? 'none' : 'block'
+                }} className="jux-media-separator"></div>
+                {mediaDisplay}
             </div>
             <TextDisplay time={this.state.time}
                          duration={this.sequenceDuration()}
@@ -386,7 +397,9 @@ export default class JuxtaposeApplication extends React.Component {
             this.state.spineVid.annotationStartTime || 0);
         const percentage = x / this.state.duration;
         this._primaryVid.player.seekTo(percentage);
-        this._mediaDisplay.seekTo(percentage);
+        if (this._mediaDisplay) {
+            this._mediaDisplay.seekTo(percentage);
+        }
     }
     onSpineVideoEnded() {
         this.setState({playing: false});
@@ -652,10 +665,13 @@ export default class JuxtaposeApplication extends React.Component {
             });
         });
     }
+    hasMediaElements() {
+        return this.state.mediaTrack.length > 0;
+    }
 }
 
 JuxtaposeApplication.propTypes = {
     primaryInstructions: React.PropTypes.string.isRequired,
-    readOnly: React.PropTypes.bool.isRequired,
-    secondaryInstructions: React.PropTypes.string.isRequired
+    secondaryInstructions: React.PropTypes.string.isRequired,
+    submitted: React.PropTypes.bool.isRequired
 };
