@@ -60,7 +60,7 @@ export default class AVPlayer extends BasePlayer {
         this.setState({duration: duration});
     }
     onPlay() {
-        if (!this.props.playing) {
+        if (!this.props.playing && !this.props.hidden) {
             this.pause();
         }
     }
