@@ -288,8 +288,6 @@ export default class JuxtaposeApplication extends React.Component {
                                {dirty: true});
     }
     onTextTrackElementAdd(txt, timecode) {
-        let newTrack = this.state.textTrack.slice();
-        const newItemKey = newTrack.length;
         const placement = findPlacement(
             timecode, timecode + 30,
             this.sequenceDuration(), this.state.textTrack);
@@ -298,6 +296,8 @@ export default class JuxtaposeApplication extends React.Component {
             return;
         }
 
+        let newTrack = this.state.textTrack.slice();
+        const newItemKey = newTrack.length;
         newTrack.push({
             key: newItemKey,
             start_time: placement.start,

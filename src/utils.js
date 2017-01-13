@@ -66,23 +66,25 @@ export function constrainStartTimeToAvailableSpace(
         throw new Error('A sequence must have a duration.');
     }
 
+    let sortedTrack = sortBy(track.slice(), 'start_time');
+
     const requestedEl = {
         start_time: requestedStartTime,
         end_time: requestedEndTime
     };
-    for (let i=0; i < track.length; i++) {
-        if (elementsCollide(requestedEl, track[i])) {
+    for (let i=0; i < sortedTrack.length; i++) {
+        if (elementsCollide(requestedEl, sortedTrack[i])) {
             // There isn't a startTime collision, let it fall
             // through.
-            if (requestedStartTime < track[i].start_time) {
+            if (requestedStartTime < sortedTrack[i].start_time) {
                 continue;
             }
 
             // If we're going to use another element's end time as
             // the start time, make sure it's less than the
             // requestedEndTime.
-            if (track[i].end_time < requestedEndTime) {
-                return track[i].end_time;
+            if (sortedTrack[i].end_time < requestedEndTime) {
+                return sortedTrack[i].end_time;
             } else {
                 return null;
             }
@@ -124,22 +126,24 @@ export function constrainEndTimeToAvailableSpace(
         throw new Error('A sequence must have a duration.');
     }
 
+    let sortedTrack = sortBy(track.slice(), 'start_time');
+
     const requestedEl = {
         start_time: requestedStartTime,
         end_time: requestedEndTime
     };
-    for (let i=0; i < track.length; i++) {
+    for (let i=0; i < sortedTrack.length; i++) {
         // ignore the element at idx
         if (i === idx) {
             continue;
         }
 
-        if (elementsCollide(requestedEl, track[i])) {
+        if (elementsCollide(requestedEl, sortedTrack[i])) {
             // If we're going to use another element's start time as
             // the end time, make sure it's greater than the
             // requestedStartTime.
-            if (track[i].start_time > requestedStartTime) {
-                return track[i].start_time;
+            if (sortedTrack[i].start_time > requestedStartTime) {
+                return sortedTrack[i].start_time;
             } else {
                 return null;
             }

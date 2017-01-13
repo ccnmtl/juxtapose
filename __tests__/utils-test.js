@@ -275,6 +275,29 @@ describe('findPlacement', () => {
             findPlacement(5.1, 6, 100, track)
         ).toEqual({start: 5.1, end: 6});
     });
+    it('correctly places the element with out of order data', () => {
+        let track = [
+            {
+                start_time: 32.92,
+                end_time: 50.92
+            },
+            {
+                start_time: 50.92,
+                end_time: 79.92
+            },
+            {
+                start_time: 140,
+                end_time: 170
+            },
+            {
+                start_time: 30.919,
+                end_time: 39.92
+            }
+        ];
+        expect(
+            findPlacement(29, 59, 268, track)
+        ).toEqual({start: 29, end: 30.919});
+    });
 });
 
 describe('elementsCollide', () => {
