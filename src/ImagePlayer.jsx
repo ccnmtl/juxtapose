@@ -141,7 +141,7 @@ export default class ImagePlayer extends React.Component {
         }
     }
     shouldComponentUpdate(nextProps) {
-        return this.map === undefined && !nextProps.hidden) ||
+        return this.map === undefined && !nextProps.hidden ||
                this.props.annotationData !== nextProps.annotationData ||
                this.props.hidden !== nextProps.hidden;
     }
