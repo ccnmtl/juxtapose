@@ -55,6 +55,43 @@ export function collisionPresent(track, duration, start_time, end_time) {
     return false;
 }
 
+export function constrainStartTimeToAvailableSpace(
+    requestedStartTime, requestedEndTime, sequenceDuration, track
+) {
+    if (requestedEndTime <= requestedStartTime) {
+        throw new Error('end time must be greater than start time.');
+    }
+
+    if (!sequenceDuration) {
+        throw new Error('A sequence must have a duration.');
+    }
+
+    const requestedEl = {
+        start_time: requestedStartTime,
+        end_time: requestedEndTime
+    };
+    for (let i=0; i < track.length; i++) {
+        if (elementsCollide(requestedEl, track[i])) {
+            // There isn't a startTime collision, let it fall
+            // through.
+            if (requestedStartTime < track[i].start_time) {
+                continue;
+            }
+
+            // If we're going to use another element's end time as
+            // the start time, make sure it's less than the
+            // requestedEndTime.
+            if (track[i].end_time < requestedEndTime) {
+                return track[i].end_time;
+            } else {
+                return null;
+            }
+        }
+    }
+
+    return Math.max(requestedStartTime, 0);
+}
+
 /**
  * This function is used when adding new elements.
  *
@@ -109,11 +146,25 @@ export function constrainEndTimeToAvailableSpace(
         }
     }
 
-    if (requestedEndTime > sequenceDuration) {
-        return sequenceDuration;
+    return Math.min(requestedEndTime, sequenceDuration);
+}
+
+export function findPlacement(
+    requestedStartTime, requestedEndTime, sequenceDuration, track, idx
+) {
+    const startTime = constrainStartTimeToAvailableSpace(
+        requestedStartTime, requestedEndTime, sequenceDuration,
+        track);
+
+    const endTime = constrainEndTimeToAvailableSpace(
+        startTime, requestedEndTime, sequenceDuration,
+        track, idx);
+
+    if (startTime >= endTime || !isFinite(startTime) || !isFinite(endTime)) {
+        return {};
     }
 
-    return requestedEndTime;
+    return {start: startTime, end: endTime};
 }
 
 /**

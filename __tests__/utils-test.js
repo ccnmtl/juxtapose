@@ -1,7 +1,10 @@
 /* eslint-env jest */
 
 import {
-    collisionPresent, constrainEndTimeToAvailableSpace,
+    collisionPresent,
+    constrainStartTimeToAvailableSpace,
+    constrainEndTimeToAvailableSpace,
+    findPlacement,
     getElement,
     elementsCollide, formatTimecode, pad2,
     getSeparatedTimeUnits, parseTimecode,
@@ -54,6 +57,73 @@ describe('collisionPresent', () => {
                 end_time: 11
             }
         ], 30, 1.1, 1.15)).toBe(false);
+    });
+});
+
+describe('constrainStartTimeToAvailableSpace', () => {
+    it('handles empty track data', () => {
+        expect(
+            constrainStartTimeToAvailableSpace(0.22, 0.66, 10, [])
+        ).toBe(0.22);
+        expect(
+            constrainStartTimeToAvailableSpace(0.22, 11, 10, [])
+        ).toBe(0.22);
+        expect(
+            constrainStartTimeToAvailableSpace(5, 9, 10, [])
+        ).toBe(5);
+    });
+    it('correctly detects collisions', () => {
+        let track = [{
+            start_time: 0,
+            end_time: 0.23
+        }];
+        expect(
+            constrainStartTimeToAvailableSpace(0.22, 0.66, 10, track)
+        ).toBe(0.23);
+
+        track = [{
+            start_time: 0.5,
+            end_time: 5
+        }];
+        expect(
+            constrainStartTimeToAvailableSpace(0.22, 0.66, 10, track)
+        ).toBe(0.22);
+
+        track = [
+            {
+                start_time: 0.5,
+                end_time: 5
+            }, {
+                start_time: 6,
+                end_time: 8
+            }
+        ];
+        expect(
+            constrainStartTimeToAvailableSpace(5.5, 88, 10, track)
+        ).toBe(5.5);
+        expect(
+            constrainStartTimeToAvailableSpace(5.1, 6, 10, track)
+        ).toBe(5.1);
+
+        track = [
+            {
+                start_time: 0.5,
+                end_time: 5
+            }, {
+                start_time: 6,
+                end_time: 8
+            },
+            {
+                start_time: 8,
+                end_time: 100
+            }
+        ];
+        expect(
+            constrainStartTimeToAvailableSpace(9, 20, 100, track)
+        ).toBeNull();
+        expect(
+            constrainStartTimeToAvailableSpace(5.1, 6, 100, track)
+        ).toBe(5.1);
     });
 });
 
@@ -137,6 +207,73 @@ describe('constrainEndTimeToAvailableSpace', () => {
         expect(
             constrainEndTimeToAvailableSpace(24, 40, 45, track, 1)
         ).toBe(36);
+    });
+});
+
+describe('findPlacement', () => {
+    it('handles empty track data', () => {
+        expect(
+            findPlacement(0.22, 0.66, 10, [])
+        ).toEqual({start: 0.22, end: 0.66});
+        expect(
+            findPlacement(0.22, 11, 10, [])
+        ).toEqual({start: 0.22, end: 10});
+        expect(
+            findPlacement(5, 9, 10, [])
+        ).toEqual({start: 5, end: 9});
+    });
+    it('correctly places the element', () => {
+        let track = [{
+            start_time: 0,
+            end_time: 0.23
+        }];
+        expect(
+            findPlacement(0.22, 0.66, 10, track)
+        ).toEqual({start: 0.23, end: 0.66});
+
+        track = [{
+            start_time: 0.5,
+            end_time: 5
+        }];
+        expect(
+            findPlacement(0.22, 0.66, 10, track)
+        ).toEqual({start: 0.22, end: 0.5});
+
+        track = [
+            {
+                start_time: 0.5,
+                end_time: 5
+            }, {
+                start_time: 6,
+                end_time: 8
+            }
+        ];
+        expect(
+            findPlacement(5.5, 88, 10, track)
+        ).toEqual({start: 5.5, end: 6});
+        expect(
+            findPlacement(5.1, 6, 10, track)
+        ).toEqual({start: 5.1, end: 6});
+
+        track = [
+            {
+                start_time: 0.5,
+                end_time: 5
+            }, {
+                start_time: 6,
+                end_time: 8
+            },
+            {
+                start_time: 8,
+                end_time: 100
+            }
+        ];
+        expect(
+            findPlacement(9, 20, 100, track)
+        ).toEqual({});
+        expect(
+            findPlacement(5.1, 6, 100, track)
+        ).toEqual({start: 5.1, end: 6});
     });
 });
 

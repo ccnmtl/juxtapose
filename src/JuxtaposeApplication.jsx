@@ -8,7 +8,7 @@ import reject from 'lodash/reject';
 import sortBy from 'lodash/sortBy';
 import {
     collisionPresent, constrainEndTimeToAvailableSpace,
-    getElement,
+    getElement, findPlacement,
     hasOutOfBoundsElement, removeOutOfBoundsElements,
     parseAsset, parseAnnotation, formatTimecode, loadMediaData, loadTextData,
     reassignKeys, trackItemDragHandler
@@ -290,19 +290,18 @@ export default class JuxtaposeApplication extends React.Component {
     onTextTrackElementAdd(txt, timecode) {
         let newTrack = this.state.textTrack.slice();
         const newItemKey = newTrack.length;
-        const startTime = timecode;
-        const endTime = constrainEndTimeToAvailableSpace(
-            startTime, startTime + 30,
+        const placement = findPlacement(
+            timecode, timecode + 30,
             this.sequenceDuration(), this.state.textTrack);
 
-        if (!isFinite(endTime)) {
+        if (!isFinite(placement.start) && !isFinite(placement.end)) {
             return;
         }
 
         newTrack.push({
             key: newItemKey,
-            start_time: startTime,
-            end_time: endTime,
+            start_time: placement.start,
+            end_time: placement.end,
             type: 'txt',
             source: txt
         });
@@ -606,19 +605,18 @@ export default class JuxtaposeApplication extends React.Component {
 
             let newTrack = self.state.mediaTrack.slice(0);
             const newItemKey = newTrack.length;
-            const endTime =  constrainEndTimeToAvailableSpace(
+            const placement = findPlacement(
                 timecode, timecode + ctx.duration,
-                self.sequenceDuration(),
-                self.state.mediaTrack);
+                self.sequenceDuration(), self.state.mediaTrack);
 
-            if (!isFinite(endTime)) {
+            if (!isFinite(placement.start) && !isFinite(placement.end)) {
                 return;
             }
 
             newTrack.push({
                 key: newItemKey,
-                start_time: timecode,
-                end_time: endTime,
+                start_time: placement.start,
+                end_time: placement.end,
                 type: ctx.type,
                 host: ctx.host,
                 source: ctx.url,
