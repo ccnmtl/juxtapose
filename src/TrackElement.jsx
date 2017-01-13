@@ -61,6 +61,14 @@ export default class TrackElement extends React.Component {
             {ellipsis(data.source, maxLen)}
         </p>;
     }
+    componentDidMount() {
+        // Text elements rely on their own DOM node's clientWidth in
+        // order to render accurately (see renderTxtThumb), so force
+        // them to be re-rendered when the DOM node is available.
+        if (this.props.data.type === 'txt') {
+            this.forceUpdate();
+        }
+    }
     render() {
         let c = '';
         if (this.props.data.type === 'vid') {
@@ -75,7 +83,7 @@ export default class TrackElement extends React.Component {
             cls += ' jux-item-active';
         }
         return <div data={this.props.data}
-                    ref={(ref) => this.el = ref}
+                    ref={(el) => this.el = el}
                     data-dragging={this.props.dragging}
                     className={cls}
                     style={this.props.style}
