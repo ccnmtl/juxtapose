@@ -3,6 +3,7 @@ import ReactPlayer from 'react-player';
 import BasePlayer from './BasePlayer.jsx';
 import {createCollectionWidget} from './mediathreadCollection.js';
 import {editAnnotationWidget} from './mediathreadCollection.js';
+import {decodeQuotes} from './utils.js';
 
 export default class SpineDisplay extends BasePlayer {
     constructor(props) {
@@ -11,11 +12,12 @@ export default class SpineDisplay extends BasePlayer {
     }
     render() {
         if (!this.props.spineVid) {
+            const instructions = decodeQuotes(this.props.instructions);
             return <div className="jux-spine-display">
               <div className="help-text">
               <button className="add-spine" onClick={this.onClickReviseSpine}></button>
               <h1>Add a primary video</h1>
-              <p className="instructions">{this.props.instructions}</p>
+              <p className="instructions">{instructions}</p>
               </div>
             </div>;
         }

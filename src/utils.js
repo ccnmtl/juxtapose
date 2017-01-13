@@ -483,3 +483,8 @@ export function trackItemDragHandler(origTrack, item, sequenceDuration) {
     newTrack = sortBy(newTrack, 'key');
     return newTrack;
 }
+
+export function decodeQuotes(str) {
+    return str.replace(/&quot;/g, '"')
+        .replace(/&#39;/g, '\'');
+}

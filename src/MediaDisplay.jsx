@@ -1,6 +1,7 @@
 import React from 'react';
 import AVPlayer from './AVPlayer.jsx';
 import ImagePlayer from './ImagePlayer.jsx';
+import {decodeQuotes} from './utils.js';
 
 
 export default class MediaDisplay extends React.Component {
@@ -52,6 +53,7 @@ export default class MediaDisplay extends React.Component {
     }
     render() {
         if (this.props.data.length < 1) {
+            const instructions = decodeQuotes(this.props.instructions);
             return <div className="jux-media-display">
               <div className="help-text">
                   <h1>Place secondary elements</h1>
@@ -62,7 +64,7 @@ export default class MediaDisplay extends React.Component {
                       <span className="text-track-icon"></span>
                       text elements.
                       <br /><br />
-                      {this.props.instructions}
+                      {instructions}
                   </p>
               </div>
             </div>;

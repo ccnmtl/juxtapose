@@ -675,3 +675,9 @@ JuxtaposeApplication.propTypes = {
     secondaryInstructions: React.PropTypes.string.isRequired,
     submitted: React.PropTypes.bool.isRequired
 };
+
+JuxtaposeApplication.defaultProps = {
+    primaryInstructions: '',
+    secondaryInstructions: '',
+    submitted: false
+};
