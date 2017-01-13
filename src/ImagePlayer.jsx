@@ -1,9 +1,6 @@
 import React from 'react';
 import ol from 'openlayers';
 
-// http://stackoverflow.com/questions/35454014/clicks-on-reactjs-components-not-firing-on-an-openlayers-overlay
-// https://github.com/openlayers/ol3/issues/6087
-
 export default class ImagePlayer extends React.Component {
     constructor(props) {
         super(props);
@@ -113,10 +110,6 @@ export default class ImagePlayer extends React.Component {
         this.map.addLayer(layer);
     }
     initializeMap() {
-        if (this.map) {
-            return;
-        }
-
         let attrs = JSON.parse(this.props.annotationData);
         attrs.type = 'Feature'; // required for ol2 > ol3 migration
 
@@ -148,18 +141,9 @@ export default class ImagePlayer extends React.Component {
         }
     }
     shouldComponentUpdate(nextProps) {
-        const shouldUpdate = (this.map === undefined && !nextProps.hidden) ||
-                              this.props.annotationData !== nextProps.annotationData ||
-                              this.props.hidden !== nextProps.hidden;
-
-        // destroy the map if annotation data is changing
-        if (this.map &&
-                this.props.annotationData !== nextProps.annotationData) {
-            this.map.setTarget(null);
-            delete this.map;
-        }
-
-        return shouldUpdate;
+        return (this.map === undefined && !nextProps.hidden) ||
+               this.props.annotationData !== nextProps.annotationData ||
+               this.props.hidden !== nextProps.hidden;
     }
     render() {
         const display = this.props.hidden ? 'none' : 'block';
@@ -168,7 +152,14 @@ export default class ImagePlayer extends React.Component {
                </div>;
     }
     componentDidUpdate() {
-        this.initializeMap();
+        if (this.map) {
+            this.map.setTarget(null);
+            delete this.map;
+        }
+
+        if (!this.props.hidden) {
+            this.initializeMap();
+        }
     }
 }
 
