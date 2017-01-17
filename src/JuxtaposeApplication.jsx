@@ -645,22 +645,26 @@ export default class JuxtaposeApplication extends React.Component {
             const idx = self.state.activeElement[1];
             const el = self.state.mediaTrack[idx];
             const timecode = el.start_time;
-            const elDuration = (el.end_time - el.start_time) || ctx.duration;
+            const elDuration = ctx.duration || (el.end_time - el.start_time);
 
             newMediaTrack[idx].media = annotationId;
             newMediaTrack[idx].annotationData = ctx.data;
             newMediaTrack[idx].annotationStartTime = ctx.startTime;
             newMediaTrack[idx].annotationDuration = ctx.duration;
 
+            const track = self.state.mediaTrack.slice();
+            track.splice(idx, 1);
             const endTime =  constrainEndTimeToAvailableSpace(
                 timecode, timecode + elDuration,
                 self.sequenceDuration(),
-                self.state.mediaTrack, idx);
+                track);
             newMediaTrack[idx].end_time = endTime;
 
             self.setState({
                 mediaTrack: newMediaTrack
             });
+            jQuery(window).trigger('sequenceassignment.set_dirty',
+                                   {dirty: true});
         });
     }
     hasMediaElements() {

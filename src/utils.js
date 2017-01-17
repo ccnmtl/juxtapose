@@ -116,7 +116,7 @@ export function constrainStartTimeToAvailableSpace(
  *     possible, based on the requested start time and track state.
  */
 export function constrainEndTimeToAvailableSpace(
-    requestedStartTime, requestedEndTime, sequenceDuration, track, idx
+    requestedStartTime, requestedEndTime, sequenceDuration, track
 ) {
     if (requestedEndTime <= requestedStartTime) {
         throw new Error('end time must be greater than start time.');
@@ -133,11 +133,6 @@ export function constrainEndTimeToAvailableSpace(
         end_time: requestedEndTime
     };
     for (let i=0; i < sortedTrack.length; i++) {
-        // ignore the element at idx
-        if (i === idx) {
-            continue;
-        }
-
         if (elementsCollide(requestedEl, sortedTrack[i])) {
             // If we're going to use another element's start time as
             // the end time, make sure it's greater than the
@@ -154,7 +149,7 @@ export function constrainEndTimeToAvailableSpace(
 }
 
 export function findPlacement(
-    requestedStartTime, requestedEndTime, sequenceDuration, track, idx
+    requestedStartTime, requestedEndTime, sequenceDuration, track
 ) {
     const startTime = constrainStartTimeToAvailableSpace(
         requestedStartTime, requestedEndTime, sequenceDuration,
@@ -162,7 +157,7 @@ export function findPlacement(
 
     const endTime = constrainEndTimeToAvailableSpace(
         startTime, requestedEndTime, sequenceDuration,
-        track, idx);
+        track);
 
     if (startTime >= endTime || !isFinite(startTime) || !isFinite(endTime)) {
         return {};
