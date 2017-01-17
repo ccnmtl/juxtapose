@@ -192,22 +192,6 @@ describe('constrainEndTimeToAvailableSpace', () => {
             constrainEndTimeToAvailableSpace(5.1, 6, 100, track)
         ).toBe(6);
     });
-    it('ignore element at passed index', () => {
-        let track = [
-            {start_time: 0, end_time: 23},
-            {start_time: 24, end_time: 34},
-            {start_time: 36, end_time: 45}
-        ];
-        expect(
-            constrainEndTimeToAvailableSpace(0, 28, 45, track, 0)
-        ).toBe(24);
-        expect(
-            constrainEndTimeToAvailableSpace(0, 18, 45, track, 0)
-        ).toBe(18);
-        expect(
-            constrainEndTimeToAvailableSpace(24, 40, 45, track, 1)
-        ).toBe(36);
-    });
 });
 
 describe('findPlacement', () => {
