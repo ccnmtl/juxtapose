@@ -24,7 +24,8 @@ export default class AVPlayer extends BasePlayer {
             url = 'https://www.youtube.com/watch?v=' + this.props.data.source;
         }
 
-        const volume = (this.props.hidden) ? 0 : 0.8;
+        const volume = (this.props.hidden) ? 0 :
+                       (this.props.data.volume / 100);
 
         // Start playing a few seconds before so everything is loaded in
         // time.

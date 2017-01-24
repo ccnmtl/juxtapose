@@ -274,6 +274,9 @@ export default class JuxtaposeApplication extends React.Component {
         if (isFinite(newData.end_time)) {
             item.end_time = newData.end_time;
         }
+        if (isFinite(newData.volume)) {
+            item.volume = newData.volume;
+        }
 
         newTrack.push(item);
         newTrack = sortBy(newTrack, 'key');
