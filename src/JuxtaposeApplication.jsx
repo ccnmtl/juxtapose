@@ -401,7 +401,10 @@ export default class JuxtaposeApplication extends React.Component {
         }
     }
     onSpineVideoEnded() {
-        this.setState({playing: false});
+        this.setState({
+            playing: false,
+            time: 0
+        });
     }
     /*
      * This is called when the video's duration is loaded from
@@ -424,6 +427,14 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onSpineProgress(state) {
         if (typeof state.played !== 'undefined') {
+            if (state.played >= 1) {
+                this.setState({
+                    playing: false,
+                    time: 0
+                });
+                return;
+            }
+
             const seconds = (
                 state.played * this.state.duration
             ) - (this.state.spineVid.annotationStartTime || 0);
