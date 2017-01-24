@@ -21,6 +21,19 @@ export default class TrackElementManager extends React.Component {
         if (activeElement) {
             const isTextActive = activeElement.type === 'txt';
             const duration = activeElement.end_time - activeElement.start_time;
+
+            let volumeControl = '';
+            if (activeElement.type === 'vid') {
+                volumeControl = <div className="form-group">
+    <label>
+        Volume &nbsp;{activeElement.volume}
+        <input type="range" min="0" max="100"
+               value={activeElement.volume}
+               onChange={this.onVolumeChange.bind(this)} />
+    </label>
+                </div>;
+            }
+
             return <div className="jux-track-container jux-track-element-manager">
     <button className="jux-remove-track-element btn btn-default btn-danger right"
             title="Delete element"
@@ -53,6 +66,7 @@ export default class TrackElementManager extends React.Component {
             />
             <div className="helptext">MM:SS:CS</div>
         </div>
+        {volumeControl}
         <div className="form-group">
             <label>Content</label><br />
             <textarea style={{'display': isTextActive ? 'block' : 'none'}}
@@ -86,6 +100,11 @@ export default class TrackElementManager extends React.Component {
         } else {
             return <div></div>;
         }
+    }
+    onVolumeChange(e) {
+        this.props.onChange(this.props.activeElement, {
+            volume: parseInt(e.target.value, 10)
+        });
     }
     displayUpdatedTextNotice() {
         jQuery('.jux-updated-text').show(0, function() {
