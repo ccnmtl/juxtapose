@@ -121,7 +121,8 @@ export default class JuxtaposeApplication extends React.Component {
                const spine = parseAnnotation(sequenceAsset.spine);
                self.updateSpineVid(
                    spine.url, spine.host, spine.assetId,
-                   spine.id, spine.startTime, spine.duration);
+                   spine.id, spine.startTime, spine.duration,
+                   sequenceAsset.spine_volume);
 
                jQuery(window).trigger('sequenceassignment.set_submittable', {
                    submittable: self.isBaselineWorkCompleted()
@@ -175,6 +176,11 @@ export default class JuxtaposeApplication extends React.Component {
                 />;
         }
 
+        let spineVolume = 80;
+        if (this.state.spineVid) {
+            spineVolume = this.state.spineVid.volume;
+        }
+
         return <div className="jux-container">
            <div className="jux-vid-container">
                 <SpineDisplay
@@ -201,8 +207,18 @@ export default class JuxtaposeApplication extends React.Component {
             <PlayButton playing={this.state.playing}
                         onClick={this.onPlayClick.bind(this)} />
             <div className="jux-flex-horiz">
-                <div className="jux-time">
-                    {formatTimecode(this.state.time)} / {formatTimecode(this.sequenceDuration())}
+                <div className="jux-time-display">
+                    <div>
+                        {formatTimecode(this.state.time)} / {formatTimecode(this.sequenceDuration())}
+                    </div>
+                    <div className="jux-volume-control">
+                        <label>
+                            Volume {spineVolume}
+                        </label>
+                        <input type="range" min="0" max="100"
+                               value={spineVolume}
+                               onChange={this.onVolumeChange.bind(this)} />
+                    </div>
                 </div>
             </div>
             <div className="jux-timeline">
@@ -484,6 +500,7 @@ export default class JuxtaposeApplication extends React.Component {
         const self = this;
         xhr.createOrUpdateSequenceAsset(
             this.state.spineVid.annotationId,
+            this.state.spineVid.volume,
             window.MediaThread.current_course,
             window.MediaThread.current_project,
             this.state.mediaTrack,
@@ -516,7 +533,8 @@ export default class JuxtaposeApplication extends React.Component {
         this.updateSpineVid(
             newSpine.url, newSpine.host, newSpine.assetId,
             newSpine.annotationId,
-            newSpine.annotationStartTime, newSpine.annotationDuration);
+            newSpine.annotationStartTime, newSpine.annotationDuration,
+            newSpine.volume);
         this.setState({tmpSpineVid: null});
 
         jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
@@ -526,6 +544,12 @@ export default class JuxtaposeApplication extends React.Component {
     }
     onAddPrimaryCloseClick() {
         this.setState({showAddPrimaryMediaModal: false});
+    }
+    onVolumeChange(e) {
+        let spineVid = this.state.spineVid;
+        spineVid.volume = parseInt(e.target.value, 10);
+        this.setState({spineVid: spineVid});
+        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeElement
@@ -550,7 +574,7 @@ export default class JuxtaposeApplication extends React.Component {
     }
     updateSpineVid(
         url, host, assetId, annotationId,
-        annotationStartTime, annotationDuration
+        annotationStartTime, annotationDuration, volume
     ) {
         if (this.state.spineVid && this.state.spineVid.url !== url) {
             this.setState({duration: null});
@@ -562,7 +586,8 @@ export default class JuxtaposeApplication extends React.Component {
                 assetId: assetId,
                 annotationId: annotationId,
                 annotationStartTime: annotationStartTime,
-                annotationDuration: annotationDuration
+                annotationDuration: annotationDuration,
+                volume: volume
             },
             playing: false,
             time: 0
@@ -597,7 +622,8 @@ export default class JuxtaposeApplication extends React.Component {
                         assetId: assetId,
                         annotationId: annotationId,
                         annotationStartTime: ctx.startTime,
-                        annotationDuration: ctx.duration
+                        annotationDuration: ctx.duration,
+                        volume: ctx.volume
                     },
                     playing: false,
                     time: 0
@@ -608,7 +634,8 @@ export default class JuxtaposeApplication extends React.Component {
             // Set the spine video
             self.updateSpineVid(
                 ctx.url, ctx.host, assetId,
-                annotationId, ctx.startTime, ctx.duration);
+                annotationId, ctx.startTime, ctx.duration,
+                ctx.volume);
         });
     }
     addMediaTrackElement(assetId, annotationId, timecode) {

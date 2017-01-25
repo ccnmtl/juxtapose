@@ -51,12 +51,15 @@ export default class SpineDisplay extends BasePlayer {
                 </button>;
         }
 
+        const volume = this.props.spineVid.volume / 100;
+
         return <div className="jux-spine-display">
                 <ReactPlayer
                     id={this.id}
                     ref={(ref) => this.player = ref}
                     width={480}
                     height={360}
+                    volume={volume}
                     playing={this.props.playing}
                     onEnded={this.props.onEnded}
                     url={url}

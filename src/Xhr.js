@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import isFinite from 'lodash/isFinite';
 import {prepareMediaData, prepareTextData} from './utils.js';
 
 function checkStatus(response) {
@@ -70,10 +71,10 @@ export default class Xhr {
                 return null;
             });
     }
-    createOrUpdateSequenceAsset(annotationId, courseId, projectId,
+    createOrUpdateSequenceAsset(annotationId, spineVolume, courseId, projectId,
                                 mediaTrack, textTrack) {
-        if (!annotationId || !courseId || !projectId ||
-            !mediaTrack || !textTrack
+        if (!annotationId || !isFinite(spineVolume) || !courseId ||
+            !projectId || !mediaTrack || !textTrack
            ) {
             throw 'createOrUpdateSequenceAsset: missing parameter';
         }
@@ -88,6 +89,7 @@ export default class Xhr {
                     return self.updateSequenceAsset(
                         sequenceAssetId,
                         annotationId,
+                        spineVolume,
                         courseId,
                         projectId,
                         mediaTrack,
@@ -95,6 +97,7 @@ export default class Xhr {
                 } else {
                     return self.createSequenceAsset(
                         annotationId,
+                        spineVolume,
                         courseId,
                         projectId,
                         mediaTrack,
@@ -102,10 +105,10 @@ export default class Xhr {
                 }
             });
     }
-    createSequenceAsset(annotationId, courseId, projectId,
+    createSequenceAsset(annotationId, spineVolume, courseId, projectId,
                         mediaTrack, textTrack) {
-        if (!annotationId || !courseId || !projectId ||
-            !mediaTrack || !textTrack
+        if (!annotationId || !isFinite(spineVolume) || !courseId ||
+            !projectId || !mediaTrack || !textTrack
            ) {
             throw 'createSequenceAsset: missing parameter';
         }
@@ -113,6 +116,7 @@ export default class Xhr {
         this.xhrOpts.method = 'post';
         this.xhrOpts.body = JSON.stringify({
             spine: annotationId,
+            spine_volume: spineVolume,
             course: courseId,
             project: projectId,
             media_elements: prepareMediaData(mediaTrack),
@@ -120,10 +124,10 @@ export default class Xhr {
         });
         return fetch(this.sequenceAssetsUrl(), this.xhrOpts);
     }
-    updateSequenceAsset(sequenceAssetId, annotationId, courseId, projectId,
-                        mediaTrack, textTrack) {
-        if (!sequenceAssetId || !annotationId || !courseId || !projectId ||
-            !mediaTrack || !textTrack
+    updateSequenceAsset(sequenceAssetId, annotationId, spineVolume, courseId,
+                        projectId, mediaTrack, textTrack) {
+        if (!sequenceAssetId || !annotationId || !isFinite(spineVolume) ||
+            !courseId || !projectId || !mediaTrack || !textTrack
            ) {
             throw 'updateSequenceAsset: missing parameter';
         }
@@ -132,6 +136,7 @@ export default class Xhr {
         this.xhrOpts.body = JSON.stringify({
             id: sequenceAssetId,
             spine: annotationId,
+            spine_volume: spineVolume,
             course: courseId,
             project: projectId,
             media_elements: prepareMediaData(mediaTrack),
