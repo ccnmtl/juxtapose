@@ -32,23 +32,44 @@ export default class SpineDisplay extends BasePlayer {
             url = this.props.spineVid.url;
         }
 
-        let reviseButton = '';
-        let editSpineButton = '';
+        let spineVolume = 80;
+        if (this.props.spineVid) {
+            spineVolume = this.props.spineVid.volume;
+        }
+
+        let spineControls = '';
         if (!this.props.submitted) {
-            reviseButton =
-                <button className="btn btn-default jux-spine-revise"
-                        title="Revise primary video"
-                        onClick={this.onClickReviseSpine}>
-                <span className="glyphicon glyphicon-refresh"
-                    aria-hidden="true"></span>
-                </button>;
-            editSpineButton =
-                <button className="btn btn-default jux-spine-edit"
-                        title="Edit primary video"
-                        onClick={this.onClickEditSpine.bind(this)}>
-                <span className="glyphicon glyphicon-pencil"
-                    aria-hidden="true"></span>
-                </button>;
+            let volumeIcon = <span className="glyphicon glyphicon-volume-up"
+                                aria-hidden="true"></span>;
+            if (spineVolume === 0) {
+                volumeIcon = <span className="glyphicon glyphicon-volume-off"
+                                aria-hidden="true"></span>;
+            } else if (spineVolume <= 50) {
+                volumeIcon = <span className="glyphicon glyphicon-volume-down"
+                                aria-hidden="true"></span>;
+            }
+            spineControls =
+                <div className="jux-spine-controls">
+                    <button className="btn btn-default btn-sm jux-spine-revise"
+                            title="Revise primary video"
+                            onClick={this.onClickReviseSpine}>
+                        <span className="glyphicon glyphicon-refresh"
+                              aria-hidden="true"></span>
+                    </button>
+                    <button className="btn btn-default btn-sm jux-spine-edit"
+                            title="Edit primary video"
+                            onClick={this.onClickEditSpine.bind(this)}>
+                        <span className="glyphicon glyphicon-pencil"
+                              aria-hidden="true"></span>
+                    </button>
+                    <div className="jux-spine-vol-display">
+                        {volumeIcon}
+                    </div>
+                    <input type="range" min="0" max="100"
+                           className="jux-spine-vol-input"
+                           value={spineVolume}
+                           onChange={this.onVolumeChange.bind(this)} />
+                </div>;
         }
 
         const volume = this.props.spineVid.volume / 100;
@@ -72,8 +93,7 @@ export default class SpineDisplay extends BasePlayer {
                     youtubeConfig={this.youtubeConfig}
                     vimeoConfig={this.vimeoConfig}
                 />
-                {reviseButton}
-                {editSpineButton}
+                {spineControls}
         </div>;
     }
     onStart() {
@@ -99,5 +119,9 @@ export default class SpineDisplay extends BasePlayer {
             this.props.spineVid.annotationId,
             this.props.spineVid.annotationDuration === undefined,
             caller);
+    }
+    onVolumeChange(e) {
+        const volume = parseInt(e.target.value, 10);
+        this.props.onVolumeChange(volume);
     }
 }

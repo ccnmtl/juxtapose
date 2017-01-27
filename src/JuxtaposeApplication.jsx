@@ -176,11 +176,6 @@ export default class JuxtaposeApplication extends React.Component {
                 />;
         }
 
-        let spineVolume = 80;
-        if (this.state.spineVid) {
-            spineVolume = this.state.spineVid.volume;
-        }
-
         return <div className="jux-container">
            <div className="jux-vid-container">
                 <SpineDisplay
@@ -194,6 +189,7 @@ export default class JuxtaposeApplication extends React.Component {
                     onProgress={this.onSpineProgress.bind(this)}
                     onPlay={this.onSpinePlay.bind(this)}
                     onPause={this.onSpinePause.bind(this)}
+                    onVolumeChange={this.onSpineVolumeChange.bind(this)}
                     instructions={this.props.primaryInstructions}
                 />
                 <div style={{
@@ -211,14 +207,7 @@ export default class JuxtaposeApplication extends React.Component {
                     <div>
                         {formatTimecode(this.state.time)} / {formatTimecode(this.sequenceDuration())}
                     </div>
-                    <div className="jux-volume-control">
-                        <label>
-                            Volume {spineVolume}
-                        </label>
-                        <input type="range" min="0" max="100"
-                               value={spineVolume}
-                               onChange={this.onVolumeChange.bind(this)} />
-                    </div>
+
                 </div>
             </div>
             <div className="jux-timeline">
@@ -545,9 +534,9 @@ export default class JuxtaposeApplication extends React.Component {
     onAddPrimaryCloseClick() {
         this.setState({showAddPrimaryMediaModal: false});
     }
-    onVolumeChange(e) {
+    onSpineVolumeChange(volume) {
         let spineVid = this.state.spineVid;
-        spineVid.volume = parseInt(e.target.value, 10);
+        spineVid.volume = volume;
         this.setState({spineVid: spineVid});
         jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
     }
