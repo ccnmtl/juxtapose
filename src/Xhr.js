@@ -73,10 +73,18 @@ export default class Xhr {
     }
     createOrUpdateSequenceAsset(annotationId, spineVolume, courseId, projectId,
                                 mediaTrack, textTrack) {
-        if (!annotationId || !isFinite(spineVolume) || !courseId ||
-            !projectId || !mediaTrack || !textTrack
+        if (typeof annotationId === 'undefined' ||
+            typeof courseId === 'undefined' ||
+            typeof projectId === 'undefined' ||
+            typeof mediaTrack === 'undefined' ||
+            typeof textTrack === 'undefined'
            ) {
             throw 'createOrUpdateSequenceAsset: missing parameter';
+        }
+
+        let spineVol = 80;
+        if (isFinite(spineVolume)) {
+            spineVol = spineVolume;
         }
 
         const self = this;
@@ -89,7 +97,7 @@ export default class Xhr {
                     return self.updateSequenceAsset(
                         sequenceAssetId,
                         annotationId,
-                        spineVolume,
+                        spineVol,
                         courseId,
                         projectId,
                         mediaTrack,
@@ -97,7 +105,7 @@ export default class Xhr {
                 } else {
                     return self.createSequenceAsset(
                         annotationId,
-                        spineVolume,
+                        spineVol,
                         courseId,
                         projectId,
                         mediaTrack,
@@ -107,16 +115,24 @@ export default class Xhr {
     }
     createSequenceAsset(annotationId, spineVolume, courseId, projectId,
                         mediaTrack, textTrack) {
-        if (!annotationId || !isFinite(spineVolume) || !courseId ||
-            !projectId || !mediaTrack || !textTrack
+        if (typeof annotationId === 'undefined' ||
+            typeof courseId === 'undefined' ||
+            typeof projectId === 'undefined' ||
+            typeof mediaTrack === 'undefined' ||
+            typeof textTrack === 'undefined'
            ) {
             throw 'createSequenceAsset: missing parameter';
+        }
+
+        let spineVol = 80;
+        if (isFinite(spineVolume)) {
+            spineVol = spineVolume;
         }
 
         this.xhrOpts.method = 'post';
         this.xhrOpts.body = JSON.stringify({
             spine: annotationId,
-            spine_volume: spineVolume,
+            spine_volume: spineVol,
             course: courseId,
             project: projectId,
             media_elements: prepareMediaData(mediaTrack),
@@ -126,17 +142,26 @@ export default class Xhr {
     }
     updateSequenceAsset(sequenceAssetId, annotationId, spineVolume, courseId,
                         projectId, mediaTrack, textTrack) {
-        if (!sequenceAssetId || !annotationId || !isFinite(spineVolume) ||
-            !courseId || !projectId || !mediaTrack || !textTrack
+        if (typeof sequenceAssetId === 'undefined' ||
+            typeof annotationId === 'undefined' ||
+            typeof courseId === 'undefined' ||
+            typeof projectId === 'undefined' ||
+            typeof mediaTrack === 'undefined' ||
+            typeof textTrack === 'undefined'
            ) {
             throw 'updateSequenceAsset: missing parameter';
+        }
+
+        let spineVol = 80;
+        if (isFinite(spineVolume)) {
+            spineVol = spineVolume;
         }
 
         this.xhrOpts.method = 'put';
         this.xhrOpts.body = JSON.stringify({
             id: sequenceAssetId,
             spine: annotationId,
-            spine_volume: spineVolume,
+            spine_volume: spineVol,
             course: courseId,
             project: projectId,
             media_elements: prepareMediaData(mediaTrack),
