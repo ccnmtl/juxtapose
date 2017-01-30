@@ -50,13 +50,13 @@ export default class SpineDisplay extends BasePlayer {
             }
             spineControls =
                 <div className="jux-spine-controls">
-                    <button className="btn btn-default btn-sm jux-spine-revise"
+                    <button className="btn btn-default jux-spine-revise"
                             title="Revise primary video"
                             onClick={this.onClickReviseSpine}>
                         <span className="glyphicon glyphicon-refresh"
                               aria-hidden="true"></span>
                     </button>
-                    <button className="btn btn-default btn-sm jux-spine-edit"
+                    <button className="btn btn-default jux-spine-edit"
                             title="Edit primary video"
                             onClick={this.onClickEditSpine.bind(this)}>
                         <span className="glyphicon glyphicon-pencil"
