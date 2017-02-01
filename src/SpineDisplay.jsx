@@ -62,9 +62,11 @@ export default class SpineDisplay extends BasePlayer {
                         <span className="glyphicon glyphicon-pencil"
                               aria-hidden="true"></span>
                     </button>
-                    <div className="jux-spine-vol-display">
+                    <button className="btn btn-default jux-spine-vol-display"
+                            title="Toggle volume"
+                            onClick={this.onVolumeToggle.bind(this)}>
                         {volumeIcon}
-                    </div>
+                    </button>
                     <input type="range" min="0" max="100"
                            className="jux-spine-vol-input"
                            value={spineVolume}
@@ -123,5 +125,8 @@ export default class SpineDisplay extends BasePlayer {
     onVolumeChange(e) {
         const volume = parseInt(e.target.value, 10);
         this.props.onVolumeChange(volume);
+    }
+    onVolumeToggle() {
+        this.props.onVolumeToggle();
     }
 }
