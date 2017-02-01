@@ -12,7 +12,7 @@ var config = {
     },
     plugins: [
         new webpack.ProvidePlugin({
-            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+            'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
         }),
         new webpack.DefinePlugin({
             'process.env': {
@@ -26,7 +26,7 @@ var config = {
             {
                 test: /\.jsx?$/,
                 include: APP_DIR,
-                loader: 'babel',
+                loader: 'babel-loader',
                 query: {
                     presets: ['react', 'es2015']
                 }
