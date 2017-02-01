@@ -190,6 +190,7 @@ export default class JuxtaposeApplication extends React.Component {
                     onPlay={this.onSpinePlay.bind(this)}
                     onPause={this.onSpinePause.bind(this)}
                     onVolumeChange={this.onSpineVolumeChange.bind(this)}
+                    onVolumeToggle={this.onSpineVolumeToggle.bind(this)}
                     instructions={this.props.primaryInstructions}
                 />
                 <div style={{
@@ -535,6 +536,16 @@ export default class JuxtaposeApplication extends React.Component {
         this.setState({showAddPrimaryMediaModal: false});
     }
     onSpineVolumeChange(volume) {
+        let spineVid = this.state.spineVid;
+        spineVid.volume = volume;
+        this.setState({spineVid: spineVid});
+        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
+    }
+    onSpineVolumeToggle() {
+        let volume = 80;
+        if (this.state.spineVid.volume) {
+            volume = 0;
+        }
         let spineVid = this.state.spineVid;
         spineVid.volume = volume;
         this.setState({spineVid: spineVid});
