@@ -576,9 +576,14 @@ export default class JuxtaposeApplication extends React.Component {
         url, host, assetId, annotationId,
         annotationStartTime, annotationDuration, volume
     ) {
+        if (!isFinite(volume)) {
+            volume = 80;
+        }
+
         if (this.state.spineVid && this.state.spineVid.url !== url) {
             this.setState({duration: null});
         }
+
         this.setState({
             spineVid: {
                 url: url,
@@ -667,7 +672,8 @@ export default class JuxtaposeApplication extends React.Component {
                 annotationStartTime: ctx.startTime,
                 annotationDuration: ctx.duration,
                 width: ctx.width,
-                height: ctx.height
+                height: ctx.height,
+                volume: ctx.type === 'img' ? null : 80
             });
 
             self.setState({
