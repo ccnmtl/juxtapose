@@ -5,7 +5,7 @@ import BasePlayer from './BasePlayer.jsx';
 
 
 /**
- * Each video/audio element has its own MediaPlayer instance
+ * Each video/audio element has its own AVPlayer instance
  * that's always rendered on the page, and displayed when the
  * sequence's time is at the right position.
  */
