@@ -373,13 +373,8 @@ export function getSeparatedTimeUnits(totalSeconds) {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = Math.floor(totalSeconds - minutes * 60);
 
-    // Really this should be Math.round() instead of Math.floor(),
-    // but using Math.round() allows the centiseconds to be
-    // 100 if totalSeconds is something like 1.999602. That creates
-    // some code complexity, so I'm compromising by introducing
-    // this small imprecision.
-    const centiseconds = Math.floor(
-        (totalSeconds - (minutes * 60) - seconds) * 100);
+    const centiseconds = Math.min(99, Math.round(
+        (totalSeconds - (minutes * 60) - seconds) * 100));
 
     return [minutes, seconds, centiseconds];
 }
