@@ -673,7 +673,7 @@ export default class JuxtaposeApplication extends React.Component {
                 annotationDuration: ctx.duration,
                 width: ctx.width,
                 height: ctx.height,
-                volume: ctx.type === 'img' ? null : 80
+                volume: 80
             });
 
             self.setState({
