@@ -444,8 +444,8 @@ export function loadMediaData(array) {
         // react-grid-layout requires a unique key for
         // each grid element.
         e.key = i;
-        e.start_time = parseInt(e.start_time, 10);
-        e.end_time = parseInt(e.end_time, 10);
+        e.start_time = parseFloat(e.start_time);
+        e.end_time = parseFloat(e.end_time);
         i++;
     }
     return array;
@@ -460,8 +460,8 @@ export function loadTextData(array) {
     for (let e of array) {
         e.type = 'txt';
         e.key = i;
-        e.start_time = parseInt(e.start_time, 10);
-        e.end_time = parseInt(e.end_time, 10);
+        e.start_time = parseFloat(e.start_time);
+        e.end_time = parseFloat(e.end_time);
         e.source = e.text;
         delete e.text;
         i++;

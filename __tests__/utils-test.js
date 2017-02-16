@@ -6,6 +6,7 @@ import {
     constrainEndTimeToAvailableSpace,
     findPlacement,
     getElement,
+    loadTextData,
     elementsCollide, formatTimecode, pad2,
     getSeparatedTimeUnits, parseTimecode,
     trackItemDragHandler
@@ -587,5 +588,69 @@ describe('trackItemDragHandler', () => {
         ];
         expect(trackItemDragHandler(textTrack, draggedItem, 30)).toEqual(
             newTrack);
+    });
+});
+
+describe('loadTextData', () => {
+    it('loads data accurately', () => {
+        let textTrack = [
+            {
+                end_time: 2,
+                text: 'a',
+                start_time: 0,
+                type: 'txt'
+            },
+            {
+                end_time: 4,
+                text: 'b',
+                start_time: 3.5555,
+                type: 'txt'
+            }
+        ];
+        let loaded = loadTextData(textTrack);
+        expect(loaded[0]).toEqual({
+            key: 0,
+            end_time: 2,
+            source: 'a',
+            start_time: 0,
+            type: 'txt'
+        });
+        expect(loaded[1]).toEqual({
+            key: 1,
+            end_time: 4,
+            source: 'b',
+            start_time: 3.5555,
+            type: 'txt'
+        });
+
+        textTrack = [
+            {
+                end_time: 2,
+                text: 'a',
+                start_time: '0',
+                type: 'txt'
+            },
+            {
+                end_time: 4,
+                text: 'b',
+                start_time: '3.5555',
+                type: 'txt'
+            }
+        ];
+        loaded = loadTextData(textTrack);
+        expect(loaded[0]).toEqual({
+            key: 0,
+            end_time: 2,
+            source: 'a',
+            start_time: 0,
+            type: 'txt'
+        });
+        expect(loaded[1]).toEqual({
+            key: 1,
+            end_time: 4,
+            source: 'b',
+            start_time: 3.5555,
+            type: 'txt'
+        });
     });
 });
