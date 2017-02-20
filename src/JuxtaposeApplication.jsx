@@ -64,8 +64,7 @@ export default class JuxtaposeApplication extends React.Component {
                     e.detail.assetId, e.detail.annotationId,
                     e.detail.caller.timecode);
             }
-            jQuery(window).trigger('sequenceassignment.set_dirty',
-                                   {dirty: true});
+            jQuery(window).trigger('sequence.set_dirty', {dirty: true});
         });
 
         document.addEventListener('asset.save', function(e) {
@@ -78,7 +77,7 @@ export default class JuxtaposeApplication extends React.Component {
             }
         });
 
-        document.addEventListener('sequenceassignment.save', function() {
+        document.addEventListener('sequence.save', function() {
             self.onSaveClick();
         });
 
@@ -124,7 +123,7 @@ export default class JuxtaposeApplication extends React.Component {
                    spine.id, spine.startTime, spine.duration,
                    sequenceAsset.spine_volume);
 
-               jQuery(window).trigger('sequenceassignment.set_submittable', {
+               jQuery(window).trigger('sequence.set_submittable', {
                    submittable: self.isBaselineWorkCompleted()
                });
            }).then(function() {
@@ -293,8 +292,7 @@ export default class JuxtaposeApplication extends React.Component {
             this.setState({mediaTrack: newTrack});
         }
 
-        jQuery(window).trigger('sequenceassignment.set_dirty',
-                               {dirty: true});
+        jQuery(window).trigger('sequence.set_dirty', {dirty: true});
     }
     onTextTrackElementAdd(txt, timecode) {
         const placement = findPlacement(
@@ -318,8 +316,7 @@ export default class JuxtaposeApplication extends React.Component {
             textTrack: newTrack,
             activeElement: ['txt', newItemKey]
         });
-        jQuery(window).trigger('sequenceassignment.set_dirty',
-                               {dirty: true});
+        jQuery(window).trigger('sequence.set_dirty', {dirty: true});
     }
 
     onMediaTrackEditButtonClick(event, item) {
@@ -336,8 +333,7 @@ export default class JuxtaposeApplication extends React.Component {
         }
 
         this.setState({mediaTrack: newTrack});
-        jQuery(window).trigger('sequenceassignment.set_dirty',
-                               {dirty: true});
+        jQuery(window).trigger('sequence.set_dirty', {dirty: true});
     }
     onTextDragStop(items, event, item) {
         const newTrack = trackItemDragHandler(
@@ -347,8 +343,7 @@ export default class JuxtaposeApplication extends React.Component {
         }
 
         this.setState({textTrack: newTrack});
-        jQuery(window).trigger('sequenceassignment.set_dirty',
-                               {dirty: true});
+        jQuery(window).trigger('sequence.set_dirty', {dirty: true});
     }
     onPlayClick() {
         const newState = !this.state.playing;
@@ -382,7 +377,7 @@ export default class JuxtaposeApplication extends React.Component {
                 activeElement: null
             });
         }
-        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
+        jQuery(window).trigger('sequence.set_dirty', {dirty: true});
     }
     onTrackMediaElementEdit() {
         const item = this.getItem(this.state.activeElement);
@@ -481,7 +476,7 @@ export default class JuxtaposeApplication extends React.Component {
         if (!this.state.spineVid) {
             // nothing to save yet
             jQuery(window).trigger(
-                'sequenceassignment.on_save_success', {
+                'sequence.on_save_success', {
                     submittable: false});
             return;
         }
@@ -497,12 +492,12 @@ export default class JuxtaposeApplication extends React.Component {
             this.state.textTrack
         ).then(function() {
             jQuery(window).trigger(
-                'sequenceassignment.on_save_success', {
+                'sequence.on_save_success', {
                     submittable: self.isBaselineWorkCompleted()
                 });
         }).catch(function(e) {
             // Open Mediathread's error popup
-            jQuery(window).trigger('sequenceassignment.on_save_error', e);
+            jQuery(window).trigger('sequence.on_save_error', e);
         });
     }
     onOutOfBoundsCloseClick() {
@@ -527,7 +522,7 @@ export default class JuxtaposeApplication extends React.Component {
             newSpine.volume);
         this.setState({tmpSpineVid: null});
 
-        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
+        jQuery(window).trigger('sequence.set_dirty', {dirty: true});
     }
     onAddWithoutPrimaryVid() {
         this.setState({showAddPrimaryMediaModal: true});
@@ -539,7 +534,7 @@ export default class JuxtaposeApplication extends React.Component {
         let spineVid = this.state.spineVid;
         spineVid.volume = volume;
         this.setState({spineVid: spineVid});
-        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
+        jQuery(window).trigger('sequence.set_dirty', {dirty: true});
     }
     onSpineVolumeToggle() {
         let volume = 80;
@@ -549,7 +544,7 @@ export default class JuxtaposeApplication extends React.Component {
         let spineVid = this.state.spineVid;
         spineVid.volume = volume;
         this.setState({spineVid: spineVid});
-        jQuery(window).trigger('sequenceassignment.set_dirty', {dirty: true});
+        jQuery(window).trigger('sequence.set_dirty', {dirty: true});
     }
     /**
      * Get the item in textTrack or mediaTrack, based on the activeElement
@@ -710,8 +705,7 @@ export default class JuxtaposeApplication extends React.Component {
             self.setState({
                 mediaTrack: newMediaTrack
             });
-            jQuery(window).trigger('sequenceassignment.set_dirty',
-                                   {dirty: true});
+            jQuery(window).trigger('sequence.set_dirty', {dirty: true});
         });
     }
     hasMediaElements() {
