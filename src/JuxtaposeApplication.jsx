@@ -200,13 +200,13 @@ export default class JuxtaposeApplication extends React.Component {
             <TextDisplay time={this.state.time}
                          duration={this.sequenceDuration()}
                          data={this.state.textTrack} />
-            <PlayButton playing={this.state.playing}
-                        onClick={this.onPlayClick.bind(this)} />
             <button className="jux-rewind"
                     onClick={this.onRewindClick.bind(this)}>
                 <span className="glyphicon glyphicon-step-backward"
                       title="Rewind"></span>
             </button>
+            <PlayButton playing={this.state.playing}
+                        onClick={this.onPlayClick.bind(this)} />
             <div className="jux-flex-horiz">
                 <div className="jux-time-display">
                     <div>
@@ -355,16 +355,12 @@ export default class JuxtaposeApplication extends React.Component {
         this.setState({playing: newState})
     }
     onRewindClick() {
-        this.setState({playing: false});
-        this.setState({time: 0});
+        this.setState({
+            playing: false,
+            time: 0
+        });
 
-        var self = this;
-        // Account for the time it takes to tell the player to stop playing.
-        setTimeout(function() {
-            if (self.state.time) {
-                self.setState({time: 0});
-            }
-        }, 200);
+        this._primaryVid.player.seekTo(0);
     }
     /**
      * Remove the active track item.
