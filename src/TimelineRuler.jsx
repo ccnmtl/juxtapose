@@ -31,10 +31,13 @@ export default class TimelineRuler extends React.Component {
     generateTicks(duration) {
         // Generate a tick for every 30 seconds.
         let tickOffset = 30;
-        if (duration > 300) {
+        if (duration > 300 && duration <= 900) {
             tickOffset = 60;
-        } else if (duration > 900) {
+        } else if (duration > 900 && duration <= 1800) {
             tickOffset = 120;
+        } else if (duration > 1800) {
+            // Round to nearest 10, based on the duration.
+            tickOffset = Math.round(duration * 0.15 / 10) * 10;
         }
 
         let ticks = [];
@@ -42,18 +45,33 @@ export default class TimelineRuler extends React.Component {
         // Generate ticks up until we're within 8% of the end
         for (; i < (duration - (duration * 0.08)); i += tickOffset) {
             let visualOffset = (i / duration) * 100;
-            ticks = ticks.concat(this.generateTick(visualOffset, i, false));
+            ticks.push([visualOffset, i]);
         }
 
         // Generate final tick
-        ticks = ticks.concat(this.generateTick(100, duration, true));
+        ticks.push([100, duration]);
 
         return ticks;
     }
+    generateTicksElements(duration) {
+        let self = this;
+
+        const ticks = this.generateTicks(duration);
+        let elements = [];
+        ticks.forEach(function(v, i) {
+            elements.push(
+                self.generateTick(
+                    v[0],
+                    v[1],
+                    i === (ticks.length - 1)));
+        });
+        return elements;
+    }
     render() {
+        const ticks = this.generateTicksElements(this.props.duration);
         return <div className="jux-timeline-ruler">
             <div className="jux-timeline-hline"></div>
-            {this.generateTicks(this.props.duration)}
+            {ticks}
         </div>;
     }
 }
