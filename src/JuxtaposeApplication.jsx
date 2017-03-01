@@ -138,7 +138,7 @@ export default class JuxtaposeApplication extends React.Component {
         const activeElement = this.getItem(this.state.activeElement);
         let tracks = '';
         if (!this.props.submitted) {
-            tracks = <span>
+            tracks = <div>
     <MediaTrack
         duration={this.sequenceDuration()}
         primaryVid={this.state.spineVid}
@@ -156,7 +156,7 @@ export default class JuxtaposeApplication extends React.Component {
         onTrackEditButtonClick={this.onTextTrackEditButtonClick.bind(this)}
         activeElement={this.state.activeElement}
         data={this.state.textTrack} />
-            </span>;
+            </div>;
         }
 
         let mediaDisplay = '';
@@ -200,14 +200,15 @@ export default class JuxtaposeApplication extends React.Component {
             <TextDisplay time={this.state.time}
                          duration={this.sequenceDuration()}
                          data={this.state.textTrack} />
-            <button className="jux-rewind"
-                    onClick={this.onRewindClick.bind(this)}>
-                <span className="glyphicon glyphicon-step-backward"
-                      title="Rewind"></span>
-            </button>
-            <PlayButton playing={this.state.playing}
-                        onClick={this.onPlayClick.bind(this)} />
+
             <div className="jux-flex-horiz">
+                <button className="jux-rewind"
+                        onClick={this.onRewindClick.bind(this)}>
+                    <span className="glyphicon glyphicon-step-backward"
+                          title="Rewind"></span>
+                </button>
+                <PlayButton playing={this.state.playing}
+                            onClick={this.onPlayClick.bind(this)} />
                 <div className="jux-time-display">
                     <div>
                         {formatTimecode(this.state.time)} / {formatTimecode(this.sequenceDuration())}
