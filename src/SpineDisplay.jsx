@@ -38,7 +38,7 @@ export default class SpineDisplay extends BasePlayer {
         }
 
         let spineControls = '';
-        if (!this.props.submitted) {
+        if (!this.props.readOnly) {
             let volumeIcon = <span className="glyphicon glyphicon-volume-up"
                                 aria-hidden="true"></span>;
             if (spineVolume === 0) {

@@ -8,7 +8,7 @@ import JuxtaposeApplication from './JuxtaposeApplication.jsx';
 if (document.getElementById('jux-container')) {
     ReactDOM.render(
         <JuxtaposeApplication
-            submitted={(view && view.submitted) || false}
+            readOnly={(view && view.readOnly) || false}
             primaryInstructions={view && view.primaryInstructions || ''}
             secondaryInstructions={view && view.secondaryInstructions || ''}
         />,

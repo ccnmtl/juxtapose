@@ -137,7 +137,7 @@ export default class JuxtaposeApplication extends React.Component {
     render() {
         const activeElement = this.getItem(this.state.activeElement);
         let tracks = '';
-        if (!this.props.submitted) {
+        if (!this.props.readOnly) {
             tracks = <div>
     <MediaTrack
         duration={this.sequenceDuration()}
@@ -161,7 +161,7 @@ export default class JuxtaposeApplication extends React.Component {
 
         let mediaDisplay = '';
 
-        const centerPrimary =  !(this.hasMediaElements() || !this.props.submitted);
+        const centerPrimary =  !(this.hasMediaElements() || !this.props.readOnly);
         if (!centerPrimary) {
             mediaDisplay =
                 <MediaDisplay
@@ -180,7 +180,7 @@ export default class JuxtaposeApplication extends React.Component {
                 <SpineDisplay
                     spineVid={this.state.spineVid}
                     ref={(c) => this._primaryVid = c}
-                    submitted={this.props.submitted}
+                    readOnly={this.props.readOnly}
                     duration={this.state.duration}
                     onDuration={this.onSpineDuration.bind(this)}
                     onEnded={this.onSpineVideoEnded.bind(this)}
@@ -731,11 +731,11 @@ export default class JuxtaposeApplication extends React.Component {
 JuxtaposeApplication.propTypes = {
     primaryInstructions: React.PropTypes.string.isRequired,
     secondaryInstructions: React.PropTypes.string.isRequired,
-    submitted: React.PropTypes.bool.isRequired
+    readOnly: React.PropTypes.bool.isRequired
 };
 
 JuxtaposeApplication.defaultProps = {
     primaryInstructions: '',
     secondaryInstructions: '',
-    submitted: false
+    readOnly: false
 };
