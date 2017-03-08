@@ -27,6 +27,8 @@ export default class Playhead extends React.Component {
                    onChange={this.props.onChange}
                    onMouseDown={this.props.onMouseDown}
                    onMouseUp={this.props.onMouseUp}
+                   onMouseEnter={this.props.onMouseEnter}
+                   onMouseLeave={this.props.onMouseLeave}
                    value={currentPos * 1000} />
             <div className="jux-playhead-line" style={lineStyle}></div>
         </div>;
@@ -38,5 +40,7 @@ Playhead.propTypes = {
     duration: React.PropTypes.number,
     onChange: React.PropTypes.func.isRequired,
     onMouseDown: React.PropTypes.func.isRequired,
-    onMouseUp: React.PropTypes.func.isRequired
+    onMouseUp: React.PropTypes.func.isRequired,
+    onMouseEnter: React.PropTypes.func.isRequired,
+    onMouseLeave: React.PropTypes.func.isRequired
 };

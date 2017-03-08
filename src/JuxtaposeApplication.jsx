@@ -49,7 +49,9 @@ export default class JuxtaposeApplication extends React.Component {
             currentSecondaryElement: null,
 
             showOutOfBoundsModal: false,
-            showAddPrimaryMediaModal: false
+            showAddPrimaryMediaModal: false,
+
+            hoveringOnPlayhead: false
         };
 
         document.addEventListener('asset.select', function(e) {
@@ -217,11 +219,15 @@ export default class JuxtaposeApplication extends React.Component {
                 </div>
             </div>
             <div className="jux-timeline">
-                <TimelineRuler duration={this.sequenceDuration()} />
+                <TimelineRuler
+                    hovering={this.state.hoveringOnPlayhead}
+                    duration={this.sequenceDuration()} />
                 <Playhead currentTime={this.state.time}
                           duration={this.sequenceDuration()}
                           onMouseDown={this.onPlayheadMouseDown.bind(this)}
                           onMouseUp={this.onPlayheadMouseUp.bind(this)}
+                          onMouseEnter={this.onPlayheadMouseEnter.bind(this)}
+                          onMouseLeave={this.onPlayheadMouseLeave.bind(this)}
                           onChange={this.onPlayheadTimeChange.bind(this)} />
                 {tracks}
             </div>
@@ -417,6 +423,12 @@ export default class JuxtaposeApplication extends React.Component {
         if (this._mediaDisplay) {
             this._mediaDisplay.seekTo(percentage);
         }
+    }
+    onPlayheadMouseEnter() {
+        this.setState({hoveringOnPlayhead: true});
+    }
+    onPlayheadMouseLeave() {
+        this.setState({hoveringOnPlayhead: false});
     }
     onSpineVideoEnded() {
         this.setState({
