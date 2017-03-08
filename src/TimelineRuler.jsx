@@ -69,7 +69,10 @@ export default class TimelineRuler extends React.Component {
     }
     render() {
         const ticks = this.generateTicksElements(this.props.duration);
-        return <div className="jux-timeline-ruler">
+        const hoverClass = this.props.hovering ?
+                           'jux-timeline-ruler hover' :
+                           'jux-timeline-ruler';
+        return <div className={hoverClass}>
             <div className="jux-timeline-hline"></div>
             {ticks}
         </div>;
@@ -77,5 +80,6 @@ export default class TimelineRuler extends React.Component {
 }
 
 TimelineRuler.propTypes = {
-    duration: React.PropTypes.number
+    duration: React.PropTypes.number,
+    hovering: React.PropTypes.bool.isRequired
 };
