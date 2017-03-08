@@ -24,6 +24,7 @@ import TextDisplay from './TextDisplay.jsx';
 import TimelineRuler from './TimelineRuler.jsx';
 import TrackElementManager from './TrackElementManager.jsx';
 import PlayButton from './PlayButton.jsx';
+import RewindButton from './RewindButton.jsx';
 import Playhead from './Playhead.jsx';
 import SpineDisplay from './SpineDisplay.jsx';
 import Xhr from './Xhr.js';
@@ -202,11 +203,8 @@ export default class JuxtaposeApplication extends React.Component {
                          data={this.state.textTrack} />
 
             <div className="jux-flex-horiz">
-                <button className="jux-rewind"
-                        onClick={this.onRewindClick.bind(this)}>
-                    <span className="glyphicon glyphicon-step-backward"
-                          title="Rewind"></span>
-                </button>
+                <RewindButton time={this.state.time}
+                              onClick={this.onRewindClick.bind(this)} />
                 <PlayButton playing={this.state.playing}
                             onClick={this.onPlayClick.bind(this)} />
                 <div className="jux-time-display">
