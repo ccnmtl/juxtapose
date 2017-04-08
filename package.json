@@ -28,7 +28,7 @@
     "openlayers": "^4.0.1",
     "react": "~15.4.0",
     "react-bootstrap": "~0.30.7",
-    "react-dom": "~15.4.0",
+    "react-dom": "~15.5.0",
     "react-grid-layout": "ccnmtl/react-grid-layout#dev",
     "react-player": "ccnmtl/react-player#new-vimeo-api",
     "webpack": "~2.3.0",
