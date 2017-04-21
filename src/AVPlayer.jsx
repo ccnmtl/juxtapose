@@ -73,7 +73,7 @@ export default class AVPlayer extends BasePlayer {
         }
     }
     seekTo(percentage) {
-        if (!this.player) {
+        if (!this.player || this.props.hidden) {
             return;
         }
 
