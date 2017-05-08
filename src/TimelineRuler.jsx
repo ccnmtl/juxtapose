@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {formatTimecode} from './utils.js';
 
 
@@ -80,6 +81,6 @@ export default class TimelineRuler extends React.Component {
 }
 
 TimelineRuler.propTypes = {
-    duration: React.PropTypes.number,
-    hovering: React.PropTypes.bool.isRequired
+    duration: PropTypes.number,
+    hovering: PropTypes.bool.isRequired
 };

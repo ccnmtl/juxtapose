@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class PlayButton extends React.Component {
     onClick(event) {
@@ -17,6 +18,6 @@ export default class PlayButton extends React.Component {
 }
 
 PlayButton.propTypes = {
-    onClick: React.PropTypes.func.isRequired,
-    playing: React.PropTypes.bool.isRequired
+    onClick: PropTypes.func.isRequired,
+    playing: PropTypes.bool.isRequired
 };

@@ -1,14 +1,14 @@
 /* eslint-env jest */
 
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import PlayButton from '../src/PlayButton.jsx';
 
 describe('PlayButton', () => {
     it('changes state after click', () => {
         let onClick = function() {};
 
-        const playButton = TestUtils.renderIntoDocument(
+        const playButton = ReactTestUtils.renderIntoDocument(
                 <PlayButton playing={false} onClick={onClick} />
         );
         expect(playButton.props.playing).toBe(false);

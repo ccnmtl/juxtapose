@@ -1,6 +1,7 @@
 /* global jQuery */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import isFinite from 'lodash/isFinite';
 import isString from 'lodash/isString';
 import find from 'lodash/find';
@@ -739,9 +740,9 @@ export default class JuxtaposeApplication extends React.Component {
 }
 
 JuxtaposeApplication.propTypes = {
-    primaryInstructions: React.PropTypes.string.isRequired,
-    secondaryInstructions: React.PropTypes.string.isRequired,
-    readOnly: React.PropTypes.bool.isRequired
+    primaryInstructions: PropTypes.string.isRequired,
+    secondaryInstructions: PropTypes.string.isRequired,
+    readOnly: PropTypes.bool.isRequired
 };
 
 JuxtaposeApplication.defaultProps = {

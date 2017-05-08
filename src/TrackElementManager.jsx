@@ -1,6 +1,7 @@
 /* global jQuery */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import {formatTimecode} from './utils.js';
 import TimecodeEditor from './TimecodeEditor.jsx';
@@ -151,8 +152,8 @@ export default class TrackElementManager extends React.Component {
 }
 
 TrackElementManager.propTypes = {
-    activeElement: React.PropTypes.object,
-    onChange: React.PropTypes.func.isRequired,
-    onDeleteClick: React.PropTypes.func.isRequired,
-    onEditClick: React.PropTypes.func.isRequired
+    activeElement: PropTypes.object,
+    onChange: PropTypes.func.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
+    onEditClick: PropTypes.func.isRequired
 };

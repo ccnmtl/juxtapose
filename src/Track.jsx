@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactGridLayout from 'react-grid-layout';
 import TrackElement from './TrackElement.jsx';
 import TrackElementAddColumn from './TrackElementAddColumn.jsx';
@@ -120,9 +121,9 @@ export default class Track extends React.Component {
 }
 
 Track.propTypes = {
-    data: React.PropTypes.array.isRequired,
-    duration: React.PropTypes.number,
-    onAddWithoutPrimaryVid: React.PropTypes.func,
-    onDragStop: React.PropTypes.func.isRequired,
-    onTrackEditButtonClick: React.PropTypes.func.isRequired
+    data: PropTypes.array.isRequired,
+    duration: PropTypes.number,
+    onAddWithoutPrimaryVid: PropTypes.func,
+    onDragStop: PropTypes.func.isRequired,
+    onTrackEditButtonClick: PropTypes.func.isRequired
 };

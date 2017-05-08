@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from 'react-bootstrap/lib/Modal';
 
 export default class TextAnnotationAdder extends React.Component {
@@ -43,8 +44,8 @@ export default class TextAnnotationAdder extends React.Component {
 }
 
 TextAnnotationAdder.propTypes = {
-    onCloseClick: React.PropTypes.func.isRequired,
-    onSubmit: React.PropTypes.func.isRequired,
-    showing: React.PropTypes.bool.isRequired,
-    timestamp: React.PropTypes.number
+    onCloseClick: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    showing: PropTypes.bool.isRequired,
+    timestamp: PropTypes.number
 };

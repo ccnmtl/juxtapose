@@ -1,6 +1,7 @@
 /* global jQuery */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import isFinite from 'lodash/isFinite';
 import {formatTimecode, parseTimecode} from './utils.js';
 
@@ -60,6 +61,6 @@ export default class TimecodeEditor extends React.Component {
 }
 
 TimecodeEditor.propTypes = {
-    min: React.PropTypes.number.isRequired,
-    timecode: React.PropTypes.number.isRequired
+    min: PropTypes.number.isRequired,
+    timecode: PropTypes.number.isRequired
 };

@@ -1,13 +1,13 @@
 /* eslint-env jest */
 
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import JuxtaposeApplication from '../src/JuxtaposeApplication.jsx';
 import {mediaTrackData, textTrackData} from '../src/data.js';
 
 describe('JuxtaposeApplication.getItem', () => {
     it('returns the expected output', () => {
-        const app = TestUtils.renderIntoDocument(
+        const app = ReactTestUtils.renderIntoDocument(
             <JuxtaposeApplication />
         );
         app.setState({
