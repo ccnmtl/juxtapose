@@ -13,7 +13,7 @@ import {formatTimecode, parseTimecode} from './utils.js';
 export default class TimecodeEditor extends React.Component {
     render() {
         return <div className="jux-timecode-editor">
-    <input ref="spinner" min={this.props.min} required
+    <input ref={(c) => this._spinner = c} min={this.props.min} required
            defaultValue={formatTimecode(this.props.timecode)} />
         </div>;
     }
@@ -21,23 +21,23 @@ export default class TimecodeEditor extends React.Component {
         // Because this is an uncontrolled input, we need to manually
         // update the value of the input when the active element is
         // updated.
-        if (parseTimecode(this.refs.spinner.value) !== props.timecode) {
-            this.refs.spinner.value = formatTimecode(props.timecode);
+        if (parseTimecode(this._spinner.value) !== props.timecode) {
+            this._spinner.value = formatTimecode(props.timecode);
         }
     }
     componentDidMount() {
         const self = this;
-        jQuery(this.refs.spinner).timecodespinner({
+        jQuery(this._spinner).timecodespinner({
             change: function(e) {
                 const seconds = parseTimecode(e.target.value);
                 if (isFinite(seconds)) {
                     self.props.onChange(seconds);
                 }
 
-                if (self.props.timecode !== self.refs.spinner.value) {
+                if (self.props.timecode !== self._spinner.value) {
                     // Update the input value from the application state
                     // when the user puts it in an invalid state.
-                    self.refs.spinner.value = formatTimecode(
+                    self._spinner.value = formatTimecode(
                         self.props.timecode);
                 }
             },
@@ -46,9 +46,9 @@ export default class TimecodeEditor extends React.Component {
                 if (isFinite(seconds)) {
                     self.props.onChange(seconds);
                 }
-                if (self.props.timecode !== self.refs.spinner.value) {
+                if (self.props.timecode !== self._spinner.value) {
                     // Lock down the value on spin as well.
-                    self.refs.spinner.value = formatTimecode(
+                    self._spinner.value = formatTimecode(
                         self.props.timecode);
                     return false;
                 }
@@ -56,7 +56,7 @@ export default class TimecodeEditor extends React.Component {
         });
     }
     componentWillUnmount() {
-        jQuery(this.refs.spinner).timecodespinner('destroy');
+        jQuery(this._spinner).timecodespinner('destroy');
     }
 }
 

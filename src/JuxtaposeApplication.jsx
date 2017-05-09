@@ -214,7 +214,6 @@ export default class JuxtaposeApplication extends React.Component {
                     <div>
                         {formatTimecode(this.state.time)} / {formatTimecode(this.sequenceDuration())}
                     </div>
-
                 </div>
             </div>
             <div className="jux-timeline">

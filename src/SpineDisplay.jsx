@@ -77,7 +77,7 @@ export default class SpineDisplay extends BasePlayer {
         return <div className="jux-spine-display">
                 <ReactPlayer
                     id={this.id}
-                    ref={(ref) => this.player = ref}
+                    ref={(c) => this.player = c}
                     width={480}
                     height={360}
                     volume={volume}
