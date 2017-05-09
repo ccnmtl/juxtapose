@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class TrackElementAddColumn extends React.Component {
     onClick(e) {
@@ -12,6 +13,6 @@ export default class TrackElementAddColumn extends React.Component {
 }
 
 TrackElementAddColumn.propTypes = {
-    absoluteTimecode: React.PropTypes.number.isRequired,
-    callbackParent: React.PropTypes.func.isRequired
+    absoluteTimecode: PropTypes.number.isRequired,
+    callbackParent: PropTypes.func.isRequired
 };

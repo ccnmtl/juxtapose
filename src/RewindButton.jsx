@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class RewindButton extends React.Component {
     onClick(event) {
@@ -21,6 +22,6 @@ export default class RewindButton extends React.Component {
 }
 
 RewindButton.propTypes = {
-    onClick: React.PropTypes.func.isRequired,
-    time: React.PropTypes.number.isRequired
+    onClick: PropTypes.func.isRequired,
+    time: PropTypes.number.isRequired
 };

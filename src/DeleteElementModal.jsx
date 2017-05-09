@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from 'react-bootstrap/lib/Modal';
 
 export default class DeleteElementModal extends React.Component {
@@ -26,7 +27,7 @@ export default class DeleteElementModal extends React.Component {
 }
 
 DeleteElementModal.propTypes = {
-    onCloseClick: React.PropTypes.func.isRequired,
-    onConfirmClick: React.PropTypes.func.isRequired,
-    showing: React.PropTypes.bool.isRequired
+    onCloseClick: PropTypes.func.isRequired,
+    onConfirmClick: PropTypes.func.isRequired,
+    showing: PropTypes.bool.isRequired
 };

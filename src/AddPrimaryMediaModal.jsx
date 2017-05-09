@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from 'react-bootstrap/lib/Modal';
 
 export default class AddPrimaryMediaModal extends React.Component {
@@ -22,6 +23,6 @@ export default class AddPrimaryMediaModal extends React.Component {
 }
 
 AddPrimaryMediaModal.propTypes = {
-    onCloseClick: React.PropTypes.func.isRequired,
-    showing: React.PropTypes.bool.isRequired
+    onCloseClick: PropTypes.func.isRequired,
+    showing: PropTypes.bool.isRequired
 };

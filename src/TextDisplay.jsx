@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class TextDisplay extends React.Component {
     shouldDisplay(data, currentTime) {
@@ -17,6 +18,6 @@ export default class TextDisplay extends React.Component {
 }
 
 TextDisplay.propTypes = {
-    data: React.PropTypes.array.isRequired,
-    time: React.PropTypes.number
+    data: PropTypes.array.isRequired,
+    time: PropTypes.number
 };

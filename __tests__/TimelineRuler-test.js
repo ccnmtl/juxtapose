@@ -1,18 +1,18 @@
 /* eslint-env jest */
 
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import TimelineRuler from '../src/TimelineRuler.jsx';
 
 describe('TimelineRuler', () => {
     it('can be initialized', () => {
-        const timelineRuler = TestUtils.renderIntoDocument(
-                <TimelineRuler duration={0} />);
+        const timelineRuler = ReactTestUtils.renderIntoDocument(
+                <TimelineRuler hovering={false} duration={0} />);
         expect(timelineRuler.props.duration).toBe(0);
     });
     it('calculates correct offsets for timeline ticks', () => {
-        const timelineRuler = TestUtils.renderIntoDocument(
-                <TimelineRuler duration={0} />);
+        const timelineRuler = ReactTestUtils.renderIntoDocument(
+                <TimelineRuler hovering={false} duration={0} />);
 
         expect(timelineRuler.generateTicks(0)).toEqual([[100, 0]]);
         expect(timelineRuler.generateTicks(8889)).toEqual([

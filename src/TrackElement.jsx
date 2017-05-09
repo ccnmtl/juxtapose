@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import VidItemThumb from './VidItemThumb.jsx';
 import {ellipsis} from './utils.js';
 import {getVimeoID} from './utils.js';
@@ -100,13 +101,13 @@ export default class TrackElement extends React.Component {
 }
 
 TrackElement.propTypes = {
-    className: React.PropTypes.string,
-    data: React.PropTypes.object.isRequired,
-    dragging: React.PropTypes.bool,
-    isActive: React.PropTypes.bool.isRequired,
-    style: React.PropTypes.object,
-    onEditButtonClick: React.PropTypes.func,
-    onMouseDown: React.PropTypes.func,
-    onTouchEnd: React.PropTypes.func,
-    onTouchStart: React.PropTypes.func
+    className: PropTypes.string,
+    data: PropTypes.object.isRequired,
+    dragging: PropTypes.bool,
+    isActive: PropTypes.bool.isRequired,
+    style: PropTypes.object,
+    onEditButtonClick: PropTypes.func,
+    onMouseDown: PropTypes.func,
+    onTouchEnd: PropTypes.func,
+    onTouchStart: PropTypes.func
 };

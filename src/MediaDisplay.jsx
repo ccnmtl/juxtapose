@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AVPlayer from './AVPlayer.jsx';
 import ImagePlayer from './ImagePlayer.jsx';
 import {decodeQuotes} from './utils.js';
@@ -84,9 +85,9 @@ export default class MediaDisplay extends React.Component {
 }
 
 MediaDisplay.propTypes = {
-    data: React.PropTypes.array.isRequired,
-    duration: React.PropTypes.number,
-    instructions: React.PropTypes.string.isRequired,
-    playing: React.PropTypes.bool.isRequired,
-    time: React.PropTypes.number
+    data: PropTypes.array.isRequired,
+    duration: PropTypes.number,
+    instructions: PropTypes.string.isRequired,
+    playing: PropTypes.bool.isRequired,
+    time: PropTypes.number
 };

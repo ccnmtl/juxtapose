@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class VidItemThumb extends React.Component {
     render() {
@@ -9,5 +10,5 @@ export default class VidItemThumb extends React.Component {
 }
 
 VidItemThumb.propTypes = {
-    url: React.PropTypes.string.isRequired
+    url: PropTypes.string.isRequired
 };

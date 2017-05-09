@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 export default class Playhead extends React.Component {
     constructor(props) {
@@ -36,11 +36,11 @@ export default class Playhead extends React.Component {
 }
 
 Playhead.propTypes = {
-    currentTime: React.PropTypes.number,
-    duration: React.PropTypes.number,
-    onChange: React.PropTypes.func.isRequired,
-    onMouseDown: React.PropTypes.func.isRequired,
-    onMouseUp: React.PropTypes.func.isRequired,
-    onMouseEnter: React.PropTypes.func.isRequired,
-    onMouseLeave: React.PropTypes.func.isRequired
+    currentTime: PropTypes.number,
+    duration: PropTypes.number,
+    onChange: PropTypes.func.isRequired,
+    onMouseDown: PropTypes.func.isRequired,
+    onMouseUp: PropTypes.func.isRequired,
+    onMouseEnter: PropTypes.func.isRequired,
+    onMouseLeave: PropTypes.func.isRequired
 };

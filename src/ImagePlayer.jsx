@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 
 export default class ImagePlayer extends React.Component {
@@ -164,9 +165,9 @@ export default class ImagePlayer extends React.Component {
 }
 
 ImagePlayer.propTypes = {
-    annotationData: React.PropTypes.string,
-    height: React.PropTypes.number,
-    hidden: React.PropTypes.bool.isRequired,
-    url: React.PropTypes.string.isRequired,
-    width: React.PropTypes.number
+    annotationData: PropTypes.string,
+    height: PropTypes.number,
+    hidden: PropTypes.bool.isRequired,
+    url: PropTypes.string.isRequired,
+    width: PropTypes.number
 };
