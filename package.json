@@ -31,7 +31,7 @@
     "react-bootstrap": "~0.31.0",
     "react-dom": "~15.5.0",
     "react-grid-layout": "ccnmtl/react-grid-layout#dev",
-    "react-player": "ccnmtl/react-player#new-vimeo-api",
+    "react-player": "~0.17.2",
     "webpack": "~2.5.0",
     "whatwg-fetch": "^2.0.0"
   },

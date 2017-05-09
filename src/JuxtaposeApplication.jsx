@@ -206,7 +206,7 @@ export default class JuxtaposeApplication extends React.Component {
                          data={this.state.textTrack} />
 
             <div className="jux-flex-horiz">
-                <RewindButton time={this.state.time}
+                <RewindButton time={this.state.time || 0}
                               onClick={this.onRewindClick.bind(this)} />
                 <PlayButton playing={this.state.playing}
                             onClick={this.onPlayClick.bind(this)} />
