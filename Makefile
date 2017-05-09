@@ -5,7 +5,6 @@ $(JS_SENTINAL): package.json
 	rm -rf $(NODE_MODULES)
 	npm install
 	cd $(NODE_MODULES)/react-grid-layout && npm install && make build-js
-	cd $(NODE_MODULES)/react-player && npm install && npm run build:webpack
 	touch $(JS_SENTINAL)
 
 build: $(JS_SENTINAL) build/bundle.js

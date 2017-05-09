@@ -26,8 +26,6 @@ export default class SpineDisplay extends BasePlayer {
         if (this.props.spineVid.host === 'youtube') {
             url = 'https://www.youtube.com/watch?v=' +
                   this.props.spineVid.url;
-        } else if (this.props.spineVid.host === 'vimeo') {
-            url = 'https://www.vimeo.com/watch?v=' + this.props.spineVid.url;
         } else {
             url = this.props.spineVid.url;
         }
