@@ -32,7 +32,7 @@
     "react-dom": "~15.6.0",
     "react-grid-layout": "ccnmtl/react-grid-layout#dev",
     "react-player": "~0.19.1",
-    "webpack": "~3.3.0",
+    "webpack": "~3.4.0",
     "whatwg-fetch": "^2.0.0"
   },
   "devDependencies": {
