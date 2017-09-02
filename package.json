@@ -31,7 +31,7 @@
     "react-bootstrap": "~0.31.0",
     "react-dom": "~15.6.0",
     "react-grid-layout": "ccnmtl/react-grid-layout#dev",
-    "react-player": "~0.20.0",
+    "react-player": "~0.21.0",
     "webpack": "~3.5.1",
     "whatwg-fetch": "~2.0.0"
   },
