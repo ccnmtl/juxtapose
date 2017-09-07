@@ -4,4 +4,5 @@ node_js:
 script:
   - make eslint
   - npm install canvas-prebuilt
+  - npm install jsdom
   - make test
