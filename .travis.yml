@@ -1,8 +1,8 @@
 language: node_js
 node_js:
   - "6"
+before_install:
+  - npm i -g npm@latest
 script:
   - make eslint
-  - npm install canvas-prebuilt
-  - npm install jsdom
   - make test
