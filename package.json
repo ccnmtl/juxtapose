@@ -47,7 +47,7 @@
     "canvas-prebuilt": "~1.6.5-prerelease.1"
   },
   "jest": {
-    "automock": false,
+    "automock": true,
     "setupFiles": [
       "./setupJest.js"
     ]
