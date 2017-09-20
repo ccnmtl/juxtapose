@@ -36,17 +36,18 @@ export default class Track extends React.Component {
         trackData.map(function(data, i) {
             if (!me.props.duration ||
                 // In case of bad track data, it's possible that the
-                // track's start time could be greater than the
-                // spine's duration. Tracks like this just shouldn't
-                // be displayed.
+                // track item's start time could be greater than the
+                // spine's duration. Track items like this just
+                // shouldn't be displayed.
                 data.start_time > me.props.duration
                ) {
                 return;
             }
 
-            // A similar fix for bad track data: tracks that have a
-            // start time within a valid range, but an out of bounds
-            // end time should just be capped to the valid range.
+            // A similar fix for bad track data: track items that
+            // have a start time within a valid range, but an out
+            // of bounds end time should just be capped to the valid 
+            // range.
             const itemLen = Math.min(
                 data.end_time - data.start_time,
                 me.props.duration);
