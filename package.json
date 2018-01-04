@@ -47,7 +47,8 @@
   },
   "greenkeeper": {
     "ignore": [
-      "openlayers"
+      "openlayers",
+      "react"
     ]
   },
   "jest": {
