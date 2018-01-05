@@ -4,7 +4,9 @@ JS_SENTINAL ?= $(NODE_MODULES)/sentinal
 $(JS_SENTINAL): package.json
 	rm -rf $(NODE_MODULES)
 	npm install
-	cd $(NODE_MODULES)/react-grid-layout && npm install && make build-js
+	# For some reason, the 'build' directory isn't present in react-grid-layout
+	# unless I explicitly install it here:
+	npm i react-grid-layout
 	touch $(JS_SENTINAL)
 
 build: $(JS_SENTINAL) build/bundle.js
