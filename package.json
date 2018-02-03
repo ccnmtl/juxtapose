@@ -38,7 +38,7 @@
   "devDependencies": {
     "babel-jest": "~22.1.0",
     "babel-polyfill": "~6.26.0",
-    "eslint": "~4.16.0",
+    "eslint": "~4.17.0",
     "eslint-plugin-react": "~7.6.0",
     "exports-loader": "~0.6.3",
     "imports-loader": "~0.7.0",
