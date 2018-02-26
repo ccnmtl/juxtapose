@@ -10,6 +10,9 @@ var config = {
         path: BUILD_DIR,
         filename: 'bundle.js'
     },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
     plugins: [
         new webpack.ProvidePlugin({
             'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
@@ -22,14 +25,18 @@ var config = {
         })
     ],
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.jsx?$/,
-                include: APP_DIR,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['react', 'es2015']
-                }
+                oneOf: [
+                    {
+                        test: /\.(js|jsx)$/,
+                        include: APP_DIR,
+                        loader: require.resolve('babel-loader'),
+                        query: {
+                            presets: ['react', 'es2015']
+                        }
+                    }
+                ]
             }
         ]
     }
