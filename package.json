@@ -43,7 +43,7 @@
     "eslint-plugin-react": "~7.7.0",
     "exports-loader": "~0.7.0",
     "imports-loader": "~0.8.0",
-    "jest-cli": "~22.4.0",
+    "jest-cli": "~23.0.0-alpha.0",
     "jest-fetch-mock": "~1.4.0"
   },
   "greenkeeper": {
