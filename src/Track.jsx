@@ -30,6 +30,46 @@ export default class Track extends React.Component {
         super(props);
         this.width = 910;
     }
+    // TODO: generateLayout / generateItems logic is identical, and
+    // could be merged.
+    generateLayout(trackData) {
+        let layout = [];
+        const me = this;
+        trackData.map(function(data) {
+            if (!me.props.duration ||
+                // In case of bad track data, it's possible that the
+                // track item's start time could be greater than the
+                // spine's duration. Track items like this just
+                // shouldn't be displayed.
+                data.start_time > me.props.duration
+               ) {
+                return;
+            }
+
+            // A similar fix for bad track data: track items that
+            // have a start time within a valid range, but an out
+            // of bounds end time should just be capped to the valid
+            // range.
+            const itemLen = Math.min(
+                data.end_time - data.start_time,
+                me.props.duration);
+
+            const width = percentToTrackCoords(
+                (itemLen / me.props.duration) * 100);
+
+            const percent = (data.start_time / me.props.duration) * 100;
+            const xPos = percentToTrackCoords(percent);
+
+            const item = {
+                x: xPos,
+                y: 0,
+                w: width,
+                h: 49
+            };
+            layout.push(item);
+        });
+        return layout;
+    }
     generateItems(trackData) {
         let items = [];
         const me = this;
@@ -46,7 +86,7 @@ export default class Track extends React.Component {
 
             // A similar fix for bad track data: track items that
             // have a start time within a valid range, but an out
-            // of bounds end time should just be capped to the valid 
+            // of bounds end time should just be capped to the valid
             // range.
             const itemLen = Math.min(
                 data.end_time - data.start_time,
@@ -124,6 +164,7 @@ export default class Track extends React.Component {
                         rowHeight={1}
                         autoSize={false}
                         isResizable={false}
+                        layout={this.generateLayout(this.props.data)}
                         preventCollision={true}>
                         {this.generateItems(this.props.data)}
                     </ReactGridLayout>

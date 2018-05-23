@@ -62,5 +62,6 @@ export default class TimecodeEditor extends React.Component {
 
 TimecodeEditor.propTypes = {
     min: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
     timecode: PropTypes.number.isRequired
 };
