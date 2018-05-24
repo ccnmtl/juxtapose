@@ -29,7 +29,7 @@
     "lodash": "~4.17.2",
     "openlayers": "~4.5.0",
     "prop-types": "~15.6.0",
-    "react": "~15.6.0",
+    "react": "~16.4.0",
     "react-bootstrap": "~0.32.0",
     "react-dom": "~15.6.0",
     "react-grid-layout": "~0.16.6",
