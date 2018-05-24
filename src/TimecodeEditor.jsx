@@ -17,9 +17,12 @@ export default class TimecodeEditor extends React.Component {
            defaultValue={formatTimecode(this.props.timecode)} />
         </div>;
     }
-    componentDidUpdate(prevProps) {
-        if (parseTimecode(this._spinner.value) !== prevProps.timecode) {
-            this._spinner.value = formatTimecode(prevProps.timecode);
+    componentDidUpdate(props) {
+        // Because this is an uncontrolled input, we need to manually
+        // update the value of the input when the active element is
+        // updated.
+        if (parseTimecode(this._spinner.value) !== props.timecode) {
+            this._spinner.value = formatTimecode(props.timecode);
         }
     }
     componentDidMount() {
@@ -59,5 +62,6 @@ export default class TimecodeEditor extends React.Component {
 
 TimecodeEditor.propTypes = {
     min: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
     timecode: PropTypes.number.isRequired
 };

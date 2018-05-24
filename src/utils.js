@@ -499,11 +499,6 @@ export function reassignKeys(track) {
  * this function returns null.
  */
 export function trackItemDragHandler(origTrack, item, sequenceDuration) {
-    // react-grid-layout sets a 'moved' flag on the dragged item.
-    if (item.moved === false) {
-        return null;
-    }
-
     const origElem = find(origTrack, ['key', parseInt(item['i'], 10)]);
     let newTrack = origTrack.slice();
     const elem = find(newTrack, ['key', parseInt(item['i'], 10)]);
