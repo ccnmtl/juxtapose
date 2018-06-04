@@ -33,7 +33,7 @@ var config = {
                         include: APP_DIR,
                         loader: require.resolve('babel-loader'),
                         query: {
-                            presets: ['react', 'es2015']
+                            presets: ['react']
                         }
                     }
                 ]
