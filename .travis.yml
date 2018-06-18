@@ -7,9 +7,7 @@ before_install:
   - npm install -g greenkeeper-lockfile@1
 install: npm install
 before_script:
-- cd node_modules/react-grid-layout
 - npm install
-- cd ../..
 - greenkeeper-lockfile-update
 script:
 - make eslint
