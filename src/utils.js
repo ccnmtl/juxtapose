@@ -418,7 +418,6 @@ export function pad2(number) {
 export function prepareMediaData(array) {
     let a = cloneDeep(array);
     for (let e of a) {
-        e.media = e.media;
         delete e.host;
         delete e.source;
     }
