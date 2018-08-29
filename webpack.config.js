@@ -33,7 +33,7 @@ var config = {
                         include: APP_DIR,
                         loader: require.resolve('babel-loader'),
                         query: {
-                            presets: ['react']
+                            presets: ['@babel/env', '@babel/react']
                         }
                     }
                 ]
