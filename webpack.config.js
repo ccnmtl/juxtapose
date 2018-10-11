@@ -5,7 +5,7 @@ var BUILD_DIR = path.resolve(__dirname, 'build');
 var APP_DIR = path.resolve(__dirname, 'src');
 
 var config = {
-    entry: ['babel-polyfill', APP_DIR + '/index.jsx'],
+    entry: [APP_DIR + '/index.jsx'],
     output: {
         path: BUILD_DIR,
         filename: 'bundle.js'
@@ -33,7 +33,7 @@ var config = {
                         include: APP_DIR,
                         loader: require.resolve('babel-loader'),
                         query: {
-                            presets: ['@babel/env', '@babel/react']
+                            presets: ['@babel/preset-env', '@babel/preset-react']
                         }
                     }
                 ]
