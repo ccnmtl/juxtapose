@@ -30,7 +30,7 @@
     "prop-types": "~15.6.1",
     "react": "~16.7.0",
     "react-bootstrap": "~0.32.0",
-    "react-dom": "~16.6.0",
+    "react-dom": "~16.7.0",
     "react-grid-layout": "~0.16.6",
     "react-player": "~1.7.1",
     "webpack": "~4.27.1",
