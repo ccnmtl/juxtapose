@@ -268,6 +268,11 @@ function extractSource(o) {
             url: o.mp4_pseudo.url
         };
     }
+    if (o.mp4_panopto && o.mp4_panopto.url) {
+        return {
+            url: o.mp4_panopto.url
+        };
+    }
     if (o.mp4_audio && o.mp4_audio.url) {
         return {
             url: o.mp4_audio.url
