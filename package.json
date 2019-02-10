@@ -27,7 +27,7 @@
     "js-cookie": "~2.2.0",
     "lodash": "~4.17.2",
     "openlayers": "~4.5.0",
-    "prop-types": "~15.6.1",
+    "prop-types": "~15.7.0",
     "react": "~16.7.0",
     "react-bootstrap": "~0.32.0",
     "react-dom": "~16.7.0",
