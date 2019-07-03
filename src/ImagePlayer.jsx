@@ -71,9 +71,9 @@ export default class ImagePlayer extends React.Component {
         this.map.getView().setZoom(level);
     }
     hasFeature(attrs) {
-        return attrs.hasOwnProperty('feature') ||
-               attrs.hasOwnProperty('geometry') ||
-               attrs.hasOwnProperty('xywh');
+        return Object.prototype.hasOwnProperty.call(attrs, 'feature') ||
+               Object.prototype.hasOwnProperty.call(attrs, 'geometry') ||
+               Object.prototype.hasOwnProperty.call(attrs, 'xywh');
     }
     addVectorLayer(props, projection, attrs) {
         const formatter = new ol.format.GeoJSON({
