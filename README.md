@@ -1,7 +1,5 @@
 # juxtapose [![Build Status](https://travis-ci.org/ccnmtl/juxtapose.svg?branch=master)](https://travis-ci.org/ccnmtl/juxtapose)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/ccnmtl/juxtapose.svg)](https://greenkeeper.io/)
-
 Video Juxtaposition Tool
 
 ## Development Notes
