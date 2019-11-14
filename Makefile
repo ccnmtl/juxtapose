@@ -19,6 +19,6 @@ test: $(JS_SENTINAL)
 	NODE_ENV="test" npm run test
 
 clean:
-	rm -rf $(NODE_MODULES)
+	rm -rf $(NODE_MODULES) build
 
 .PHONY: clean
