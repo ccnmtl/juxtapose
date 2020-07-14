@@ -29,7 +29,7 @@
     "openlayers": "~4.6.5",
     "prop-types": "~15.7.0",
     "react": "~16.13.1",
-    "react-bootstrap": "~0.33.1",
+    "react-bootstrap": "~1.2.2",
     "react-dom": "~16.13.1",
     "react-grid-layout": "~0.18.3",
     "react-player": "~2.5.0",
