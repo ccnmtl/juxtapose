@@ -14,9 +14,6 @@ var config = {
         extensions: ['.js', '.jsx']
     },
     plugins: [
-        new webpack.ProvidePlugin({
-            'fetch': 'exports-loader?self.fetch!whatwg-fetch/dist/fetch.umd'
-        }),
         new webpack.DefinePlugin({
             'process.env': {
                 // Turn 'production' env on when running `make build`
