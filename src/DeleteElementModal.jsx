@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-bootstrap/lib/Modal';
+import Modal from 'react-bootstrap/Modal';
 
 export default class DeleteElementModal extends React.Component {
     render() {
@@ -13,7 +13,7 @@ export default class DeleteElementModal extends React.Component {
         Are you sure you want to delete this element?
     </Modal.Body>
     <Modal.Footer>
-        <button type="button" className="btn btn-default"
+        <button type="button" className="btn btn-secondary"
                 onClick={this.props.onCloseClick}>
             Cancel
         </button>

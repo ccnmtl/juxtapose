@@ -57,11 +57,11 @@ export default class MediaDisplay extends React.Component {
             const instructions = decodeQuotes(this.props.instructions);
             return <div className="jux-media-display">
               <div className="help-text">
-                  <h1>Place secondary elements</h1>
+                  <h2>Place secondary elements</h2>
                   <p className="instructions">
                       Click the tracks below to place<br />
-                      <span className="media-track-icon"></span>
-                      media and
+                      <span className="media-track-icon "></span>
+                       media and
                       <span className="text-track-icon"></span>
                       text elements.
                       <br /><br />

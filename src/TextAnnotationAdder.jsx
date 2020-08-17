@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-bootstrap/lib/Modal';
+import Modal from 'react-bootstrap/Modal';
 
 export default class TextAnnotationAdder extends React.Component {
     constructor(props) {
@@ -21,7 +21,7 @@ export default class TextAnnotationAdder extends React.Component {
         this.props.onCloseClick();
     }
     render() {
-        return <Modal show={this.props.showing} onHide={this.close.bind(this)}>
+        return <Modal show={this.props.showing} autoFocus={false} onHide={this.close.bind(this)}>
     <Modal.Header closeButton>
         <Modal.Title>Add text annotation</Modal.Title>
     </Modal.Header>
@@ -37,7 +37,6 @@ export default class TextAnnotationAdder extends React.Component {
                 Submit
             </button>
         </form>
-        <div className="clearfix"></div>
     </Modal.Body>
         </Modal>;
     }
