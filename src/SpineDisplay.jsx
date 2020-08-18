@@ -15,15 +15,15 @@ export default class SpineDisplay extends BasePlayer {
             const instructions = decodeQuotes(this.props.instructions);
             return <div className="jux-spine-display">
               <div className="help-text">
-              <button className="add-spine" onClick={this.onClickReviseSpine}>
+              <button className="add-spine">
                       <svg width="2em" height="2em" viewBox="0 0 16 16"
                         className="bi bi-plus-circle-fill" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z"/>
                       </svg>
               </button>
-              <h2>Add a primary video</h2>
-              <p className="instructions">{instructions}</p>
+              <h2 onClick={this.onClickReviseSpine}>Add a primary video</h2>
+              <p className="instructions small">{instructions}</p>
               </div>
             </div>;
         }
