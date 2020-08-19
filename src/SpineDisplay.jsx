@@ -22,7 +22,7 @@ export default class SpineDisplay extends BasePlayer {
                         <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z"/>
                       </svg>
               </button>
-              <h2>Add a primary video</h2>
+              <h2 onClick={this.onClickReviseSpine}>Add a primary video</h2>
               <p className="instructions">{instructions}</p>
               </div>
             </div>;
