@@ -91,7 +91,7 @@ export default class TrackElementManager extends React.Component {
                     Updated
                 </div>
                 <button style={{'display': isTextActive ? 'none' : 'block'}}
-                    className="jux-edit-track-element btn btn-default btn-sm"
+                    className="jux-edit-track-element btn btn-outline-secondary btn-sm"
                     title="Edit Element"
                     onClick={this.onEditClick.bind(this)}>
                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" className="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
