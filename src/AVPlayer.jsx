@@ -48,8 +48,10 @@ export default class AVPlayer extends BasePlayer {
                    onStart={this.onStart.bind(this)}
                    onPlay={this.onPlay.bind(this)}
                    playing={playing}
-                   youtubeConfig={this.youtubeConfig}
-                   vimeoConfig={this.vimeoConfig}
+                   config={{
+                       youtube: this.youtubeConfig,
+                       vimeo: this.vimeoConfig
+                   }}
                />;
     }
     pause() {

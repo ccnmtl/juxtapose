@@ -365,7 +365,8 @@ export default class JuxtaposeApplication extends React.Component {
             time: 0
         });
 
-        this._primaryVid.player.seekTo(0);
+        this._primaryVid.player.seekTo(
+            this.state.spineVid.annotationStartTime || 0);
     }
     /**
      * Remove the active track item.
@@ -463,9 +464,8 @@ export default class JuxtaposeApplication extends React.Component {
                 return;
             }
 
-            const seconds = (
-                state.played * this.state.duration
-            ) - (this.state.spineVid.annotationStartTime || 0);
+            const seconds = state.playedSeconds - (
+                this.state.spineVid.annotationStartTime || 0);
 
             // Current time should never be negative,
             let time = Math.max(0, seconds);
