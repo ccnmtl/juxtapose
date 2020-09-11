@@ -13,7 +13,20 @@ export default class TrackElement extends React.Component {
     }
     vimeoThumbnailListener(e) {
         const json = e.target.responseText;
-        const data = JSON.parse(json);
+
+        let data = null;
+        try {
+            data = JSON.parse(json);
+        } catch(error) {
+            console.error('Can\'t parse vimeo thumbnail JSON', error);
+            return;
+        }
+
+        if (!data) {
+            console.error('Can\'t parse vimeo thumbnail JSON');
+            return;
+        }
+
         const url = data[0].thumbnail_medium;
         this.setState({vimeoThumbnailUrl: url});
     }
