@@ -111,9 +111,6 @@ export default class ImagePlayer extends React.Component {
         this.map.addLayer(layer);
     }
     initializeMap() {
-        let attrs = JSON.parse(this.props.annotationData);
-        attrs.type = 'Feature'; // required for ol2 > ol3 migration
-
         const extent = this.objectProportioned();
 
         const projection = new ol.proj.Projection({
@@ -132,9 +129,28 @@ export default class ImagePlayer extends React.Component {
 
         this.addImageLayer(this.props, projection, extent);
 
-        if (this.hasFeature(attrs)) {
+        let attrs = null;
+        if (this.props.annotationData) {
+            // If there's annotation data, parse it and display it as a
+            // vector layer in OpenLayers.
+            try {
+                attrs = JSON.parse(this.props.annotationData);
+            } catch(error) {
+                console.error('Can\'t parse image annotation JSON', error);
+                return;
+            }
+
+            if (!attrs) {
+                console.error('Can\'t parse image annotation JSON');
+                return;
+            }
+
+            attrs.type = 'Feature'; // required for ol2 > ol3 migration
+        }
+
+        if (attrs && this.hasFeature(attrs)) {
             this.addVectorLayer(this.props, projection, attrs);
-        } else if (attrs.x !== undefined) {
+        } else if (attrs && attrs.x !== undefined) {
             this.center(attrs.x, attrs.y);
             this.zoom(attrs.zoom - .5);
         } else {
