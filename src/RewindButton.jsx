@@ -14,6 +14,7 @@ export default class RewindButton extends React.Component {
         const cls = disabled ? 'jux-rewind disabled' : 'jux-rewind';
         return <button className={cls}
                        disabled={disabled}
+                       aria-label="rewind"
                        onClick={this.onClick.bind(this)}>
                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" className="bi bi-skip-start-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" d="M4.5 3.5A.5.5 0 0 0 4 4v8a.5.5 0 0 0 1 0V4a.5.5 0 0 0-.5-.5z"/>
