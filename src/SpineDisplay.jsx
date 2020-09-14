@@ -15,7 +15,7 @@ export default class SpineDisplay extends BasePlayer {
             const instructions = decodeQuotes(this.props.instructions);
             return <div className="jux-spine-display">
               <div className="help-text">
-              <button className="add-spine" onClick={this.onClickReviseSpine}>
+              <button className="add-spine" aria-label="add primary video" onClick={this.onClickReviseSpine}>
                       <svg width="2em" height="2em" viewBox="0 0 16 16"
                         className="bi bi-plus-circle-fill" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">

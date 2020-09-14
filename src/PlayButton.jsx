@@ -7,6 +7,7 @@ export default class PlayButton extends React.Component {
     }
     render() {
         return <button className="jux-play"
+                       aria-label="play"
                        onClick={this.onClick.bind(this)}>
             {this.props.playing ?
                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" className="bi bi-pause-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
