@@ -28,7 +28,7 @@ export default class TrackElementManager extends React.Component {
                 volumeControl = <div className="form-group">
     <label>
         Volume &nbsp;{activeElement.volume}
-        <input type="range" min="0" max="100"
+        <input type="range" min="0" max="100" aria-label="range"
                value={activeElement.volume}
                onChange={this.onVolumeChange.bind(this)} />
     </label>
@@ -79,9 +79,10 @@ export default class TrackElementManager extends React.Component {
         </div>
         <div className="col">
             <div className="form-group">
-                <label className="small">Content</label><br />
+                <label htmlFor="content" className="small">Content</label><br />
                 <textarea style={{'display': isTextActive ? 'block' : 'none'}}
                           className="form-control"
+                          id="content"
                           value={activeElement.source}
                           maxLength={140}
                           onChange={this.onTextChange.bind(this)} />

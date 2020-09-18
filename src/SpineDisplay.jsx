@@ -86,7 +86,7 @@ export default class SpineDisplay extends BasePlayer {
                             onClick={this.onVolumeToggle.bind(this)}>
                         {volumeIcon}
                     </button>
-                    <input type="range" min="0" max="100"
+                    <input type="range" min="0" max="100" aria-label="range"
                            className="jux-spine-vol-input"
                            value={spineVolume}
                            onChange={this.onVolumeChange.bind(this)} />
