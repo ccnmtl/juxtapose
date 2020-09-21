@@ -22,7 +22,7 @@ export default class Playhead extends React.Component {
         const lineStyle = {left: x + 7 + 'px'};
 
         return <div className="jux-playhead-container">
-            <input type="range" min="0" max="1000"
+            <input type="range" min="0" max="1000" aria-label="range"
                    ref={(ref) => this.el = ref}
                    onChange={this.props.onChange}
                    onMouseDown={this.props.onMouseDown}
