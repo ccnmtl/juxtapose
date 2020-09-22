@@ -43,7 +43,9 @@ export default class AVPlayer extends BasePlayer {
                    height={360}
                    url={url}
                    volume={volume}
-                   hidden={this.props.hidden}
+                   style={{
+                       display: this.props.hidden ? 'none' : 'block'
+                   }}
                    onDuration={this.onDuration.bind(this)}
                    onStart={this.onStart.bind(this)}
                    onPlay={this.onPlay.bind(this)}
