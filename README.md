@@ -1,4 +1,4 @@
-# juxtapose [![Build Status](https://travis-ci.org/ccnmtl/juxtapose.svg?branch=master)](https://travis-ci.org/ccnmtl/juxtapose)
+# juxtapose [![Actions Status](https://github.com/ccnmtl/juxtapose/workflows/build-and-test/badge.svg)](https://github.com/ccnmtl/juxtapose/actions)
 
 Video Juxtaposition Tool
 
