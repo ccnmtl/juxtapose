@@ -28,9 +28,11 @@ var config = {
                     {
                         test: /\.(js|jsx)$/,
                         include: APP_DIR,
-                        loader: require.resolve('babel-loader'),
-                        query: {
-                            presets: ['@babel/preset-env', '@babel/preset-react']
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['@babel/preset-env', '@babel/preset-react']
+                            }
                         }
                     }
                 ]

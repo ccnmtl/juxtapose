@@ -6,8 +6,8 @@
   "main": "src/index.jsx",
   "scripts": {
     "test": "jest",
-    "build": "webpack -p",
-    "dev": "webpack -d --watch",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch",
     "eslint": "eslint src/* __tests__/*"
   },
   "babel": {
