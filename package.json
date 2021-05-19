@@ -48,7 +48,7 @@
     "eslint": "~7.26.0",
     "eslint-plugin-react": "~7.23.0",
     "exports-loader": "~2.0.0",
-    "imports-loader": "~2.0.0",
+    "imports-loader": "~3.0.0",
     "jest": "^26.0.1",
     "jest-fetch-mock": "~3.0.3"
   },
