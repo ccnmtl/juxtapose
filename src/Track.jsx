@@ -24,6 +24,29 @@ function isActive(activeElement, type, i) {
     return false;
 }
 
+// Need to use a forwardRef when using a custom component as a react
+// grid item.
+// See:
+// https://github.com/react-grid-layout/react-grid-layout/issues/1241#issuecomment-859651584
+// eslint-disable-next-line
+const TrackElementRef = React.forwardRef(
+    // eslint-disable-next-line
+    ({style, className, key, children, ...restOfProps}) => {
+    return <TrackElement
+               style={style}
+               className={className}
+               key={key}
+               {...restOfProps}>
+               {children}
+           </TrackElement>;
+});
+
+TrackElementRef.propTypes = {
+    style: PropTypes.object,
+    className: PropTypes.string,
+    children: PropTypes.array
+};
+
 
 export default class Track extends React.Component {
     constructor(props) {
@@ -99,7 +122,7 @@ export default class Track extends React.Component {
             const xPos = percentToTrackCoords(percent);
             const active = isActive(me.props.activeElement, me.type, i);
 
-            const item = <TrackElement
+            const item = <TrackElementRef
                              onEditButtonClick={me.onEditButtonClick.bind(me)}
                              isActive={active}
                              key={i}
@@ -109,7 +132,9 @@ export default class Track extends React.Component {
                                  y: 0,
                                  w: width,
                                  h: 49
-                             }} />;
+                             }}
+                         />;
+
             items.push(item);
         });
         return items;

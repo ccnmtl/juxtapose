@@ -9,7 +9,7 @@ export default class TrackElement extends React.Component {
         super(props);
         this.state = {
             vimeoThumbnailUrl: null
-        }
+        };
     }
     vimeoThumbnailListener(e) {
         const json = e.target.responseText;

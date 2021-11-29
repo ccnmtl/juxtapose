@@ -285,6 +285,12 @@ function extractSource(o) {
             height: o.image.height
         };
     }
+    if (o.pdf && o.pdf.url) {
+        return {
+            url: o.pdf.url
+        };
+    }
+
     return null;
 }
 
@@ -327,8 +333,14 @@ export function parseAsset(json, assetId, annotationId) {
     const assetCtx = json.assets[assetId];
     const source = extractSource(assetCtx.sources);
     const annotation = extractRange(assetCtx, annotationId);
-    const type = assetCtx.primary_type === 'image' ? 'img' : 'vid';
-    const duration = type === 'img' ? 30 : annotation.duration;
+
+    let type = assetCtx.primary_type === 'image' ? 'img' : 'vid';
+    if (assetCtx.primary_type === 'pdf') {
+        type = 'pdf';
+    }
+
+    const duration = (type === 'img' || type === 'pdf') ?
+          30 : annotation.duration;
 
     return {
         url: source.url,
@@ -347,7 +359,11 @@ export function parseAsset(json, assetId, annotationId) {
  *
  */
 export function parseAnnotation(annotation) {
-    const type = annotation.asset.media_type === 'image' ? 'img' : 'vid';
+    let type = annotation.asset.media_type === 'image' ? 'img' : 'vid';
+    if (annotation.asset.media_type === 'pdf') {
+        type = 'pdf';
+    }
+
     const duration = extractDuration(annotation);
 
     let url = annotation.asset.primary_source.url;
