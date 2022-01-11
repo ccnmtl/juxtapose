@@ -1,6 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ol from 'openlayers';
+import GeoJSON from 'ol/format/geojson';
+import {default as olExtent} from 'ol/extent';
+import Image from 'ol/layer/image';
+import ImageStatic from 'ol/source/imagestatic';
+import interaction from 'ol/interaction';
+import Map from 'ol/map';
+import Projection from 'ol/proj/projection';
+
+import Circle from 'ol/style/circle';
+import Fill from 'ol/style/fill';
+import Stroke from 'ol/style/stroke';
+import Style from 'ol/style/style';
+
+import {default as VectorLayer} from 'ol/layer/vector';
+import {default as VectorSource} from 'ol/source/vector';
+import View from 'ol/view';
 
 export default class ImagePlayer extends React.Component {
     constructor(props) {
@@ -12,35 +27,35 @@ export default class ImagePlayer extends React.Component {
         if (!this.styles) {
             this.styles = {
                 'Polygon': [
-                    new ol.style.Style({
-                        stroke: new ol.style.Stroke({
+                    new Style({
+                        stroke: new Stroke({
                             color: '#ffffff',
                             width: 4
                         }),
-                        fill: new ol.style.Fill({
+                        fill: new Fill({
                             color: 'rgba(255,255,255,0)'
                         })
                     }),
-                    new ol.style.Style({
-                        stroke: new ol.style.Stroke({
+                    new Style({
+                        stroke: new Stroke({
                             color: '#905050', width: 2
                         })
                     })
                 ],
                 'Point': [
-                    new ol.style.Style({
-                        image: new ol.style.Circle({
+                    new Style({
+                        image: new Circle({
                             radius: 6,
                             fill: null,
-                            stroke: new ol.style.Stroke({
+                            stroke: new Stroke({
                                 color: '#ffffff', width: 4})
                         })
                     }),
-                    new ol.style.Style({
-                        image: new ol.style.Circle({
+                    new Style({
+                        image: new Circle({
                             radius: 6,
                             fill: null,
-                            stroke: new ol.style.Stroke({
+                            stroke: new Stroke({
                                 color: '#905050', width: 2})
                         })
                     })
@@ -76,14 +91,15 @@ export default class ImagePlayer extends React.Component {
                Object.prototype.hasOwnProperty.call(attrs, 'xywh');
     }
     addVectorLayer(props, projection, attrs) {
-        const formatter = new ol.format.GeoJSON({
+        const formatter = new GeoJSON({
             dataProjection: projection,
-            featureProjection: projection});
+            featureProjection: projection
+        });
 
         const feature = formatter.readFeature(attrs);
-        const layer = new ol.layer.Vector({
+        const layer = new VectorLayer({
             title: 'annotation',
-            source: new ol.source.Vector({
+            source: new VectorSource({
                 features: [feature]
             }),
             style: this.styleFunction(feature)
@@ -93,7 +109,7 @@ export default class ImagePlayer extends React.Component {
 
         const extent = feature.getGeometry().getExtent();
         if (attrs.zoom) {
-            const coord = ol.extent.getCenter(extent);
+            const coord = olExtent.getCenter(extent);
             this.center(coord[0], coord[1]);
             this.zoom(attrs.zoom);
         } else {
@@ -101,8 +117,8 @@ export default class ImagePlayer extends React.Component {
         }
     }
     addImageLayer(props, projection, extent) {
-        const layer = new ol.layer.Image({
-            source: new ol.source.ImageStatic({
+        const layer = new Image({
+            source: new ImageStatic({
                 url: this.props.url,
                 projection: projection,
                 imageExtent: extent
@@ -113,16 +129,16 @@ export default class ImagePlayer extends React.Component {
     initializeMap() {
         const extent = this.objectProportioned();
 
-        const projection = new ol.proj.Projection({
+        const projection = new Projection({
             units: 'pixels',
             extent: extent
         });
 
-        this.map = new ol.Map({
-            interactions: ol.interaction.defaults({mouseWheelZoom:false}),
+        this.map = new Map({
+            interactions: interaction.defaults({mouseWheelZoom:false}),
             controls: [],
             target: this.mapId,
-            view: new ol.View({
+            view: new View({
                 projection: projection
             })
         });

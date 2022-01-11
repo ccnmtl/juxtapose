@@ -16,7 +16,7 @@ eslint: $(JS_SENTINAL)
 	npm run eslint
 
 test: $(JS_SENTINAL)
-	NODE_ENV="test" npm run test
+	NODE_ENV="test" NODE_OPTIONS=--unhandled-rejections=warn npm run test
 
 clean:
 	rm -rf $(NODE_MODULES) build

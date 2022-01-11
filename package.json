@@ -10,12 +10,6 @@
     "dev": "webpack --mode development --watch",
     "eslint": "eslint src/* __tests__/*"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ccnmtl/juxtapose"
@@ -26,7 +20,7 @@
     "get-youtube-id": "~1.0.0",
     "js-cookie": "~3.0.0",
     "lodash": "~4.17.2",
-    "openlayers": "~4.6.5",
+    "ol": "~4.6.5",
     "prop-types": "~15.7.0",
     "react": "~17.0.2",
     "react-bootstrap": "~1.6.0",
@@ -45,17 +39,12 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "~27.4.1",
     "babel-loader": "~8.2.1",
+    "canvas": "^2.8.0",
     "eslint": "~7.32.0",
     "eslint-plugin-react": "~7.27.0",
     "exports-loader": "~3.1.0",
     "imports-loader": "~3.1.1",
-    "jest": "^26.0.1",
+    "jest": "^27.0.1",
     "jest-fetch-mock": "~3.0.3"
-  },
-  "jest": {
-    "automock": false,
-    "setupFiles": [
-      "./setupJest.js"
-    ]
   }
 }
