@@ -1,11 +1,12 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
-var BUILD_DIR = path.resolve(__dirname, 'build');
-var APP_DIR = path.resolve(__dirname, 'src');
+const BUILD_DIR = path.resolve(__dirname, 'build');
+const APP_DIR = path.resolve(__dirname, 'src');
 
-var config = {
+module.exports = {
     entry: [APP_DIR + '/index.jsx'],
+    mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
     output: {
         path: BUILD_DIR,
         filename: 'bundle.js'
@@ -13,14 +14,6 @@ var config = {
     resolve: {
         extensions: ['.js', '.jsx']
     },
-    plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                // Turn 'production' env on when running `make build`
-                // 'NODE_ENV': JSON.stringify('production')
-            }
-        })
-    ],
     module: {
         rules: [
             {
@@ -40,5 +33,3 @@ var config = {
         ]
     }
 };
-
-module.exports = config;
