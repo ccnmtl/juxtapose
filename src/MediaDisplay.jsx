@@ -141,7 +141,6 @@ export default class MediaDisplay extends React.Component {
         // width of the jux-media-display instead.
         const el = document.querySelector('.jux-media-display');
         this.pdfLeftMargin = Math.abs(calcPdfLeftMargin(el, this.pdfViewer));
-        console.log('leftMargin', this.pdfLeftMargin);
 
         this.svgDraw.clear();
 
@@ -151,7 +150,6 @@ export default class MediaDisplay extends React.Component {
     }
 
     onPDFPageRenderSuccess(e, annotationData) {
-        console.log('onPDFPageRenderSuccess', e, annotationData);
         this.pdfViewer = e;
         const el = this.pdfPageRef.current.querySelector('.react-pdf__Page');
         this.pdfScale = e.width / e.getViewport({scale: 1}).width;
