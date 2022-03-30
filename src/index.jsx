@@ -1,17 +1,18 @@
 /* global view */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
 import JuxtaposeApplication from './JuxtaposeApplication.jsx';
 
 
 if (document.getElementById('jux-container')) {
-    ReactDOM.render(
+    const container = document.getElementById('jux-container');
+    const root = ReactDOMClient.createRoot(container);
+    root.render(
         <JuxtaposeApplication
             readOnly={(view && view.readOnly) || false}
             primaryInstructions={view && view.primaryInstructions || ''}
             secondaryInstructions={view && view.secondaryInstructions || ''}
-        />,
-        document.getElementById('jux-container')
+        />
     );
 }
