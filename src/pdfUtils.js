@@ -1,3 +1,4 @@
+/* global jQuery */
 /*
  * pdfUtils.js
  * Copyright (C) 2021-2022 Nik Nyby
