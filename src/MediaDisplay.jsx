@@ -142,10 +142,10 @@ export default class MediaDisplay extends React.Component {
         const el = document.querySelector('.jux-media-display');
         this.pdfLeftMargin = Math.abs(calcPdfLeftMargin(el, this.pdfViewer));
 
-        this.svgDraw.clear();
+        annotation.svgDraw.clear();
 
         drawAnnotation(
-            this.svgDraw, annotation,
+            annotation.svgDraw, annotation,
             this.pdfScale, -this.pdfLeftMargin, 0);
     }
 
@@ -154,8 +154,7 @@ export default class MediaDisplay extends React.Component {
         const el = this.pdfPageRef.current.querySelector('.react-pdf__Page');
         this.pdfScale = e.width / e.getViewport({scale: 1}).width;
 
-        this.svgDraw = SVG().addTo(el);
-
+        annotationData.svgDraw = SVG().addTo(el);
         this.refreshPdfAnnotation(annotationData);
     }
 }
