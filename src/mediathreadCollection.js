@@ -13,6 +13,10 @@ export function createCollectionWidget(mediaType, allowAssets, caller) {
     jQuery(window).trigger('collection.open', [{
         'allowAssets': allowAssets,
         'media_type': mediaType,
+
+        // EXCLUDE pdf type
+        'primary_type': ['pdf'],
+
         'disable': mediaType === 'all' ? [] : ['media_type'],
         'caller': caller
     }]);
