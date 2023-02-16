@@ -31,11 +31,12 @@ function isActive(activeElement, type, i) {
 // eslint-disable-next-line
 const TrackElementRef = React.forwardRef(
     // eslint-disable-next-line
-    ({style, className, key, children, ...restOfProps}) => {
+    ({style, className, key, children, ...restOfProps}, ref) => {
     return <TrackElement
                style={style}
                className={className}
                key={key}
+               ref={ref}
                {...restOfProps}>
                {children}
            </TrackElement>;
