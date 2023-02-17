@@ -233,7 +233,8 @@ export default class JuxtaposeApplication extends React.Component {
                 activeElement={activeElement}
                 onChange={this.onTrackElementUpdate.bind(this)}
                 onEditClick={this.onTrackMediaElementEdit.bind(this)}
-                onDeleteClick={this.onTrackElementRemove.bind(this)} />
+                onDeleteClick={this.onTrackElementRemove.bind(this)}
+                duration={this.state.duration} />
             <OutOfBoundsModal
                 showing={this.state.showOutOfBoundsModal}
                 onCloseClick={this.onOutOfBoundsCloseClick.bind(this)}

@@ -12,10 +12,18 @@ import {formatTimecode, parseTimecode} from './utils.js';
  */
 export default class TimecodeEditor extends React.Component {
     render() {
+        let formattedMax = '99:00:00';
+        if (this.props.max) {
+            formattedMax = formatTimecode(this.props.max);
+        }
+
         return <div className="jux-timecode-editor">
-    <input ref={(c) => this._spinner = c} min={this.props.min} required
-           defaultValue={formatTimecode(this.props.timecode)} />
-        </div>;
+                   <input ref={(c) => this._spinner = c}
+                          min={formatTimecode(this.props.min)}
+                          max={formattedMax}
+                          required
+                          defaultValue={formatTimecode(this.props.timecode)} />
+               </div>;
     }
     componentDidUpdate(props) {
         // Because this is an uncontrolled input, we need to manually
@@ -62,6 +70,7 @@ export default class TimecodeEditor extends React.Component {
 
 TimecodeEditor.propTypes = {
     min: PropTypes.number.isRequired,
+    max: PropTypes.number,
     onChange: PropTypes.func.isRequired,
     timecode: PropTypes.number.isRequired
 };
