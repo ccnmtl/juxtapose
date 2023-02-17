@@ -13,9 +13,10 @@ import {formatTimecode, parseTimecode} from './utils.js';
 export default class TimecodeEditor extends React.Component {
     render() {
         return <div className="jux-timecode-editor">
-    <input ref={(c) => this._spinner = c} min={this.props.min} required
-           defaultValue={formatTimecode(this.props.timecode)} />
-        </div>;
+                   <input ref={(c) => this._spinner = c}
+                          required
+                          defaultValue={formatTimecode(this.props.timecode)} />
+               </div>;
     }
     componentDidUpdate(props) {
         // Because this is an uncontrolled input, we need to manually
@@ -61,7 +62,6 @@ export default class TimecodeEditor extends React.Component {
 }
 
 TimecodeEditor.propTypes = {
-    min: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     timecode: PropTypes.number.isRequired
 };
