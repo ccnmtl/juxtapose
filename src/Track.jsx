@@ -36,7 +36,7 @@ const TrackElementRef = React.forwardRef(
                style={style}
                className={className}
                key={key}
-               ref={ref}
+               myRef={ref}
                {...restOfProps}>
                {children}
            </TrackElement>;
