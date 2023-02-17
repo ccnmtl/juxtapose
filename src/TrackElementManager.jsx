@@ -57,6 +57,7 @@ export default class TrackElementManager extends React.Component {
                 </label><br />
                 <TimecodeEditor
                     min={0}
+                    max={this.props.duration}
                     timecode={activeElement.start_time}
                     onChange={this.onStartTimeChange.bind(this)}
                 />
@@ -69,7 +70,8 @@ export default class TrackElementManager extends React.Component {
                     Duration &nbsp;{formatTimecode(duration)}
                 </label><br />
                 <TimecodeEditor
-                    min={100}
+                    min={1}
+                    max={this.props.duration}
                     timecode={activeElement.end_time - activeElement.start_time}
                     onChange={this.onDurationChange.bind(this)}
                 />
@@ -178,5 +180,9 @@ TrackElementManager.propTypes = {
     activeElement: PropTypes.object,
     onChange: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
-    onEditClick: PropTypes.func.isRequired
+    onEditClick: PropTypes.func.isRequired,
+
+    // Don't mark this as required as the video duration may still be
+    // loading.
+    duration: PropTypes.number
 };
