@@ -68,8 +68,11 @@ export default class TrackElement extends React.Component {
     }
     renderTxtThumb(data) {
         let maxLen = 10;
-        if (this.el && this.el.clientWidth) {
-            maxLen = Math.round(this.el.clientWidth / 15);
+        if (
+            this.myRef && this.myRef.current &&
+                this.myRef.current.clientWidth
+        ) {
+            maxLen = Math.round(this.myRef.current.clientWidth / 15);
         }
         return <p className="jux-media-item-middle">
             {ellipsis(data.source, maxLen)}
@@ -111,7 +114,7 @@ export default class TrackElement extends React.Component {
             cls += ' jux-item-active';
         }
         return <div data={this.props.data}
-                    ref={(el) => this.el = el}
+                    ref={this.props.myRef}
                     data-dragging={this.props.dragging}
                     className={cls}
                     style={this.props.style}
@@ -130,6 +133,7 @@ export default class TrackElement extends React.Component {
 TrackElement.propTypes = {
     className: PropTypes.string,
     data: PropTypes.object.isRequired,
+    myRef: PropTypes.object,
     dragging: PropTypes.bool,
     isActive: PropTypes.bool.isRequired,
     style: PropTypes.object,
