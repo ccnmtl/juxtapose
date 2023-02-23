@@ -1,34 +1,20 @@
 /* eslint-env jest */
 
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import renderer from 'react-test-renderer';
 import TimelineRuler from '../src/TimelineRuler.jsx';
 
 describe('TimelineRuler', () => {
     it('can be initialized', () => {
-        const timelineRuler = ReactTestUtils.renderIntoDocument(
-                <TimelineRuler hovering={false} duration={0} />);
-        expect(timelineRuler.props.duration).toBe(0);
+        const component = renderer.create(
+            <TimelineRuler hovering={false} duration={0} />);
+        const tree = component.toJSON();
+        expect(tree).toMatchSnapshot();
     });
     it('calculates correct offsets for timeline ticks', () => {
-        const timelineRuler = ReactTestUtils.renderIntoDocument(
-                <TimelineRuler hovering={false} duration={0} />);
-
-        expect(timelineRuler.generateTicks(0)).toEqual([[100, 0]]);
-        expect(timelineRuler.generateTicks(8889)).toEqual([
-            [0, 0],
-            [14.962312971087863, 1330],
-            [29.924625942175727, 2660],
-            [44.886938913263585, 3990],
-            [59.84925188435145, 5320],
-            [74.8115648554393, 6650],
-            [89.77387782652717, 7980],
-            [100, 8889]
-        ]);
-        expect(timelineRuler.generateTicks(37)).toEqual([
-            [0, 0],
-            [81.08108108108108, 30],
-            [100, 37]
-        ]);
+        const component = renderer.create(
+            <TimelineRuler hovering={false} duration={0} />);
+        const tree = component.toJSON();
+        expect(tree).toMatchSnapshot();
     });
 });

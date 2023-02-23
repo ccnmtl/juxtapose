@@ -2,9 +2,6 @@
 
 module.exports = {
     automock: false,
-    'setupFiles': [
-        '<rootDir>/setupJest.js'
-    ],
     'testEnvironment': 'jsdom',
     'transform': {
         '^.+\\.jsx?$': 'babel-jest'

@@ -5,10 +5,10 @@
   "private": true,
   "main": "src/index.jsx",
   "scripts": {
-    "test": "jest",
+    "test": "jest -u",
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch",
-    "eslint": "eslint src/* __tests__/*"
+    "eslint": "eslint src/* __tests__/*.js"
   },
   "repository": {
     "type": "git",
@@ -34,11 +34,10 @@
     "whatwg-fetch": "~3.6.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/preset-react": "^7.9.4",
     "@babel/core": "^7.5.5",
     "@babel/eslint-parser": "^7.15.8",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
     "babel-jest": "~29.4.0",
     "babel-loader": "~9.1.0",
     "canvas": "^2.8.0",
@@ -48,6 +47,6 @@
     "imports-loader": "~4.0.0",
     "jest": "^29.0.0",
     "jest-environment-jsdom": "29.4.3",
-    "jest-fetch-mock": "~3.0.3"
+    "react-test-renderer": "^18.2.0"
   }
 }

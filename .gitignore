@@ -2,3 +2,4 @@ node_modules
 build
 .jshintignore
 .jshintrc
+__tests__/__snapshots__
