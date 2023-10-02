@@ -27,7 +27,7 @@
     "react-bootstrap": "~2.9.0",
     "react-dom": "~18.2.0",
     "react-grid-layout": "~1.4.0",
-    "react-pdf": "^5.6.0",
+    "react-pdf": "^7.4.0",
     "react-player": "~2.13.0",
     "webpack": "~5.88.0",
     "webpack-cli": "^5.0.0",
