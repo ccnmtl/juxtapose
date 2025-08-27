@@ -46,7 +46,7 @@
     "exports-loader": "~5.0.0",
     "imports-loader": "~5.0.0",
     "jest": "^30.0.0",
-    "jest-environment-jsdom": "30.0.5",
+    "jest-environment-jsdom": "30.1.0",
     "react-test-renderer": "^18.2.0"
   }
 }
