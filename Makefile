@@ -6,7 +6,7 @@ $(JS_SENTINAL): package.json
 	npm install
 	touch $(JS_SENTINAL)
 
-build: $(JS_SENTINAL) build/bundle.js
+build: $(JS_SENTINAL)
 	NODE_ENV="production" npm run build
 
 dev: $(JS_SENTINAL)
