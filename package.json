@@ -20,7 +20,7 @@
     "@svgdotjs/svg.js": "^3.1.1",
     "get-youtube-id": "~1.0.0",
     "js-cookie": "~3.0.0",
-    "lodash": "~4.17.2",
+    "lodash": "~4.18.1",
     "ol": "~4.6.5",
     "prop-types": "~15.8.1",
     "react": "~18.3.0",
